@@ -21,6 +21,10 @@ proc newBezier*[N](points: varargs[Vec2]): Bezier[N] =
     for i in 0..<points.len:
         result.points[i] = points[i]
 
+proc `[]`*[N](curve: Bezier[N], point: range[0..N]): Vec2 =
+    ## Returns a control point within this curve
+    curve.points[point]
+
 proc computeForQuadOrCubic(p0, p1, p2, p3: Vec2; a, b, c, d: float): Vec2 {.inline.} =
     vec2(
         a * p0.x + b * p1.x + c * p2.x + d * p3.x,
