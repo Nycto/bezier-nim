@@ -1,4 +1,4 @@
-import unittest, bezier, vmath
+import unittest, bezier, vmath, sequtils
 
 suite "Quadratic bezier":
     const b = newBezier[2](vec2(70, 155), vec2(20, 110), vec2(100, 75))
@@ -11,6 +11,9 @@ suite "Quadratic bezier":
         check(b[0] == vec2(70, 155))
         check(b[1] == vec2(20, 110))
         check(b[2] == vec2(100, 75))
+
+    test "Can iterate over points":
+        check(b.items.toSeq == @[vec2(70, 155), vec2(20, 110), vec2(100, 75)])
 
     test "Can calculate the derivative":
         const b1 = b.derivative()

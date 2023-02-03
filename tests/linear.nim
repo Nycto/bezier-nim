@@ -1,4 +1,4 @@
-import unittest, bezier, vmath
+import unittest, bezier, vmath, sequtils
 
 suite "Linear bezier":
     const b = newBezier[1](vec2(0, 0), vec2(100, 100))
@@ -9,6 +9,9 @@ suite "Linear bezier":
     test "Can return points":
         check(b[0] == vec2(0, 0))
         check(b[1] == vec2(100, 100))
+
+    test "Can iterate over points":
+        check(b.items.toSeq == @[vec2(0, 0), vec2(100, 100)])
 
     test "Can calculate the derivative":
         const b0 = b.derivative()

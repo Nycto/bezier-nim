@@ -1,4 +1,4 @@
-import unittest, bezier, vmath
+import unittest, bezier, vmath, sequtils
 
 suite "Cubic bezier":
     const b = newBezier[3](vec2(0, 15), vec2(3, 0), vec2(15, 2), vec2(10, 14))
@@ -13,6 +13,9 @@ suite "Cubic bezier":
         check(b[1] == vec2(3, 0))
         check(b[2] == vec2(15, 2))
         check(b[3] == vec2(10, 14))
+
+    test "Can iterate over points":
+        check(b.items.toSeq == @[vec2(0, 15), vec2(3, 0), vec2(15, 2), vec2(10, 14)])
 
     test "Can calculate the derivative":
         const b3 = newBezier[3](vec2(120, 160), vec2(35,  200), vec2(220, 260), vec2(220,  40))
