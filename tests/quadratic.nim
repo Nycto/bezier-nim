@@ -11,3 +11,8 @@ suite "Quadratic bezier":
         check(b[0] == vec2(70, 155))
         check(b[1] == vec2(20, 110))
         check(b[2] == vec2(100, 75))
+
+    test "Can calculate the derivative":
+        const b1 = b.derivative()
+        check(b1[0] == vec2(-100.0, -90.0))
+        check(b1[1] == vec2(160.0, -70.0))

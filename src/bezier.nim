@@ -75,3 +75,13 @@ proc compute*[N](curve: Bezier[N], t: float): Vec2 =
 
     else:
         {. error("High order beziers are currently unsupported") .}
+
+proc derivative*[N](curve: Bezier[N]): auto =
+    ## Computes the derivative of a bezier curve
+    when N <= 0:
+        {. error("Can not take the derivative of a constant curve") .}
+
+    var output: Bezier[N - 1]
+    for i in 0..<N:
+        output.points[i] = (curve.points[i + 1] - curve.points[i]) * N
+    return output

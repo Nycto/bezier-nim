@@ -10,3 +10,6 @@ suite "Constant bezier":
 
     test "Can return points":
         check(b[0] == vec2(120, 160))
+
+    test "Can calculate the derivative":
+        check(compiles(b.derivative()) == false)
