@@ -21,6 +21,21 @@ proc newBezier*[N](points: varargs[Vec2]): Bezier[N] =
     for i in 0..<points.len:
         result.points[i] = points[i]
 
+proc `$`*[N](curve: Bezier[N]): string =
+    result = "Bezier["
+    var first = true
+    for point in curve.points:
+        if first:
+            first = false
+        else:
+            result.add(", ")
+        result.add("{")
+        result.add($point.x)
+        result.add(", ")
+        result.add($point.y)
+        result.add("}")
+    result.add("]")
+
 proc `[]`*[N](curve: Bezier[N], point: range[0..N]): Vec2 =
     ## Returns a control point within this curve
     curve.points[point]
@@ -90,3 +105,6 @@ proc derivative*[N](curve: Bezier[N]): auto =
     for i in 0..<N:
         output.points[i] = (curve.points[i + 1] - curve.points[i]) * N
     return output
+
+when isMainModule:
+    include bezier/cli
