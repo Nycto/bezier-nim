@@ -1,0 +1,9 @@
+Bezier	bezier.html#Bezier	bezier: Bezier	
+newBezier	bezier.html#newBezier,varargs[Vec2]	bezier: newBezier[N](points: varargs[Vec2]): Bezier[N]	
+`$`	bezier.html#$,Bezier[N]	bezier: `$`[N](curve: Bezier[N]): string	
+`[]`	bezier.html#[],Bezier[N],range[]	bezier: `[]`[N](curve: Bezier[N]; point: range[0 .. N]): Vec2	
+pairs	bezier.html#pairs.i,Bezier[N]	bezier: pairs[N](curve: Bezier[N]): (int, Vec2)	
+items	bezier.html#items.i,Bezier[N]	bezier: items[N](curve: Bezier[N]): lent Vec2	
+compute	bezier.html#compute,Bezier[N],float	bezier: compute[N](curve: Bezier[N]; t: float): Vec2	
+derivative	bezier.html#derivative,Bezier[N]	bezier: derivative[N](curve: Bezier[N]): auto	
+extrema	bezier.html#extrema.i,Bezier[N]	bezier: extrema[N](curve: Bezier[N]): float32	
