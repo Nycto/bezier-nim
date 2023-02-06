@@ -8,7 +8,7 @@
 ## * https://github.com/oysteinmyrmo/bezier
 ##
 
-import vmath
+import vmath, sequtils, algorithm
 
 type
     Bezier*[N: static[int]] = object
@@ -40,6 +40,11 @@ proc `[]`*[N](curve: Bezier[N], point: range[0..N]): Vec2 =
     ## Returns a control point within this curve
     curve.points[point]
 
+iterator pairs*[N](curve: Bezier[N]): (int, Vec2) =
+    ## Produces all the points in this curve as well as their index
+    for i in 0..N:
+        yield (i, curve.points[i])
+
 iterator items*[N](curve: Bezier[N]): lent Vec2 =
     ## Produces all the points in this curve
     for i in 0..N:
@@ -60,7 +65,7 @@ proc compute*[N](curve: Bezier[N], t: float): Vec2 =
     elif t == 1:
         return curve.points[N]
 
-    let mt = 1 - t
+    let mt {.used.} = 1 - t
 
     # Constant curve
     when N == 0:
@@ -105,6 +110,56 @@ proc derivative*[N](curve: Bezier[N]): auto =
     for i in 0..<N:
         output.points[i] = (curve.points[i + 1] - curve.points[i]) * N
     return output
+
+iterator roots[N: static[int]](entries: array[N, float32]): float32 =
+    ## Calculate the roots of the given points
+    when N > 3:
+        {. error("Cannot calculate roots for N over 3") .}
+
+    elif N == 3:
+        let a = entries[0]
+        let b = entries[1]
+        let c = entries[2]
+        let d = a - 2 * b + c
+        if d != 0:
+            let m1 = -sqrt(b * b - a * c)
+            let m2 = -a + b
+            yield -(m1 + m2) / d
+            yield -(-m1 + m2) / d
+        elif b != c and d == 0:
+            yield (2 * b - c) / (2 * (b - c))
+
+    elif N == 2:
+        let a = entries[0]
+        let b = entries[1]
+        if a != b:
+            yield a / (a - b)
+
+iterator extrema*[N](curve: Bezier[N]): float32 =
+    ## Calculates all the extrema on a curve, extressed as a `t`. You can feed these values into
+    ## the `compute` method to get their coordinates
+
+    let deriv1 = curve.derivative()
+
+    var output = newSeq[float32]()
+
+    var xPoints: array[N, float32]
+    for i, point in deriv1: xPoints[i] = point.x
+    for t in roots(xPoints): output.add(t)
+
+    var yPoints: array[N, float32]
+    for i, point in deriv1: yPoints[i] = point.y
+    for t in roots(yPoints): output.add(t)
+
+    when N == 3:
+        for t in deriv1.extrema():
+            output.add(t)
+
+    sort output
+
+    for t in output.deduplicate(isSorted = true):
+        if t >= 0 and t <= 1:
+            yield abs(t)
 
 when isMainModule:
     include bezier/cli

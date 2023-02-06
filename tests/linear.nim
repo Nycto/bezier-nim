@@ -16,3 +16,6 @@ suite "Linear bezier":
     test "Can calculate the derivative":
         const b0 = b.derivative()
         check(b0[0] == vec2(100.0, 100.0))
+
+    test "Can calculate extremas":
+        check(b.extrema().toSeq.len == 0)

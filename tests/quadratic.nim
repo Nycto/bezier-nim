@@ -19,3 +19,6 @@ suite "Quadratic bezier":
         const b1 = b.derivative()
         check(b1[0] == vec2(-100.0, -90.0))
         check(b1[1] == vec2(160.0, -70.0))
+
+    test "Can calculate extremas":
+        check(b.extrema().toSeq == @[ 0.38461538461538464f ])

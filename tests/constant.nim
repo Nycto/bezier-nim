@@ -16,3 +16,6 @@ suite "Constant bezier":
 
     test "Can calculate the derivative":
         check(compiles(b.derivative()) == false)
+
+    test "Can calculate extremas":
+        check(compiles(b.extrema()) == false)
