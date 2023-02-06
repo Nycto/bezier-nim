@@ -19,3 +19,6 @@ suite "Constant bezier":
 
     test "Can calculate extremas":
         check(compiles(b.extrema()) == false)
+
+    test "Can calculate bounding boxes":
+        check(b.boundingBox() == (120f, 160f, 120f, 160f))

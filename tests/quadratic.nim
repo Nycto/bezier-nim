@@ -22,3 +22,6 @@ suite "Quadratic bezier":
 
     test "Can calculate extremas":
         check(b.extrema().toSeq == @[ 0.38461538461538464f ])
+
+    test "Can calculate bounding boxes":
+        check(b.boundingBox() == (50.76922988891602f, 75f, 100f, 155f))

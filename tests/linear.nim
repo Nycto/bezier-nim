@@ -19,3 +19,6 @@ suite "Linear bezier":
 
     test "Can calculate extremas":
         check(b.extrema().toSeq.len == 0)
+
+    test "Can calculate bounding boxes":
+        check(b.boundingBox() == (0f, 0f, 100f, 100f))

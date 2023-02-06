@@ -32,3 +32,6 @@ suite "Cubic bezier":
             0.5934065934065934f,
             1f
         ])
+
+    test "Can calculate bounding boxes":
+        check(b2.boundingBox() == (97.66453326892888f, 40f, 220f, 198.86234582181876f))

@@ -161,5 +161,21 @@ iterator extrema*[N](curve: Bezier[N]): float32 =
         if t >= 0 and t <= 1:
             yield abs(t)
 
+proc boundingBox*[N](curve: Bezier[N]): tuple[minX, minY, maxX, maxY: float32] =
+    ## Returns the bounding box for a curve
+
+    result = (curve.points[0].x, curve.points[0].y, curve.points[0].x, curve.points[0].y)
+
+    when N > 0:
+        proc handlePoint(point: Vec2, output: var tuple[minX, minY, maxX, maxY: float32]) =
+            output.minX = min(point.x, output.minX)
+            output.minY = min(point.y, output.minY)
+            output.maxX = max(point.x, output.maxX)
+            output.maxY = max(point.y, output.maxY)
+
+        handlePoint(curve.points[N], result)
+        for extrema in curve.extrema():
+            curve.compute(extrema).handlePoint(result)
+
 when isMainModule:
     include bezier/cli
