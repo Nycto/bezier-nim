@@ -120,6 +120,11 @@ window.addEventListener('DOMContentLoaded', main);
     title="`[]`[N](curve: Bezier[N]; point: range[0 .. N]): Vec2">`[]`[N](curve: Bezier[N]; point: range[0 .. N]): Vec2</a></li>
 
   </ul>
+  <ul class="simple nested-toc-section">boundingBox
+      <li><a class="reference" href="#boundingBox%2CBezier%5BN%5D"
+    title="boundingBox[N](curve: Bezier[N]): tuple[minX, minY, maxX, maxY: float32]">boundingBox[N](curve: Bezier[N]): tuple[minX, minY, maxX, maxY: float32]</a></li>
+
+  </ul>
   <ul class="simple nested-toc-section">compute
       <li><a class="reference" href="#compute%2CBezier%5BN%5D%2Cfloat"
     title="compute[N](curve: Bezier[N]; t: float): Vec2">compute[N](curve: Bezier[N]; t: float): Vec2</a></li>
@@ -209,6 +214,14 @@ Returns a control point within this curve
 
 </dd>
 </div>
+<div id="boundingBox,Bezier[N]">
+<dt><pre><span class="Keyword">proc</span> <a href="#boundingBox%2CBezier%5BN%5D"><span class="Identifier">boundingBox</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">minX</span><span class="Other">,</span> <span class="Identifier">minY</span><span class="Other">,</span> <span class="Identifier">maxX</span><span class="Other">,</span> <span class="Identifier">maxY</span><span class="Other">:</span> <span class="Identifier">float32</span><span class="Other">]</span></pre></dt>
+<dd>
+
+Returns the bounding box for a curve
+
+</dd>
+</div>
 <div id="compute,Bezier[N],float">
 <dt><pre><span class="Keyword">proc</span> <a href="#compute%2CBezier%5BN%5D%2Cfloat"><span class="Identifier">compute</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
 <dd>
@@ -272,7 +285,7 @@ Produces all the points in this curve as well as their index
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-06 06:15:30 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-06 14:48:07 UTC</small>
       </div>
     </div>
   </div>

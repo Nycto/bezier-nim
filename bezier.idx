@@ -7,3 +7,4 @@ items	bezier.html#items.i,Bezier[N]	bezier: items[N](curve: Bezier[N]): lent Vec
 compute	bezier.html#compute,Bezier[N],float	bezier: compute[N](curve: Bezier[N]; t: float): Vec2	
 derivative	bezier.html#derivative,Bezier[N]	bezier: derivative[N](curve: Bezier[N]): auto	
 extrema	bezier.html#extrema.i,Bezier[N]	bezier: extrema[N](curve: Bezier[N]): float32	
+boundingBox	bezier.html#boundingBox,Bezier[N]	bezier: boundingBox[N](curve: Bezier[N]): tuple[minX, minY, maxX, maxY: float32]	
