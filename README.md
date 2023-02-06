@@ -4,3 +4,7 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/Nycto/bezier-nim/blob/main/LICENSE)
 
 Bezier curve tools for nim
+
+## Documentation
+
+[API Docs](https://nycto.github.io/bezier-nim/)
