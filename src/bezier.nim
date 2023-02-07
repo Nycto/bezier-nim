@@ -8,7 +8,7 @@
 ## * https://github.com/oysteinmyrmo/bezier
 ##
 
-import vmath, sequtils, algorithm
+import vmath, sequtils, algorithm, bezier/util
 
 type
     Bezier*[N: static[int]] = object
@@ -120,30 +120,6 @@ proc derivative*[N](curve: Bezier[N]): auto =
         output.points[i] = (curve.points[i + 1] - curve.points[i]) * N
     return output
 
-iterator roots[N: static[int]](entries: array[N, float32]): float32 =
-    ## Calculate the roots of the given points
-    when N > 3:
-        {. error("Cannot calculate roots for N over 3") .}
-
-    elif N == 3:
-        let a = entries[0]
-        let b = entries[1]
-        let c = entries[2]
-        let d = a - 2 * b + c
-        if d != 0:
-            let m1 = -sqrt(b * b - a * c)
-            let m2 = -a + b
-            yield -(m1 + m2) / d
-            yield -(-m1 + m2) / d
-        elif b != c and d == 0:
-            yield (2 * b - c) / (2 * (b - c))
-
-    elif N == 2:
-        let a = entries[0]
-        let b = entries[1]
-        if a != b:
-            yield a / (a - b)
-
 iterator extrema*[N](curve: Bezier[N]): float32 =
     ## Calculates all the extrema on a curve, extressed as a `t`. You can feed these values into
     ## the `compute` method to get their coordinates
@@ -167,8 +143,7 @@ iterator extrema*[N](curve: Bezier[N]): float32 =
     sort output
 
     for t in output.deduplicate(isSorted = true):
-        if t >= 0 and t <= 1:
-            yield abs(t)
+        yield abs(t)
 
 proc boundingBox*[N](curve: Bezier[N]): tuple[minX, minY, maxX, maxY: float32] =
     ## Returns the bounding box for a curve
