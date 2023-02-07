@@ -10,6 +10,9 @@ suite "Quadratic bezier":
     test "Can be hashed":
         check(b in [b].toHashSet)
 
+    test "Can be mapped":
+        check(b.mapIt(vec2(it.x + 20, it.y + 30)) == newBezier[2](vec2(90, 185), vec2(40, 140), vec2(120, 105)))
+
     test "can compute":
         check(b.compute(0.0) == vec2(70, 155))
         check(b.compute(1) == vec2(100, 75))

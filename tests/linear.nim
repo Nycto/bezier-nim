@@ -10,6 +10,9 @@ suite "Linear bezier":
     test "Can be hashed":
         check(b in [b].toHashSet)
 
+    test "Can be mapped":
+        check(b.mapIt(vec2(it.x + 20, it.y + 30)) == newBezier[1](vec2(20, 30), vec2(120, 130)))
+
     test "Can compute":
         check(b.compute(0.5) == vec2(50.0, 50.0))
 

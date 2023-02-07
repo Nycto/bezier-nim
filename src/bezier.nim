@@ -50,6 +50,15 @@ iterator items*[N](curve: Bezier[N]): lent Vec2 =
     for i in 0..N:
         yield curve.points[i]
 
+template mapIt*[N](curve: Bezier[N], mapper: untyped): Bezier[N] =
+    ## Applies a mapping function to the points in this curve
+    block:
+        var output: Bezier[N]
+        for i in 0..N:
+            let it {.inject.} = curve.points[i]
+            output.points[i] = mapper
+        output
+
 proc computeForQuadOrCubic(p0, p1, p2, p3: Vec2; a, b, c, d: float): Vec2 {.inline.} =
     vec2(
         a * p0.x + b * p1.x + c * p2.x + d * p3.x,
