@@ -1,4 +1,4 @@
-import unittest, bezier, vmath, sequtils
+import unittest, bezier, vmath, sequtils, sets
 
 suite "Constant bezier":
     const b = newBezier[0](vec2(120, 160))
@@ -6,6 +6,9 @@ suite "Constant bezier":
     test "Can be compared":
         check(b == newBezier[0](vec2(120, 160)))
         check(b != newBezier[0](vec2(130, 170)))
+
+    test "Can be hashed":
+        check(b in [b].toHashSet)
 
     test "Can compute":
         check(b.compute(0.0) == vec2(120.0, 160.0))

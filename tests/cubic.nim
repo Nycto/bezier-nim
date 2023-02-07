@@ -1,4 +1,4 @@
-import unittest, bezier, vmath, sequtils
+import unittest, bezier, vmath, sequtils, sets
 
 suite "Cubic bezier":
     const b = newBezier[3](vec2(0, 15), vec2(3, 0), vec2(15, 2), vec2(10, 14))
@@ -7,6 +7,9 @@ suite "Cubic bezier":
     test "Can be compared":
         check(b == newBezier[3](vec2(0, 15), vec2(3, 0), vec2(15, 2), vec2(10, 14)))
         check(b != newBezier[3](vec2(0, 15), vec2(3, 1), vec2(15, 2), vec2(10, 14)))
+
+    test "Can be hashed":
+        check(b in [b].toHashSet)
 
     test "can compute":
         check(b.compute(0) == vec2(0, 15))
