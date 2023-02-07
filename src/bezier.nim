@@ -120,24 +120,26 @@ proc derivative*[N](curve: Bezier[N]): auto =
         output.points[i] = (curve.points[i + 1] - curve.points[i]) * N
     return output
 
+proc xs*[N](curve: Bezier[N]): array[N + 1, float32] =
+    ## Returns all x values from the points in this curve
+    for i, point in curve: result[i] = point.x
+
+proc ys*[N](curve: Bezier[N]): array[N + 1, float32] =
+    ## Returns all y values from the points in this curve
+    for i, point in curve: result[i] = point.y
+
 iterator extrema*[N](curve: Bezier[N]): float32 =
     ## Calculates all the extrema on a curve, extressed as a `t`. You can feed these values into
     ## the `compute` method to get their coordinates
 
-    let deriv1 = curve.derivative()
+    let deriv = curve.derivative()
 
     var output = newSeq[float32]()
-
-    var xPoints: array[N, float32]
-    for i, point in deriv1: xPoints[i] = point.x
-    for t in roots(xPoints): output.add(t)
-
-    var yPoints: array[N, float32]
-    for i, point in deriv1: yPoints[i] = point.y
-    for t in roots(yPoints): output.add(t)
+    for t in roots(deriv.xs): output.add(t)
+    for t in roots(deriv.ys): output.add(t)
 
     when N == 3:
-        for t in deriv1.extrema():
+        for t in deriv.extrema():
             output.add(t)
 
     sort output

@@ -14,6 +14,10 @@ suite "Cubic bezier":
     test "Can be mapped":
         check(b.mapIt(vec2(it.x + 2, it.y + 3)) == newBezier[3](vec2(2, 18), vec2(5, 3), vec2(17, 5), vec2(12, 17)))
 
+    test "Can return Xs and Ys":
+        check(b.xs == [0f, 3, 15, 10])
+        check(b.ys == [15f, 0, 2, 14])
+
     test "can compute":
         check(b.compute(0) == vec2(0, 15))
         check(b.compute(0.5) == vec2(8, 4.375))

@@ -13,6 +13,10 @@ suite "Constant bezier":
     test "Can be mapped":
         check(b.mapIt(vec2(it.x + 20, it.y + 30)) == newBezier[0](vec2(140, 190)))
 
+    test "Can return Xs and Ys":
+        check(b.xs == [120f])
+        check(b.ys == [160f])
+
     test "Can compute":
         check(b.compute(0.0) == vec2(120.0, 160.0))
         check(b.compute(1.0) == vec2(120.0, 160.0))
