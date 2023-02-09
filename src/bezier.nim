@@ -163,5 +163,11 @@ proc boundingBox*[N](curve: Bezier[N]): tuple[minX, minY, maxX, maxY: float32] =
         for extrema in curve.extrema():
             curve.compute(extrema).handlePoint(result)
 
+proc align*[N](curve: Bezier[N], p1, p2: Vec2): Bezier[N] =
+    ## Rotates this bezier curve so it aligns with the given line
+    let a = -arctan2(p2.y - p1.y, p2.x - p1.x)
+    return curve.mapIt:
+        vec2((it.x - p1.x) * cos(a) - (it.y - p1.y) * sin(a), (it.x - p1.x) * sin(a) + (it.y - p1.y) * cos(a))
+
 when isMainModule:
     include bezier/cli
