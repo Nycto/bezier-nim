@@ -70,7 +70,7 @@ window.addEventListener('DOMContentLoaded', main);
 <div class="document" id="documentId">
   <div class="container">
     <h1 class="title">Index</h1>
-    Modules: <a href="bezier.html">bezier</a>.<br/><p /><h2>API symbols</h2>
+    Modules: <a href="bezier.html">bezier</a>, <a href="bezier/util.html">bezier/util</a>.<br/><p /><h2>API symbols</h2>
 <dl><dt><a name="%60%24%60" href="#%60%24%60"><span>`$`:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: `$`[N](curve: Bezier[N]): string" href="bezier.html#%24%2CBezier%5BN%5D">bezier: `$`[N](curve: Bezier[N]): string</a></li>
@@ -78,6 +78,10 @@ window.addEventListener('DOMContentLoaded', main);
 <dt><a name="%60%5B%5D%60" href="#%60%5B%5D%60"><span>`[]`:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: `[]`[N](curve: Bezier[N]; point: range[0 .. N]): Vec2" href="bezier.html#%5B%5D%2CBezier%5BN%5D%2Crange%5B%5D">bezier: `[]`[N](curve: Bezier[N]; point: range[0 .. N]): Vec2</a></li>
+          </ul></dd>
+<dt><a name="align" href="#align"><span>align:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="bezier: align[N](curve: Bezier[N]; p1, p2: Vec2): Bezier[N]" href="bezier.html#align%2CBezier%5BN%5D%2CVec2%2CVec2">bezier: align[N](curve: Bezier[N]; p1, p2: Vec2): Bezier[N]</a></li>
           </ul></dd>
 <dt><a name="Bezier" href="#Bezier"><span>Bezier:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -99,9 +103,17 @@ window.addEventListener('DOMContentLoaded', main);
 <li><a class="reference external"
           data-doc-search-tag="bezier: extrema[N](curve: Bezier[N]): float32" href="bezier.html#extrema.i%2CBezier%5BN%5D">bezier: extrema[N](curve: Bezier[N]): float32</a></li>
           </ul></dd>
+<dt><a name="findY" href="#findY"><span>findY:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="bezier: findY[N](curve: Bezier[N]; x: float): Vec2" href="bezier.html#findY.i%2CBezier%5BN%5D%2Cfloat">bezier: findY[N](curve: Bezier[N]; x: float): Vec2</a></li>
+          </ul></dd>
 <dt><a name="items" href="#items"><span>items:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: items[N](curve: Bezier[N]): lent Vec2" href="bezier.html#items.i%2CBezier%5BN%5D">bezier: items[N](curve: Bezier[N]): lent Vec2</a></li>
+          </ul></dd>
+<dt><a name="mapIt" href="#mapIt"><span>mapIt:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="bezier: mapIt[N](curve: Bezier[N]; mapper: untyped): Bezier[N]" href="bezier.html#mapIt.t%2CBezier%5BN%5D%2Cuntyped">bezier: mapIt[N](curve: Bezier[N]; mapper: untyped): Bezier[N]</a></li>
           </ul></dd>
 <dt><a name="newBezier" href="#newBezier"><span>newBezier:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -111,12 +123,28 @@ window.addEventListener('DOMContentLoaded', main);
 <li><a class="reference external"
           data-doc-search-tag="bezier: pairs[N](curve: Bezier[N]): (int, Vec2)" href="bezier.html#pairs.i%2CBezier%5BN%5D">bezier: pairs[N](curve: Bezier[N]): (int, Vec2)</a></li>
           </ul></dd>
+<dt><a name="roots" href="#roots"><span>roots:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="util: roots[N: static[int]](entries: array[N, float32]): float32" href="bezier/util.html#roots.i%2Carray%5BN%2Cfloat32%5D">util: roots[N: static[int]](entries: array[N, float32]): float32</a></li>
+          </ul></dd>
+<dt><a name="tightBoundingBox" href="#tightBoundingBox"><span>tightBoundingBox:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="bezier: tightBoundingBox[N](curve: Bezier[N]): array[4, Vec2]" href="bezier.html#tightBoundingBox%2CBezier%5BN%5D">bezier: tightBoundingBox[N](curve: Bezier[N]): array[4, Vec2]</a></li>
+          </ul></dd>
+<dt><a name="xs" href="#xs"><span>xs:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="bezier: xs[N](curve: Bezier[N]): array[N + 1, float32]" href="bezier.html#xs%2CBezier%5BN%5D">bezier: xs[N](curve: Bezier[N]): array[N + 1, float32]</a></li>
+          </ul></dd>
+<dt><a name="ys" href="#ys"><span>ys:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="bezier: ys[N](curve: Bezier[N]): array[N + 1, float32]" href="bezier.html#ys%2CBezier%5BN%5D">bezier: ys[N](curve: Bezier[N]): array[N + 1, float32]</a></li>
+          </ul></dd>
 </dl>
     <div class="row">
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-06 14:48:08 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-09 03:00:49 UTC</small>
       </div>
     </div>
   </div>

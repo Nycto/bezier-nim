@@ -4,7 +4,13 @@ newBezier	bezier.html#newBezier,varargs[Vec2]	bezier: newBezier[N](points: varar
 `[]`	bezier.html#[],Bezier[N],range[]	bezier: `[]`[N](curve: Bezier[N]; point: range[0 .. N]): Vec2	
 pairs	bezier.html#pairs.i,Bezier[N]	bezier: pairs[N](curve: Bezier[N]): (int, Vec2)	
 items	bezier.html#items.i,Bezier[N]	bezier: items[N](curve: Bezier[N]): lent Vec2	
+mapIt	bezier.html#mapIt.t,Bezier[N],untyped	bezier: mapIt[N](curve: Bezier[N]; mapper: untyped): Bezier[N]	
 compute	bezier.html#compute,Bezier[N],float	bezier: compute[N](curve: Bezier[N]; t: float): Vec2	
 derivative	bezier.html#derivative,Bezier[N]	bezier: derivative[N](curve: Bezier[N]): auto	
+xs	bezier.html#xs,Bezier[N]	bezier: xs[N](curve: Bezier[N]): array[N + 1, float32]	
+ys	bezier.html#ys,Bezier[N]	bezier: ys[N](curve: Bezier[N]): array[N + 1, float32]	
 extrema	bezier.html#extrema.i,Bezier[N]	bezier: extrema[N](curve: Bezier[N]): float32	
 boundingBox	bezier.html#boundingBox,Bezier[N]	bezier: boundingBox[N](curve: Bezier[N]): tuple[minX, minY, maxX, maxY: float32]	
+align	bezier.html#align,Bezier[N],Vec2,Vec2	bezier: align[N](curve: Bezier[N]; p1, p2: Vec2): Bezier[N]	
+tightBoundingBox	bezier.html#tightBoundingBox,Bezier[N]	bezier: tightBoundingBox[N](curve: Bezier[N]): array[4, Vec2]	
+findY	bezier.html#findY.i,Bezier[N],float	bezier: findY[N](curve: Bezier[N]; x: float): Vec2	

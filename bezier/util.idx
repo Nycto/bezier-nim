@@ -1,0 +1,1 @@
+roots	bezier/util.html#roots.i,array[N,float32]	util: roots[N: static[int]](entries: array[N, float32]): float32	
