@@ -39,3 +39,11 @@ suite "Constant bezier":
 
     test "Can align a line":
         check(b.align(vec2(0, 0), vec2(1, 1)) == newBezier[0](vec2(197.9898986816406, 28.28427124023438)))
+
+    test "Can create a tight bounding box":
+        check(b.tightBoundingBox() == [
+            vec2(120.0, 160.0),
+            vec2(120.0, 160.0),
+            vec2(120.0, 160.0),
+            vec2(120.0, 160.0),
+        ])

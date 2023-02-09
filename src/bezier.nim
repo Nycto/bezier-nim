@@ -163,11 +163,34 @@ proc boundingBox*[N](curve: Bezier[N]): tuple[minX, minY, maxX, maxY: float32] =
         for extrema in curve.extrema():
             curve.compute(extrema).handlePoint(result)
 
+template withAligned[N](curve: Bezier[N], p1, p2: Vec2, exec: untyped) =
+    ## Execute a callback for code that needs to use a bezier curve aligned to a point with extra details
+    let ang = -arctan2(p2.y - p1.y, p2.x - p1.x)
+    let cosA {.inject.} = cos(ang)
+    let sinA {.inject.} = sin(ang)
+    let aligned {.inject.} = curve.mapIt:
+        vec2((it.x - p1.x) * cosA - (it.y - p1.y) * sinA, (it.x - p1.x) * sinA + (it.y - p1.y) * cosA)
+    exec
+
 proc align*[N](curve: Bezier[N], p1, p2: Vec2): Bezier[N] =
     ## Rotates this bezier curve so it aligns with the given line
-    let a = -arctan2(p2.y - p1.y, p2.x - p1.x)
-    return curve.mapIt:
-        vec2((it.x - p1.x) * cos(a) - (it.y - p1.y) * sin(a), (it.x - p1.x) * sin(a) + (it.y - p1.y) * cos(a))
+    withAligned(curve, p1, p2): return aligned
+
+proc tightBoundingBox*[N](curve: Bezier[N]): array[4, Vec2] =
+    ## Returns the corners of a bounding box that is tightly aligned to a curve
+    when N == 0:
+        for i in 0..3: result[i] = curve.points[0]
+    else:
+        withAligned(curve, curve[0], curve[N]):
+
+            template corner(x, y: float): Vec2 =
+                 vec2(curve.points[0].x + x * cosA - y * -sinA, curve.points[0].y + x * -sinA + y * cosA)
+
+            let (minX, minY, maxX, maxY) = aligned.boundingBox()
+            result[0] = corner(minX, minY)
+            result[1] = corner(maxX, minY)
+            result[2] = corner(maxX, maxY)
+            result[3] = corner(minX, maxY)
 
 when isMainModule:
     include bezier/cli

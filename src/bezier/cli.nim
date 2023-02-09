@@ -11,6 +11,7 @@ var minY: int = -100
 var cliParser = initOptParser()
 var showExtrema = false
 var showBoundingBox = false
+var showTightBoundingBox = false
 var aligned = false
 const linePoints = 500
 
@@ -30,6 +31,7 @@ for kind, key, val in cliParser.getopt():
         of "extrema", "e": showExtrema = true
         of "boundingBox", "b": showBoundingBox = true
         of "aligned", "a": aligned = true
+        of "tightBoundingBox", "t": showTightBoundingBox = true
         else: assert(false, "Unsupported option: " & key)
     of cmdEnd: assert(false) # cannot happen
 
@@ -75,6 +77,10 @@ proc createSvgBody[N](curve: Bezier[N]): string =
     if showBoundingBox:
         let box = curve.boundingBox()
         svg.add(rect(vec2(box.minX, box.minY), vec2(box.maxX, box.maxY), "lightgreen"))
+
+    if showTightBoundingBox:
+        let box = curve.tightBoundingBox()
+        for i in 0..3: svg.add(line(box[i], box[(i + 1) mod 4], "green"))
 
     return [
         """<defs>""",
