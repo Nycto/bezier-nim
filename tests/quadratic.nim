@@ -57,3 +57,11 @@ suite "Quadratic bezier":
 
     test "Can produce y values for x":
         check(b.findY(80).toSeq == @[vec2(79.99999237060547f, 85.08329772949219f)])
+
+    test "Can produce segments":
+        check(b.segments(4).toSeq == @[
+            (vec2(70.0, 155.0), vec2(53.125, 133.125)),
+            (vec2(53.125, 133.125), vec2(52.5, 112.5)),
+            (vec2(52.5, 112.5), vec2(68.125, 93.125)),
+            (vec2(68.125, 93.125), vec2(100.0, 75.0))
+        ])

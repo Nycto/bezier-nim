@@ -203,5 +203,15 @@ iterator findY*[N](curve: Bezier[N], x: float): Vec2 =
         for root in roots(xVals):
             yield curve.compute(root)
 
+iterator segments*[N](curve: Bezier[N], steps: Positive): (Vec2, Vec2) =
+    ## Breaks the curve into straight lines. Also known as flattening the curve
+    when N > 0:
+        let step = 1 / steps
+        var previous = curve.compute(0)
+        for i in 1..steps:
+            let current = curve.compute(step * i.float)
+            yield (previous, current)
+            previous = current
+
 when isMainModule:
     include bezier/cli

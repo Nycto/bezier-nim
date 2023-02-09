@@ -14,7 +14,6 @@ var showBoundingBox = false
 var showTightBoundingBox = false
 var aligned = false
 var x = ""
-const linePoints = 500
 
 var nums = newSeq[float32]()
 
@@ -63,13 +62,8 @@ proc rect(p1, p2: Vec2, color: string): string =
 proc createSvgBody[N](curve: Bezier[N]): string =
     var svg = ""
 
-    var previous = -1
-    for t in 0..linePoints:
-        if previous >= 0:
-            let p1 = curve.compute(1.0 / linePoints.float * previous.float)
-            let p2 = curve.compute(1.0 / linePoints.float * t.float)
-            svg.add(line(p1, p2))
-        previous = t
+    for (a, b) in curve.segments(100):
+        svg.add(line(a, b))
 
     when compiles(curve.derivative):
         if showExtrema:
