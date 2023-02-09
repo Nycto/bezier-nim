@@ -54,3 +54,6 @@ suite "Quadratic bezier":
             vec2(100.0, 75.0),
             vec2(70.0, 155.0)
         ])
+
+    test "Can produce y values for x":
+        check(b.findY(80).toSeq == @[vec2(79.99999237060547f, 85.08329772949219f)])

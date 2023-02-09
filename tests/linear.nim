@@ -42,3 +42,6 @@ suite "Linear bezier":
 
     test "Can produce a tight bounding box":
         check(b.tightBoundingBox() == [vec2(0.0, 0.0), vec2(100.0, 100.0), vec2(100.0, 100.0), vec2(0.0, 0.0)])
+
+    test "Can produce y values for x":
+        check(b.findY(80).toSeq == @[vec2(80f, 80f)])

@@ -47,3 +47,6 @@ suite "Constant bezier":
             vec2(120.0, 160.0),
             vec2(120.0, 160.0),
         ])
+
+    test "Can produce y values for x":
+        check(b.findY(120).toSeq == @[vec2(120, 160)])

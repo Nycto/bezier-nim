@@ -13,6 +13,7 @@ var showExtrema = false
 var showBoundingBox = false
 var showTightBoundingBox = false
 var aligned = false
+var x = ""
 const linePoints = 500
 
 var nums = newSeq[float32]()
@@ -32,6 +33,7 @@ for kind, key, val in cliParser.getopt():
         of "boundingBox", "b": showBoundingBox = true
         of "aligned", "a": aligned = true
         of "tightBoundingBox", "t": showTightBoundingBox = true
+        of "x": x = val
         else: assert(false, "Unsupported option: " & key)
     of cmdEnd: assert(false) # cannot happen
 
@@ -81,6 +83,10 @@ proc createSvgBody[N](curve: Bezier[N]): string =
     if showTightBoundingBox:
         let box = curve.tightBoundingBox()
         for i in 0..3: svg.add(line(box[i], box[(i + 1) mod 4], "green"))
+
+    if x != "":
+        for point in curve.findY(parseFloat(x)):
+            svg.add(dot(point, "darkorange"))
 
     return [
         """<defs>""",
