@@ -82,3 +82,6 @@ suite "Cubic bezier":
 
     test "Can produce tangents":
         check(b.tangent(0.2) == vec2(16.68000030517578, -25.44000053405762))
+
+    test "Can produce normals":
+        check(b.normal(0.2) == vec2(0.8362740278244019, 0.5483117699623108))

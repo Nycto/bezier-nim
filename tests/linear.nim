@@ -56,3 +56,6 @@ suite "Linear bezier":
 
     test "Can produce tangents":
         check(b.tangent(0.2) == vec2(100.0, 100.0))
+
+    test "Can produce normals":
+        check(b.normal(0.2) == vec2(-0.7071067690849304, 0.7071067690849304))

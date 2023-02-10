@@ -217,5 +217,11 @@ proc tangent*[N](curve: Bezier[N], t: float): Vec2 =
     ## Returns the tangent vector at a given location
     curve.derivative().compute(t)
 
+proc normal*[N](curve: Bezier[N], t: float): Vec2 =
+    ## Returns the tangent vector at a given location
+    let d = curve.tangent(t)
+    let q = sqrt(d.x * d.x + d.y * d.y)
+    return vec2(-d.y / q, d.x / q)
+
 when isMainModule:
     include bezier/cli

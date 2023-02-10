@@ -15,6 +15,7 @@ var showTightBoundingBox = false
 var aligned = false
 var x = ""
 var showTangent: string = ""
+var showNormal: string = ""
 
 var nums = newSeq[float32]()
 
@@ -35,6 +36,7 @@ for kind, key, val in cliParser.getopt():
         of "tightBoundingBox", "t": showTightBoundingBox = true
         of "x": x = val
         of "tan", "tangent": showTangent = val
+        of "n", "normal": showNormal = val
         else: assert(false, "Unsupported option: " & key)
     of cmdEnd: assert(false) # cannot happen
 
@@ -90,6 +92,13 @@ proc createSvgBody[N](curve: Bezier[N]): string =
             let pt = curve.compute(t)
             let dv = curve.tangent(t).normalize() * 100
             svg.add(line(vec2(pt.x - dv.x, pt.y - dv.y), vec2(pt.x + dv.x, pt.y + dv.y), "red"))
+
+    when compiles(curve.normal(1.0)):
+        if showNormal != "":
+            let t = parseFloat(showNormal)
+            let pt = curve.compute(t)
+            let nv = curve.normal(t).normalize() * 20
+            svg.add(line(pt, vec2(pt.x + nv.x, pt.y + nv.y), "red"))
 
     return [
         """<defs>""",

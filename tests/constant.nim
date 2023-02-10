@@ -56,3 +56,6 @@ suite "Constant bezier":
 
     test "Can produce tangents":
         check(compiles(b.tangent(1.0)) == false)
+
+    test "Can produce normals":
+        check(compiles(b.normal(1.0)) == false)

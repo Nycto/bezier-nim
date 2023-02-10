@@ -68,3 +68,6 @@ suite "Quadratic bezier":
 
     test "Can produce tangents":
         check(b.tangent(0.2) == vec2(-48.0, -86.0))
+
+    test "Can produce normals":
+        check(b.normal(0.2) == vec2(0.8731976747512817, -0.4873661696910858))
