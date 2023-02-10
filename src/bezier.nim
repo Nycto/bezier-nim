@@ -213,5 +213,9 @@ iterator segments*[N](curve: Bezier[N], steps: Positive): (Vec2, Vec2) =
             yield (previous, current)
             previous = current
 
+proc tangent*[N](curve: Bezier[N], t: float): Vec2 =
+    ## Returns the tangent vector at a given location
+    curve.derivative().compute(t)
+
 when isMainModule:
     include bezier/cli

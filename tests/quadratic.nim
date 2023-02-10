@@ -65,3 +65,6 @@ suite "Quadratic bezier":
             (vec2(52.5, 112.5), vec2(68.125, 93.125)),
             (vec2(68.125, 93.125), vec2(100.0, 75.0))
         ])
+
+    test "Can produce tangents":
+        check(b.tangent(0.2) == vec2(-48.0, -86.0))

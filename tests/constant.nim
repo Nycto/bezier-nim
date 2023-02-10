@@ -53,3 +53,6 @@ suite "Constant bezier":
 
     test "Can produce segments":
         check(b.segments(4).toSeq.len == 0)
+
+    test "Can produce tangents":
+        check(compiles(b.tangent(1.0)) == false)

@@ -53,3 +53,6 @@ suite "Linear bezier":
             (vec2(50.0, 50.0), vec2(75.0, 75.0)),
             (vec2(75.0, 75.0), vec2(100.0, 100.0))
         ])
+
+    test "Can produce tangents":
+        check(b.tangent(0.2) == vec2(100.0, 100.0))

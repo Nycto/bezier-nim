@@ -79,3 +79,6 @@ suite "Cubic bezier":
             (vec2(8.0, 4.375), vec2(10.96875, 6.984375)),
             (vec2(10.96875, 6.984375), vec2(10.0, 14.0))
         ])
+
+    test "Can produce tangents":
+        check(b.tangent(0.2) == vec2(16.68000030517578, -25.44000053405762))
