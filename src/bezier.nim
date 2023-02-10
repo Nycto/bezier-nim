@@ -1,5 +1,5 @@
 ##
-## Cubic bezier curve library
+## Bezier curve library
 ##
 ## Based off the work found here:
 ## * https://pomax.github.io/bezierinfo/
