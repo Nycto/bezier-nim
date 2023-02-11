@@ -1,4 +1,4 @@
-import std/math
+import std/math, vmath, options
 
 iterator cubicRoots(pa, pb, pc, pd: float32): float32 =
     # Cardano's algorithm for calculating roots
@@ -101,3 +101,15 @@ iterator roots*[N: static[int]](entries: array[N, float32]): float32 =
     for root in computeRoots(entries):
         if root >= 0 and root <= 1:
             yield root
+
+proc isOnLine*(point, p1, p2: Vec2): bool =
+    # Returns whether `point` is on a line between `p1` and `p2`
+    dist(p1, point) + dist(point, p2) == dist(p1, p2)
+
+proc linesIntersect*(p1, p2, p3, p4: Vec2): Option[Vec2] =
+    ## Returns the point at which two lines intersect
+    let d = (p1.x - p2.x) * (p3.y - p4.y) - (p1.y - p2.y) * (p3.x - p4.x)
+    if d != 0:
+        let nx = (p1.x * p2.y - p1.y * p2.x) * (p3.x - p4.x) - (p1.x - p2.x) * (p3.x * p4.y - p3.y * p4.x)
+        let ny = (p1.x * p2.y - p1.y * p2.x) * (p3.y - p4.y) - (p1.y - p2.y) * (p3.x * p4.y - p3.y * p4.x)
+        return some(vec2(nx / d, ny / d))

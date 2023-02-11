@@ -59,3 +59,6 @@ suite "Linear bezier":
 
     test "Can produce normals":
         check(b.normal(0.2) == vec2(-0.7071067690849304, 0.7071067690849304))
+
+    test "Can produce line intersections":
+        check(b.intersects(vec2(0, 100), vec2(100, 0)).toSeq == @[vec2(50, 50)])

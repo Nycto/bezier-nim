@@ -16,6 +16,7 @@ var aligned = false
 var x = ""
 var showTangent: string = ""
 var showNormal: string = ""
+var showIntersects: string = ""
 
 var nums = newSeq[float32]()
 
@@ -37,6 +38,7 @@ for kind, key, val in cliParser.getopt():
         of "x": x = val
         of "tan", "tangent": showTangent = val
         of "n", "normal": showNormal = val
+        of "i", "intersects": showIntersects = val
         else: assert(false, "Unsupported option: " & key)
     of cmdEnd: assert(false) # cannot happen
 
@@ -100,7 +102,27 @@ proc createSvgBody[N](curve: Bezier[N]): string =
             let nv = curve.normal(t).normalize() * 20
             svg.add(line(pt, vec2(pt.x + nv.x, pt.y + nv.y), "red"))
 
-    return [
+    if showIntersects != "":
+        let lineNums = showIntersects.split(",").mapIt(parseFloat(it))
+        assert(lineNums.len == 4)
+        let point1 = vec2(lineNums[0], lineNums[1])
+        let point2 = vec2(lineNums[2], lineNums[3])
+        svg.add(line(point1, point2, "lightblue"))
+        for point in curve.intersects(point1, point2):
+            svg.add(dot(point, "red"))
+
+    return svg
+
+proc draw[N](curve: Bezier[N]) =
+    let body = if aligned:
+        createSvgBody(curve.align(curve[0], curve[N]))
+    else:
+        createSvgBody(curve)
+    filename.writeFile([
+        """<!DOCTYPE html>""",
+        """<html lang="en">""",
+        """<body>""",
+        &"""<svg width="{width}" height="{height}" xmlns="http://www.w3.org/2000/svg">""",
         """<defs>""",
             """<pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">""",
                 """<path d="M 10 0 L 0 0 0 10" fill="none" stroke="#ccc" stroke-width="0.5"/>""",
@@ -113,19 +135,6 @@ proc createSvgBody[N](curve: Bezier[N]): string =
         """<rect width="100%" height="100%" fill="url(#grid)" />""",
         rawLine(0, height.float + minY.float, width.float, height.float + minY.float, "blue"),
         rawLine(-minX.float, 0, -minX.float, height.float, "blue"),
-        svg,
-    ].join("\n")
-
-proc draw[N](curve: Bezier[N]) =
-    let body = if aligned:
-        createSvgBody(curve.align(curve[0], curve[N]))
-    else:
-        createSvgBody(curve)
-    filename.writeFile([
-        """<!DOCTYPE html>""",
-        """<html lang="en">""",
-        """<body>""",
-        &"""<svg width="{width}" height="{height}" xmlns="http://www.w3.org/2000/svg">""",
         body,
         """</svg>""",
         """</body>""",

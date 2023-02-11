@@ -71,3 +71,10 @@ suite "Quadratic bezier":
 
     test "Can produce normals":
         check(b.normal(0.2) == vec2(0.8731976747512817, -0.4873661696910858))
+
+    test "Can produce line intersections":
+        check(b.intersects(vec2(60, 0), vec2(60, 200)).toSeq == @[
+            vec2(59.99999618530273, 144.5064392089844),
+            vec2(60.0, 100.641487121582)
+        ])
+        check(b.intersects(vec2(0, 16), vec2(30, 16)).toSeq.len == 0)

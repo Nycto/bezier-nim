@@ -85,3 +85,10 @@ suite "Cubic bezier":
 
     test "Can produce normals":
         check(b.normal(0.2) == vec2(0.8362740278244019, 0.5483117699623108))
+
+    test "Can produce line intersections":
+        check(b.intersects(vec2(0, 6), vec2(30, 6)).toSeq == @[
+            vec2(4.319429874420166, 6.000003337860107),
+            vec2(10.56313800811768, 6.000006198883057)
+        ])
+        check(b.intersects(vec2(0, 106), vec2(30, 106)).toSeq.len == 0)

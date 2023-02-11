@@ -8,7 +8,7 @@
 ## * https://github.com/oysteinmyrmo/bezier
 ##
 
-import vmath, sequtils, algorithm, bezier/util
+import vmath, sequtils, algorithm, bezier/util, options
 
 type
     Bezier*[N: static[int]] = object
@@ -222,6 +222,20 @@ proc normal*[N](curve: Bezier[N], t: float): Vec2 =
     let d = curve.tangent(t)
     let q = sqrt(d.x * d.x + d.y * d.y)
     return vec2(-d.y / q, d.x / q)
+
+iterator intersects*[N](curve: Bezier[N], p1, p2: Vec2): Vec2 =
+    ## Yields the points where a curve intersects a line
+    when N == 0:
+        if curve.points[0].isOnLine(p1, p2):
+            yield curve.points[0]
+    elif N == 1:
+        let intersect = linesIntersect(curve.points[0], curve.points[1], p1, p2)
+        if intersect.isSome:
+            yield intersect.get
+    else:
+        let aligned = curve.align(p1, p2)
+        for t in roots(aligned.ys):
+            yield curve.compute(t)
 
 when isMainModule:
     include bezier/cli

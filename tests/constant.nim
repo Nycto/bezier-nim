@@ -59,3 +59,7 @@ suite "Constant bezier":
 
     test "Can produce normals":
         check(compiles(b.normal(1.0)) == false)
+
+    test "Can produce line intersections":
+        check(b.intersects(vec2(110, 150), vec2(130, 170)).toSeq == @[vec2(120, 160)])
+        check(b.intersects(vec2(210, 250), vec2(230, 270)).toSeq.len == 0)
