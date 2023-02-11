@@ -1,1 +1,3 @@
 roots	bezier/util.html#roots.i,array[N,float32]	util: roots[N: static[int]](entries: array[N, float32]): float32	
+isOnLine	bezier/util.html#isOnLine,Vec2,Vec2,Vec2	util: isOnLine(point, p1, p2: Vec2): bool	
+linesIntersect	bezier/util.html#linesIntersect,Vec2,Vec2,Vec2,Vec2	util: linesIntersect(p1, p2, p3, p4: Vec2): Option[Vec2]	

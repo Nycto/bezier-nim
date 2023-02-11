@@ -14,3 +14,7 @@ boundingBox	bezier.html#boundingBox,Bezier[N]	bezier: boundingBox[N](curve: Bezi
 align	bezier.html#align,Bezier[N],Vec2,Vec2	bezier: align[N](curve: Bezier[N]; p1, p2: Vec2): Bezier[N]	
 tightBoundingBox	bezier.html#tightBoundingBox,Bezier[N]	bezier: tightBoundingBox[N](curve: Bezier[N]): array[4, Vec2]	
 findY	bezier.html#findY.i,Bezier[N],float	bezier: findY[N](curve: Bezier[N]; x: float): Vec2	
+segments	bezier.html#segments.i,Bezier[N],Positive	bezier: segments[N](curve: Bezier[N]; steps: Positive): (Vec2, Vec2)	
+tangent	bezier.html#tangent,Bezier[N],float	bezier: tangent[N](curve: Bezier[N]; t: float): Vec2	
+normal	bezier.html#normal,Bezier[N],float	bezier: normal[N](curve: Bezier[N]; t: float): Vec2	
+intersects	bezier.html#intersects.i,Bezier[N],Vec2,Vec2	bezier: intersects[N](curve: Bezier[N]; p1, p2: Vec2): Vec2	

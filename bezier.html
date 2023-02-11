@@ -151,6 +151,16 @@ window.addEventListener('DOMContentLoaded', main);
     title="newBezier[N](points: varargs[Vec2]): Bezier[N]">newBezier[N](points: varargs[Vec2]): Bezier[N]</a></li>
 
   </ul>
+  <ul class="simple nested-toc-section">normal
+      <li><a class="reference" href="#normal%2CBezier%5BN%5D%2Cfloat"
+    title="normal[N](curve: Bezier[N]; t: float): Vec2">normal[N](curve: Bezier[N]; t: float): Vec2</a></li>
+
+  </ul>
+  <ul class="simple nested-toc-section">tangent
+      <li><a class="reference" href="#tangent%2CBezier%5BN%5D%2Cfloat"
+    title="tangent[N](curve: Bezier[N]; t: float): Vec2">tangent[N](curve: Bezier[N]; t: float): Vec2</a></li>
+
+  </ul>
   <ul class="simple nested-toc-section">tightBoundingBox
       <li><a class="reference" href="#tightBoundingBox%2CBezier%5BN%5D"
     title="tightBoundingBox[N](curve: Bezier[N]): array[4, Vec2]">tightBoundingBox[N](curve: Bezier[N]): array[4, Vec2]</a></li>
@@ -182,6 +192,11 @@ window.addEventListener('DOMContentLoaded', main);
     title="findY[N](curve: Bezier[N]; x: float): Vec2">findY[N](curve: Bezier[N]; x: float): Vec2</a></li>
 
   </ul>
+  <ul class="simple nested-toc-section">intersects
+      <li><a class="reference" href="#intersects.i%2CBezier%5BN%5D%2CVec2%2CVec2"
+    title="intersects[N](curve: Bezier[N]; p1, p2: Vec2): Vec2">intersects[N](curve: Bezier[N]; p1, p2: Vec2): Vec2</a></li>
+
+  </ul>
   <ul class="simple nested-toc-section">items
       <li><a class="reference" href="#items.i%2CBezier%5BN%5D"
     title="items[N](curve: Bezier[N]): lent Vec2">items[N](curve: Bezier[N]): lent Vec2</a></li>
@@ -190,6 +205,11 @@ window.addEventListener('DOMContentLoaded', main);
   <ul class="simple nested-toc-section">pairs
       <li><a class="reference" href="#pairs.i%2CBezier%5BN%5D"
     title="pairs[N](curve: Bezier[N]): (int, Vec2)">pairs[N](curve: Bezier[N]): (int, Vec2)</a></li>
+
+  </ul>
+  <ul class="simple nested-toc-section">segments
+      <li><a class="reference" href="#segments.i%2CBezier%5BN%5D%2CPositive"
+    title="segments[N](curve: Bezier[N]; steps: Positive): (Vec2, Vec2)">segments[N](curve: Bezier[N]; steps: Positive): (Vec2, Vec2)</a></li>
 
   </ul>
 
@@ -214,7 +234,7 @@ window.addEventListener('DOMContentLoaded', main);
   <div class="nine columns" id="content">
   <div id="tocRoot"></div>
   
-  <p class="module-desc"><p>Cubic bezier curve library</p>
+  <p class="module-desc"><p>Bezier curve library</p>
 <p>Based off the work found here:</p>
 <ul class="simple"><li><a class="reference external" href="https://pomax.github.io/bezierinfo/">https://pomax.github.io/bezierinfo/</a></li>
 <li><a class="reference external" href="https://pomax.github.io/bezierjs/">https://pomax.github.io/bezierjs/</a></li>
@@ -301,6 +321,22 @@ Creates a new instance
 
 </dd>
 </div>
+<div id="normal,Bezier[N],float">
+<dt><pre><span class="Keyword">proc</span> <a href="#normal%2CBezier%5BN%5D%2Cfloat"><span class="Identifier">normal</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
+<dd>
+
+Returns the tangent vector at a given location
+
+</dd>
+</div>
+<div id="tangent,Bezier[N],float">
+<dt><pre><span class="Keyword">proc</span> <a href="#tangent%2CBezier%5BN%5D%2Cfloat"><span class="Identifier">tangent</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
+<dd>
+
+Returns the tangent vector at a given location
+
+</dd>
+</div>
 <div id="tightBoundingBox,Bezier[N]">
 <dt><pre><span class="Keyword">proc</span> <a href="#tightBoundingBox%2CBezier%5BN%5D"><span class="Identifier">tightBoundingBox</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">array</span><span class="Other">[</span><span class="DecNumber">4</span><span class="Other">,</span> <span class="Identifier">Vec2</span><span class="Other">]</span></pre></dt>
 <dd>
@@ -346,6 +382,14 @@ Produces the Y values for a given X
 
 </dd>
 </div>
+<div id="intersects.i,Bezier[N],Vec2,Vec2">
+<dt><pre><span class="Keyword">iterator</span> <a href="#intersects.i%2CBezier%5BN%5D%2CVec2%2CVec2"><span class="Identifier">intersects</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">p1</span><span class="Other">,</span> <span class="Identifier">p2</span><span class="Other">:</span> <span class="Identifier">Vec2</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
+<dd>
+
+Yields the points where a curve intersects a line
+
+</dd>
+</div>
 <div id="items.i,Bezier[N]">
 <dt><pre><span class="Keyword">iterator</span> <a href="#items.i%2CBezier%5BN%5D"><span class="Identifier">items</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">lent</span> <span class="Identifier">Vec2</span></pre></dt>
 <dd>
@@ -359,6 +403,14 @@ Produces all the points in this curve
 <dd>
 
 Produces all the points in this curve as well as their index
+
+</dd>
+</div>
+<div id="segments.i,Bezier[N],Positive">
+<dt><pre><span class="Keyword">iterator</span> <a href="#segments.i%2CBezier%5BN%5D%2CPositive"><span class="Identifier">segments</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">steps</span><span class="Other">:</span> <span class="Identifier">Positive</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">Vec2</span><span class="Other">,</span> <span class="Identifier">Vec2</span><span class="Other">)</span></pre></dt>
+<dd>
+
+Breaks the curve into straight lines. Also known as flattening the curve
 
 </dd>
 </div>
@@ -385,7 +437,7 @@ Applies a mapping function to the points in this curve
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-09 03:00:49 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-11 17:23:13 UTC</small>
       </div>
     </div>
   </div>
