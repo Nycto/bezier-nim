@@ -15,13 +15,30 @@ type
         ## A bezier curve of order `N`
         points: array[N + 1, Vec2]
 
-proc newBezier*[N](points: varargs[Vec2]): Bezier[N] =
-    ## Creates a new instance
-    assert(points.len == N + 1)
+    DynBezier* = object
+        ## Bezier curve where the order isn't known at compile time
+        points: seq[Vec2]
+
+template assign(points: typed) =
     for i in 0..<points.len:
         result.points[i] = points[i]
 
-proc `$`*[N](curve: Bezier[N]): string =
+proc newBezier*[N](points: varargs[Vec2]): Bezier[N] =
+    ## Creates a new instance
+    assert(points.len == N + 1)
+    assign(points)
+
+proc newDynBezier*(points: varargs[Vec2]): DynBezier =
+    ## Creates a new instance
+    result.points.setLen(points.len)
+    assign(points)
+
+proc order*(curve: DynBezier): Natural = curve.points.len - 1
+
+proc order*[N](curve: Bezier[N]): Natural = N
+
+proc `$`*(curve: Bezier | DynBezier): string =
+    ## Create a string representation of a bezier curve
     result = "Bezier["
     var first = true
     for point in curve.points:
@@ -36,28 +53,39 @@ proc `$`*[N](curve: Bezier[N]): string =
         result.add("}")
     result.add("]")
 
-proc `[]`*[N](curve: Bezier[N], point: range[0..N]): Vec2 =
+proc `[]`*[N](curve: Bezier[N], point: range[0..N]): Vec2 = curve.points[point]
     ## Returns a control point within this curve
-    curve.points[point]
 
-iterator pairs*[N](curve: Bezier[N]): (int, Vec2) =
+proc `[]`*(curve: DynBezier, point: Natural): Vec2 = curve.points[point]
+    ## Returns a control point within this curve
+
+iterator pairs*(curve: DynBezier | Bezier): (int, Vec2) =
     ## Produces all the points in this curve as well as their index
-    for i in 0..N:
+    for i in 0..curve.order:
         yield (i, curve.points[i])
 
-iterator items*[N](curve: Bezier[N]): lent Vec2 =
+iterator items*(curve: DynBezier | Bezier): lent Vec2 =
     ## Produces all the points in this curve
-    for i in 0..N:
+    for i in 0..curve.order:
         yield curve.points[i]
 
-template mapIt*[N](curve: Bezier[N], mapper: untyped): Bezier[N] =
+template mapItTpl[OutputType](order, curve: typed, mapper: untyped): OutputType =
     ## Applies a mapping function to the points in this curve
     block:
-        var output: Bezier[N]
-        for i in 0..N:
+        var output: OutputType
+        when compiles(output.points.setLen(order + 1)): output.points.setLen(order + 1)
+        for i in 0..order:
             let it {.inject.} = curve.points[i]
             output.points[i] = mapper
         output
+
+template mapIt*[N](curve: Bezier[N], mapper: untyped): Bezier[N] =
+    ## Applies a mapping function to the points in this curve
+    mapItTpl[Bezier[N]](N, curve, mapper)
+
+template mapIt*(curve: DynBezier, mapper: untyped): DynBezier =
+    ## Applies a mapping function to the points in this curve
+    mapItTpl[DynBezier](curve.order, curve, mapper)
 
 proc computeForQuadOrCubic(p0, p1, p2, p3: Vec2; a, b, c, d: float): Vec2 {.inline.} =
     vec2(
@@ -65,50 +93,57 @@ proc computeForQuadOrCubic(p0, p1, p2, p3: Vec2; a, b, c, d: float): Vec2 {.inli
         a * p0.y + b * p1.y + c * p2.y + d * p3.y,
     )
 
+proc computeForLinear(curve: Bezier | DynBezier, t: float): Vec2 {.inline.} =
+    let mt = 1 - t
+    return vec2(
+        mt * curve.points[0].x + t * curve.points[1].x,
+        mt * curve.points[0].y + t * curve.points[1].y
+    )
+
+proc computeForQuad(curve: Bezier | DynBezier, t: float): Vec2 {.inline.} =
+    let mt = 1 - t
+    return computeForQuadOrCubic(
+        curve.points[0], curve.points[1], curve.points[2], vec2(0, 0),
+        a = mt * mt,
+        b = mt * t * 2,
+        c = t * t,
+        d = 0
+    )
+
+proc computeForCubic(curve: Bezier | DynBezier, t: float): Vec2 {.inline.} =
+    let mt = 1 - t
+    return computeForQuadOrCubic(
+        curve.points[0], curve.points[1], curve.points[2], curve.points[3],
+        a = mt * mt * mt,
+        b = mt * mt * t * 3,
+        c = mt * t * t * 3,
+        d = t * t * t
+    )
+
 proc compute*[N](curve: Bezier[N], t: float): Vec2 =
     ## Computes the position of a point along the curve
+    when N == 0: return curve.points[0]
+    elif N == 1: return computeForLinear(curve, t)
+    elif N == 2: return computeForQuad(curve, t)
+    elif N == 3: return computeForCubic(curve, t)
+    else: {. error("High order beziers are currently unsupported") .}
 
-    # Easy outs
-    if t == 0:
-        return curve.points[0]
-    elif t == 1:
-        return curve.points[N]
+proc compute*(curve: DynBezier, t: float): Vec2 =
+    ## Computes the position of a point along the curve
+    case curve.order
+    of 0: return curve.points[0]
+    of 1: return computeForLinear(curve, t)
+    of 2: return computeForQuad(curve, t)
+    of 3: return computeForCubic(curve, t)
+    else: assert(false, "High order beziers are currently unsupported")
 
-    let mt {.used.} = 1 - t
+proc xs*[N](curve: Bezier[N]): array[N + 1, float32] =
+    ## Returns all x values from the points in this curve
+    for i, point in curve: result[i] = point.x
 
-    # Constant curve
-    when N == 0:
-        return curve.points[0]
-
-    # Linear curve
-    elif N == 1:
-        return vec2(
-            mt * curve.points[0].x + t * curve.points[1].x,
-            mt * curve.points[0].y + t * curve.points[1].y
-        )
-
-    # Quadratic
-    elif N == 2:
-        return computeForQuadOrCubic(
-            curve.points[0], curve.points[1], curve.points[2], vec2(0, 0),
-            a = mt * mt,
-            b = mt * t * 2,
-            c = t * t,
-            d = 0
-        )
-
-    # Cubic
-    elif N == 3:
-        return computeForQuadOrCubic(
-            curve.points[0], curve.points[1], curve.points[2], curve.points[3],
-            a = mt * mt * mt,
-            b = mt * mt * t * 3,
-            c = mt * t * t * 3,
-            d = t * t * t
-        )
-
-    else:
-        {. error("High order beziers are currently unsupported") .}
+proc ys*[N](curve: Bezier[N]): array[N + 1, float32] =
+    ## Returns all y values from the points in this curve
+    for i, point in curve: result[i] = point.y
 
 proc derivative*[N](curve: Bezier[N]): auto =
     ## Computes the derivative of a bezier curve
@@ -119,14 +154,6 @@ proc derivative*[N](curve: Bezier[N]): auto =
     for i in 0..<N:
         output.points[i] = (curve.points[i + 1] - curve.points[i]) * N
     return output
-
-proc xs*[N](curve: Bezier[N]): array[N + 1, float32] =
-    ## Returns all x values from the points in this curve
-    for i, point in curve: result[i] = point.x
-
-proc ys*[N](curve: Bezier[N]): array[N + 1, float32] =
-    ## Returns all y values from the points in this curve
-    for i, point in curve: result[i] = point.y
 
 iterator extrema*[N](curve: Bezier[N]): float32 =
     ## Calculates all the extrema on a curve, extressed as a `t`. You can feed these values into

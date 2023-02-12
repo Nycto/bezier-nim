@@ -1,25 +1,17 @@
 import unittest, bezier, vmath, sequtils, sets
 
-suite "Quadratic bezier":
-    const b = newBezier[2](vec2(70, 155), vec2(20, 110), vec2(100, 75))
+template standardTests(create: untyped) =
+    let b = create(vec2(70, 155), vec2(20, 110), vec2(100, 75))
+
+    test "Can be converted to a string":
+        check($b == "Bezier[{70.0, 155.0}, {20.0, 110.0}, {100.0, 75.0}]")
 
     test "Can be compared":
-        check(b == newBezier[2](vec2(70, 155), vec2(20, 110), vec2(100, 75)))
-        check(b != newBezier[2](vec2(70, 155), vec2(20, 110), vec2(200, 75)))
+        check(b == create(vec2(70, 155), vec2(20, 110), vec2(100, 75)))
+        check(b != create(vec2(70, 155), vec2(20, 110), vec2(200, 75)))
 
     test "Can be hashed":
         check(b in [b].toHashSet)
-
-    test "Can be mapped":
-        check(b.mapIt(vec2(it.x + 20, it.y + 30)) == newBezier[2](vec2(90, 185), vec2(40, 140), vec2(120, 105)))
-
-    test "Can return Xs and Ys":
-        check(b.xs == [70f, 20, 100])
-        check(b.ys == [155f, 110, 75])
-
-    test "can compute":
-        check(b.compute(0.0) == vec2(70, 155))
-        check(b.compute(1) == vec2(100, 75))
 
     test "Can return points":
         check(b[0] == vec2(70, 155))
@@ -28,6 +20,28 @@ suite "Quadratic bezier":
 
     test "Can iterate over points":
         check(b.items.toSeq == @[vec2(70, 155), vec2(20, 110), vec2(100, 75)])
+
+    test "Can iterate over pairs":
+        check(b.pairs.toSeq == @[(0, vec2(70, 155)), (1, vec2(20, 110)), (2, vec2(100, 75))])
+
+    test "Can be mapped":
+        check(b.mapIt(vec2(it.x + 20, it.y + 30)) == create(vec2(90, 185), vec2(40, 140), vec2(120, 105)))
+
+    test "can compute":
+        check(b.compute(0.0) == vec2(70, 155))
+        check(b.compute(1) == vec2(100, 75))
+
+suite "Dynamic Quadratic bezier":
+    standardTests(newDynBezier)
+
+suite "Static Quadratic bezier":
+    standardTests(newBezier[2])
+
+    const b = newBezier[2](vec2(70, 155), vec2(20, 110), vec2(100, 75))
+
+    test "Can return Xs and Ys":
+        check(b.xs == [70f, 20, 100])
+        check(b.ys == [155f, 110, 75])
 
     test "Can calculate the derivative":
         const b1 = b.derivative()
