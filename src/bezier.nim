@@ -153,15 +153,23 @@ proc ys*[N](curve: Bezier[N]): array[N + 1, float32] = xyTpl(curve, y)
 proc ys*(curve: DynBezier): seq[float32] = xyTpl(curve, y)
     ## Returns all y values from the points in this curve
 
+template derivativeTpl(curve: typed) =
+    for i in 0..<curve.order:
+        output.points[i] = (curve.points[i + 1] - curve.points[i]) * curve.order.float
+    return output
+
 proc derivative*[N](curve: Bezier[N]): auto =
     ## Computes the derivative of a bezier curve
-    when N <= 0:
-        {. error("Can not take the derivative of a constant curve") .}
-
+    when N <= 0: {.error( "Can not take the derivative of a constant curve").}
     var output: Bezier[N - 1]
-    for i in 0..<N:
-        output.points[i] = (curve.points[i + 1] - curve.points[i]) * N
-    return output
+    derivativeTpl(curve)
+
+proc derivative*(curve: DynBezier): DynBezier =
+    ## Computes the derivative of a bezier curve
+    assert(curve.order > 0, "Can not take the derivative of a constant curve")
+    var output: DynBezier
+    output.points.setLen(curve.points.len - 1)
+    derivativeTpl(curve)
 
 iterator extrema*[N](curve: Bezier[N]): float32 =
     ## Calculates all the extrema on a curve, extressed as a `t`. You can feed these values into

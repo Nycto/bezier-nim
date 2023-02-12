@@ -37,12 +37,16 @@ template standardTests(create: untyped) =
 suite "Dynamic Constant bezier":
     standardTests(newDynBezier)
 
+    test "Cant calculate the derivative":
+        expect(AssertionDefect):
+            discard newDynBezier(vec2(120, 160)).derivative()
+
 suite "Static Constant bezier":
     standardTests(newBezier[0])
 
     const b = newBezier[0](vec2(120, 160))
 
-    test "Can calculate the derivative":
+    test "Cant calculate the derivative":
         check(compiles(b.derivative()) == false)
 
     test "Can calculate extremas":

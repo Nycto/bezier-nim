@@ -35,6 +35,11 @@ template standardTests(create: untyped) =
         check(b.xs == [70f, 20, 100])
         check(b.ys == [155f, 110, 75])
 
+    test "Can calculate the derivative":
+        let b1 = b.derivative()
+        check(b1[0] == vec2(-100.0, -90.0))
+        check(b1[1] == vec2(160.0, -70.0))
+
 suite "Dynamic Quadratic bezier":
     standardTests(newDynBezier)
 
@@ -42,11 +47,6 @@ suite "Static Quadratic bezier":
     standardTests(newBezier[2])
 
     const b = newBezier[2](vec2(70, 155), vec2(20, 110), vec2(100, 75))
-
-    test "Can calculate the derivative":
-        const b1 = b.derivative()
-        check(b1[0] == vec2(-100.0, -90.0))
-        check(b1[1] == vec2(160.0, -70.0))
 
     test "Can calculate extremas":
         check(b.extrema().toSeq == @[ 0.38461538461538464f ])

@@ -33,6 +33,10 @@ template standardTests(create: untyped) =
         check(b.xs == [0f, 100])
         check(b.ys == [0f, 100])
 
+    test "Can calculate the derivative":
+        let b0 = b.derivative()
+        check(b0[0] == vec2(100.0, 100.0))
+
 suite "Dynamic Linear bezier":
     standardTests(newDynBezier)
 
@@ -40,10 +44,6 @@ suite "Static Linear bezier":
     standardTests(newBezier[1])
 
     const b = newBezier[1](vec2(0, 0), vec2(100, 100))
-
-    test "Can calculate the derivative":
-        const b0 = b.derivative()
-        check(b0[0] == vec2(100.0, 100.0))
 
     test "Can calculate extremas":
         check(b.extrema().toSeq.len == 0)
