@@ -137,13 +137,21 @@ proc compute*(curve: DynBezier, t: float): Vec2 =
     of 3: return computeForCubic(curve, t)
     else: assert(false, "High order beziers are currently unsupported")
 
-proc xs*[N](curve: Bezier[N]): array[N + 1, float32] =
-    ## Returns all x values from the points in this curve
-    for i, point in curve: result[i] = point.x
+template xyTpl(curve: typed, prop: untyped) =
+    when compiles(result.setLen(0)): result.setLen(curve.points.len)
+    for i, point in curve: result[i] = point.`prop`
 
-proc ys*[N](curve: Bezier[N]): array[N + 1, float32] =
+proc xs*[N](curve: Bezier[N]): array[N + 1, float32] = xyTpl(curve, x)
+    ## Returns all x values from the points in this curve
+
+proc xs*(curve: DynBezier): seq[float32] = xyTpl(curve, x)
+    ## Returns all x values from the points in this curve
+
+proc ys*[N](curve: Bezier[N]): array[N + 1, float32] = xyTpl(curve, y)
     ## Returns all y values from the points in this curve
-    for i, point in curve: result[i] = point.y
+
+proc ys*(curve: DynBezier): seq[float32] = xyTpl(curve, y)
+    ## Returns all y values from the points in this curve
 
 proc derivative*[N](curve: Bezier[N]): auto =
     ## Computes the derivative of a bezier curve

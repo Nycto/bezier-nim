@@ -31,6 +31,10 @@ template standardTests(create: untyped) =
         check(b.compute(0.0) == vec2(70, 155))
         check(b.compute(1) == vec2(100, 75))
 
+    test "Can return Xs and Ys":
+        check(b.xs == [70f, 20, 100])
+        check(b.ys == [155f, 110, 75])
+
 suite "Dynamic Quadratic bezier":
     standardTests(newDynBezier)
 
@@ -38,10 +42,6 @@ suite "Static Quadratic bezier":
     standardTests(newBezier[2])
 
     const b = newBezier[2](vec2(70, 155), vec2(20, 110), vec2(100, 75))
-
-    test "Can return Xs and Ys":
-        check(b.xs == [70f, 20, 100])
-        check(b.ys == [155f, 110, 75])
 
     test "Can calculate the derivative":
         const b1 = b.derivative()

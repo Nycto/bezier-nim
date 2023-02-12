@@ -30,6 +30,10 @@ template standardTests(create: untyped) =
         check(b.compute(1.0) == vec2(120.0, 160.0))
         check(b.compute(500.0) == vec2(120.0, 160.0))
 
+    test "Can return Xs and Ys":
+        check(b.xs == [120f])
+        check(b.ys == [160f])
+
 suite "Dynamic Constant bezier":
     standardTests(newDynBezier)
 
@@ -37,10 +41,6 @@ suite "Static Constant bezier":
     standardTests(newBezier[0])
 
     const b = newBezier[0](vec2(120, 160))
-
-    test "Can return Xs and Ys":
-        check(b.xs == [120f])
-        check(b.ys == [160f])
 
     test "Can calculate the derivative":
         check(compiles(b.derivative()) == false)

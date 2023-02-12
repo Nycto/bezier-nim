@@ -34,6 +34,10 @@ template standardTests(create: untyped) =
         check(b.compute(0.5) == vec2(8, 4.375))
         check(b.compute(1.0) == vec2(10, 14))
 
+    test "Can return Xs and Ys":
+        check(b.xs == [0f, 3, 15, 10])
+        check(b.ys == [15f, 0, 2, 14])
+
 suite "Dynamic Cubic bezier":
     standardTests(newDynBezier)
 
@@ -42,10 +46,6 @@ suite "Static Cubic bezier":
 
     const b = newBezier[3](vec2(0, 15), vec2(3, 0), vec2(15, 2), vec2(10, 14))
     const b2 = newBezier[3](vec2(120, 160), vec2(35,  200), vec2(220, 260), vec2(220,  40))
-
-    test "Can return Xs and Ys":
-        check(b.xs == [0f, 3, 15, 10])
-        check(b.ys == [15f, 0, 2, 14])
 
     test "Can calculate the derivative":
         const deriv = b2.derivative()
