@@ -43,6 +43,9 @@ template standardTests(create: untyped) =
     test "Can calculate bounding boxes":
         check(b.boundingBox() == (0f, 0f, 100f, 100f))
 
+    test "Can align a line":
+        check(b.align(vec2(0, 0), vec2(1, 1)) == create(vec2(0, 0), vec2(141.4213562373095, 0.0)))
+
 suite "Dynamic Linear bezier":
     standardTests(newDynBezier)
 
@@ -50,9 +53,6 @@ suite "Static Linear bezier":
     standardTests(newBezier[1])
 
     const b = newBezier[1](vec2(0, 0), vec2(100, 100))
-
-    test "Can align a line":
-        check(b.align(vec2(0, 0), vec2(1, 1)) == newBezier[1](vec2(0, 0), vec2(141.4213562373095, 0.0)))
 
     test "Can produce a tight bounding box":
         check(b.tightBoundingBox() == [vec2(0.0, 0.0), vec2(100.0, 100.0), vec2(100.0, 100.0), vec2(0.0, 0.0)])

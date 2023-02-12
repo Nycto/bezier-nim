@@ -214,7 +214,7 @@ proc boundingBox*(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: floa
         for extrema in curve.extrema():
             curve.compute(extrema).handlePoint(result)
 
-template withAligned[N](curve: Bezier[N], p1, p2: Vec2, exec: untyped) =
+template withAligned(curve: Bezier | DynBezier, p1, p2: Vec2, exec: untyped) =
     ## Execute a callback for code that needs to use a bezier curve aligned to a point with extra details
     let ang = -arctan2(p2.y - p1.y, p2.x - p1.x)
     let cosA {.inject.} = cos(ang)
@@ -223,7 +223,7 @@ template withAligned[N](curve: Bezier[N], p1, p2: Vec2, exec: untyped) =
         vec2((it.x - p1.x) * cosA - (it.y - p1.y) * sinA, (it.x - p1.x) * sinA + (it.y - p1.y) * cosA)
     exec
 
-proc align*[N](curve: Bezier[N], p1, p2: Vec2): Bezier[N] =
+proc align*(curve: Bezier | DynBezier, p1, p2: Vec2): auto =
     ## Rotates this bezier curve so it aligns with the given line
     withAligned(curve, p1, p2): return aligned
 
