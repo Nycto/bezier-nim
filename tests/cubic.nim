@@ -64,6 +64,14 @@ template standardTests(create: untyped) =
             vec2(16.97056198120117f, 2.828427314758301f)
         ))
 
+    test "Can produce a tight bounding box":
+        check(b.tightBoundingBox() == [
+            vec2(-0.9763734936714172, 5.236265182495117),
+            vec2(10.76858520507812, 4.061769485473633),
+            vec2(11.74495887756348, 13.82550430297852),
+            vec2(0.0, 15.0)
+        ])
+
 suite "Dynamic Cubic bezier":
     standardTests(newDynBezier)
 
@@ -72,14 +80,6 @@ suite "Static Cubic bezier":
 
     const b = newBezier[3](vec2(0, 15), vec2(3, 0), vec2(15, 2), vec2(10, 14))
     const b2 = newBezier[3](vec2(120, 160), vec2(35,  200), vec2(220, 260), vec2(220,  40))
-
-    test "Can produce a tight bounding box":
-        check(b.tightBoundingBox() == [
-            vec2(-0.9763734936714172, 5.236265182495117),
-            vec2(10.76858520507812, 4.061769485473633),
-            vec2(11.74495887756348, 13.82550430297852),
-            vec2(0.0, 15.0)
-        ])
 
     test "Can produce y values for x":
         check(b2.findY(115).toSeq == @[

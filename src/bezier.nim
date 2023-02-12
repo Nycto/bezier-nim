@@ -227,12 +227,12 @@ proc align*(curve: Bezier | DynBezier, p1, p2: Vec2): auto =
     ## Rotates this bezier curve so it aligns with the given line
     withAligned(curve, p1, p2): return aligned
 
-proc tightBoundingBox*[N](curve: Bezier[N]): array[4, Vec2] =
+proc tightBoundingBox*(curve: Bezier | DynBezier): array[4, Vec2] =
     ## Returns the corners of a bounding box that is tightly aligned to a curve
-    when N == 0:
+    if curve.order == 0:
         for i in 0..3: result[i] = curve.points[0]
     else:
-        withAligned(curve, curve[0], curve[N]):
+        withAligned(curve, curve.points[0], curve.points[curve.order]):
 
             template corner(x, y: float): Vec2 =
                  vec2(curve.points[0].x + x * cosA - y * -sinA, curve.points[0].y + x * -sinA + y * cosA)

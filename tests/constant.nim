@@ -40,6 +40,14 @@ template standardTests(create: untyped) =
     test "Can align a line":
         check(b.align(vec2(0, 0), vec2(1, 1)) == create(vec2(197.9898986816406, 28.28427124023438)))
 
+    test "Can create a tight bounding box":
+        check(b.tightBoundingBox() == [
+            vec2(120.0, 160.0),
+            vec2(120.0, 160.0),
+            vec2(120.0, 160.0),
+            vec2(120.0, 160.0),
+        ])
+
 suite "Dynamic Constant bezier":
     standardTests(newDynBezier)
 
@@ -61,14 +69,6 @@ suite "Static Constant bezier":
 
     test "Cant calculate extremas":
         check(compiles(b.extrema()) == false)
-
-    test "Can create a tight bounding box":
-        check(b.tightBoundingBox() == [
-            vec2(120.0, 160.0),
-            vec2(120.0, 160.0),
-            vec2(120.0, 160.0),
-            vec2(120.0, 160.0),
-        ])
 
     test "Can produce y values for x":
         check(b.findY(120).toSeq == @[vec2(120, 160)])

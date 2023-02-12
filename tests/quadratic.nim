@@ -53,14 +53,6 @@ template standardTests(create: untyped) =
             vec2(123.7436828613281, -17.67766952514648)
         ))
 
-suite "Dynamic Quadratic bezier":
-    standardTests(newDynBezier)
-
-suite "Static Quadratic bezier":
-    standardTests(newBezier[2])
-
-    const b = newBezier[2](vec2(70, 155), vec2(20, 110), vec2(100, 75))
-
     test "Can produce a tight bounding box":
         check(b.tightBoundingBox() == [
             vec2(40.68492889404297, 144.0068511962891),
@@ -68,6 +60,14 @@ suite "Static Quadratic bezier":
             vec2(100.0, 75.0),
             vec2(70.0, 155.0)
         ])
+
+suite "Dynamic Quadratic bezier":
+    standardTests(newDynBezier)
+
+suite "Static Quadratic bezier":
+    standardTests(newBezier[2])
+
+    const b = newBezier[2](vec2(70, 155), vec2(20, 110), vec2(100, 75))
 
     test "Can produce y values for x":
         check(b.findY(80).toSeq == @[vec2(79.99999237060547f, 85.08329772949219f)])
