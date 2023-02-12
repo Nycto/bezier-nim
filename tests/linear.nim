@@ -37,6 +37,9 @@ template standardTests(create: untyped) =
         let b0 = b.derivative()
         check(b0[0] == vec2(100.0, 100.0))
 
+    test "Can calculate extremas":
+        check(b.extrema().toSeq.len == 0)
+
 suite "Dynamic Linear bezier":
     standardTests(newDynBezier)
 
@@ -44,9 +47,6 @@ suite "Static Linear bezier":
     standardTests(newBezier[1])
 
     const b = newBezier[1](vec2(0, 0), vec2(100, 100))
-
-    test "Can calculate extremas":
-        check(b.extrema().toSeq.len == 0)
 
     test "Can calculate bounding boxes":
         check(b.boundingBox() == (0f, 0f, 100f, 100f))

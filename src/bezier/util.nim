@@ -102,6 +102,18 @@ iterator roots*[N: static[int]](entries: array[N, float32]): float32 =
         if root >= 0 and root <= 1:
             yield root
 
+template yieldAll(iter: untyped) =
+    for value in iter: yield value
+
+proc toArray[T](input: seq[T], N: static int): array[N, T] =
+    for i in 0..<N: result[i] = input[i]
+
+iterator roots*(entries: seq[float32]): float32 =
+    ## Calculate the roots of the given points
+    assert(entries.len <= 3, "Can't yet calculate roots > 3")
+    if entries.len == 2: yieldAll(roots(entries.toArray(2)))
+    elif entries.len == 3: yieldAll(roots(entries.toArray(3)))
+
 proc isOnLine*(point, p1, p2: Vec2): bool =
     # Returns whether `point` is on a line between `p1` and `p2`
     dist(p1, point) + dist(point, p2) == dist(p1, p2)

@@ -41,6 +41,10 @@ suite "Dynamic Constant bezier":
         expect(AssertionDefect):
             discard newDynBezier(vec2(120, 160)).derivative()
 
+    test "Cant calculate extremas":
+        expect(AssertionDefect):
+            discard newDynBezier(vec2(120, 160)).extrema().toSeq
+
 suite "Static Constant bezier":
     standardTests(newBezier[0])
 
@@ -49,7 +53,7 @@ suite "Static Constant bezier":
     test "Cant calculate the derivative":
         check(compiles(b.derivative()) == false)
 
-    test "Can calculate extremas":
+    test "Cant calculate extremas":
         check(compiles(b.extrema()) == false)
 
     test "Can calculate bounding boxes":

@@ -44,15 +44,6 @@ template standardTests(create: untyped) =
         check(deriv[1] == vec2(555.0, 180.0))
         check(deriv[2] == vec2(0.0, -660.0))
 
-suite "Dynamic Cubic bezier":
-    standardTests(newDynBezier)
-
-suite "Static Cubic bezier":
-    standardTests(newBezier[3])
-
-    const b = newBezier[3](vec2(0, 15), vec2(3, 0), vec2(15, 2), vec2(10, 14))
-    const b2 = newBezier[3](vec2(120, 160), vec2(35,  200), vec2(220, 260), vec2(220,  40))
-
     test "Can calculate extremas":
         check(b2.extrema().toSeq == @[
             0.06666666666666667f,
@@ -61,6 +52,15 @@ suite "Static Cubic bezier":
             0.5934065934065934f,
             1f
         ])
+
+suite "Dynamic Cubic bezier":
+    standardTests(newDynBezier)
+
+suite "Static Cubic bezier":
+    standardTests(newBezier[3])
+
+    const b = newBezier[3](vec2(0, 15), vec2(3, 0), vec2(15, 2), vec2(10, 14))
+    const b2 = newBezier[3](vec2(120, 160), vec2(35,  200), vec2(220, 260), vec2(220,  40))
 
     test "Can calculate bounding boxes":
         check(b2.boundingBox() == (97.66453326892888f, 40f, 220f, 198.86234582181876f))

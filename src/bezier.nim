@@ -171,24 +171,32 @@ proc derivative*(curve: DynBezier): DynBezier =
     output.points.setLen(curve.points.len - 1)
     derivativeTpl(curve)
 
-iterator extrema*[N](curve: Bezier[N]): float32 =
-    ## Calculates all the extrema on a curve, extressed as a `t`. You can feed these values into
-    ## the `compute` method to get their coordinates
+proc addExtrema(curve: Bezier | DynBezier, output: var seq[float32]) =
+    for t in roots(curve.xs): output.add(t)
+    for t in roots(curve.ys): output.add(t)
 
+template extremaTpl(curve: typed) =
     let deriv = curve.derivative()
 
     var output = newSeq[float32]()
-    for t in roots(deriv.xs): output.add(t)
-    for t in roots(deriv.ys): output.add(t)
+    addExtrema(deriv, output)
 
-    when N == 3:
-        for t in deriv.extrema():
-            output.add(t)
+    if curve.order == 3:
+        addExtrema(deriv.derivative(), output)
 
     sort output
 
     for t in output.deduplicate(isSorted = true):
         yield abs(t)
+
+iterator extrema*[N](curve: Bezier[N]): float32 =
+    ## Calculates all the extrema on a curve, extressed as a `t`. You can feed these values into
+    ## the `compute` method to get their coordinates
+    when N > 1: extremaTpl(curve)
+
+iterator extrema*(curve: DynBezier): float32 = extremaTpl(curve)
+    ## Calculates all the extrema on a curve, extressed as a `t`. You can feed these values into
+    ## the `compute` method to get their coordinates
 
 proc boundingBox*[N](curve: Bezier[N]): tuple[minX, minY, maxX, maxY: float32] =
     ## Returns the bounding box for a curve
