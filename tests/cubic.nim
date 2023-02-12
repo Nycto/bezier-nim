@@ -53,6 +53,9 @@ template standardTests(create: untyped) =
             1f
         ])
 
+    test "Can calculate bounding boxes":
+        check(b2.boundingBox() == (97.66453326892888f, 40f, 220f, 198.86234582181876f))
+
 suite "Dynamic Cubic bezier":
     standardTests(newDynBezier)
 
@@ -61,9 +64,6 @@ suite "Static Cubic bezier":
 
     const b = newBezier[3](vec2(0, 15), vec2(3, 0), vec2(15, 2), vec2(10, 14))
     const b2 = newBezier[3](vec2(120, 160), vec2(35,  200), vec2(220, 260), vec2(220,  40))
-
-    test "Can calculate bounding boxes":
-        check(b2.boundingBox() == (97.66453326892888f, 40f, 220f, 198.86234582181876f))
 
     test "Can align a line":
         check(b.align(vec2(0, 0), vec2(1, 1)) == newBezier[3](

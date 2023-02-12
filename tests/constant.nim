@@ -34,6 +34,9 @@ template standardTests(create: untyped) =
         check(b.xs == [120f])
         check(b.ys == [160f])
 
+    test "Can calculate bounding boxes":
+        check(b.boundingBox() == (120f, 160f, 120f, 160f))
+
 suite "Dynamic Constant bezier":
     standardTests(newDynBezier)
 
@@ -55,9 +58,6 @@ suite "Static Constant bezier":
 
     test "Cant calculate extremas":
         check(compiles(b.extrema()) == false)
-
-    test "Can calculate bounding boxes":
-        check(b.boundingBox() == (120f, 160f, 120f, 160f))
 
     test "Can align a line":
         check(b.align(vec2(0, 0), vec2(1, 1)) == newBezier[0](vec2(197.9898986816406, 28.28427124023438)))

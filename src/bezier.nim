@@ -198,19 +198,19 @@ iterator extrema*(curve: DynBezier): float32 = extremaTpl(curve)
     ## Calculates all the extrema on a curve, extressed as a `t`. You can feed these values into
     ## the `compute` method to get their coordinates
 
-proc boundingBox*[N](curve: Bezier[N]): tuple[minX, minY, maxX, maxY: float32] =
+proc boundingBox*(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: float32] =
     ## Returns the bounding box for a curve
 
     result = (curve.points[0].x, curve.points[0].y, curve.points[0].x, curve.points[0].y)
 
-    when N > 0:
+    if curve.order > 0:
         proc handlePoint(point: Vec2, output: var tuple[minX, minY, maxX, maxY: float32]) =
             output.minX = min(point.x, output.minX)
             output.minY = min(point.y, output.minY)
             output.maxX = max(point.x, output.maxX)
             output.maxY = max(point.y, output.maxY)
 
-        handlePoint(curve.points[N], result)
+        handlePoint(curve.points[curve.order], result)
         for extrema in curve.extrema():
             curve.compute(extrema).handlePoint(result)
 

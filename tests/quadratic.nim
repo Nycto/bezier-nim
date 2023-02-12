@@ -43,6 +43,9 @@ template standardTests(create: untyped) =
     test "Can calculate extremas":
         check(b.extrema().toSeq == @[ 0.38461538461538464f ])
 
+    test "Can calculate bounding boxes":
+        check(b.boundingBox() == (50.76922988891602f, 75f, 100f, 155f))
+
 suite "Dynamic Quadratic bezier":
     standardTests(newDynBezier)
 
@@ -50,9 +53,6 @@ suite "Static Quadratic bezier":
     standardTests(newBezier[2])
 
     const b = newBezier[2](vec2(70, 155), vec2(20, 110), vec2(100, 75))
-
-    test "Can calculate bounding boxes":
-        check(b.boundingBox() == (50.76922988891602f, 75f, 100f, 155f))
 
     test "Can align a line":
         check(b.align(vec2(0, 0), vec2(1, 1)) == newBezier[2](
