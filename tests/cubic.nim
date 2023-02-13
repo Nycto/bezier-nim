@@ -72,6 +72,12 @@ template standardTests(create: untyped) =
             vec2(0.0, 15.0)
         ])
 
+    test "Can produce y values for x":
+        check(b2.findY(115).toSeq == @[
+            vec2(115.0000076293945f, 162.5425720214844f),
+            vec2(115.0000152587891f, 197.7810821533203f)
+        ])
+
 suite "Dynamic Cubic bezier":
     standardTests(newDynBezier)
 
@@ -80,12 +86,6 @@ suite "Static Cubic bezier":
 
     const b = newBezier[3](vec2(0, 15), vec2(3, 0), vec2(15, 2), vec2(10, 14))
     const b2 = newBezier[3](vec2(120, 160), vec2(35,  200), vec2(220, 260), vec2(220,  40))
-
-    test "Can produce y values for x":
-        check(b2.findY(115).toSeq == @[
-            vec2(115.0000076293945f, 162.5425720214844f),
-            vec2(115.0000152587891f, 197.7810821533203f)
-        ])
 
     test "Can produce segments":
         check(b.segments(4).toSeq == @[

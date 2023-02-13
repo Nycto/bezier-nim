@@ -110,9 +110,10 @@ proc toArray[T](input: seq[T], N: static int): array[N, T] =
 
 iterator roots*(entries: seq[float32]): float32 =
     ## Calculate the roots of the given points
-    assert(entries.len <= 3, "Can't yet calculate roots > 3")
+    assert(entries.len <= 4, "Can't yet calculate roots for N = " & $entries.len)
     if entries.len == 2: yieldAll(roots(entries.toArray(2)))
     elif entries.len == 3: yieldAll(roots(entries.toArray(3)))
+    elif entries.len == 4: yieldAll(roots(entries.toArray(4)))
 
 proc isOnLine*(point, p1, p2: Vec2): bool =
     # Returns whether `point` is on a line between `p1` and `p2`

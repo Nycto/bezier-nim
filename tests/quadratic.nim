@@ -61,6 +61,9 @@ template standardTests(create: untyped) =
             vec2(70.0, 155.0)
         ])
 
+    test "Can produce y values for x":
+        check(b.findY(80).toSeq == @[vec2(79.99999237060547f, 85.08329772949219f)])
+
 suite "Dynamic Quadratic bezier":
     standardTests(newDynBezier)
 
@@ -68,9 +71,6 @@ suite "Static Quadratic bezier":
     standardTests(newBezier[2])
 
     const b = newBezier[2](vec2(70, 155), vec2(20, 110), vec2(100, 75))
-
-    test "Can produce y values for x":
-        check(b.findY(80).toSeq == @[vec2(79.99999237060547f, 85.08329772949219f)])
 
     test "Can produce segments":
         check(b.segments(4).toSeq == @[

@@ -243,14 +243,15 @@ proc tightBoundingBox*(curve: Bezier | DynBezier): array[4, Vec2] =
             result[2] = corner(maxX, maxY)
             result[3] = corner(minX, maxY)
 
-iterator findY*[N](curve: Bezier[N], x: float): Vec2 =
+iterator findY*(curve: Bezier | DynBezier, x: float): Vec2 =
     ## Produces the Y values for a given X
-    when N == 0:
-        if x == curve[0].x:
-            yield curve[0]
+    if curve.order == 0:
+        if x == curve.points[0].x:
+            yield curve.points[0]
     else:
         var xVals = curve.xs()
-        for i in 0..N: xVals[i] -= x
+        for i in 0..curve.order:
+            xVals[i] -= x
         for root in roots(xVals):
             yield curve.compute(root)
 
