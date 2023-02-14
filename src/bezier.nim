@@ -172,8 +172,8 @@ proc derivative*(curve: DynBezier): DynBezier =
     derivativeTpl(curve)
 
 proc addExtrema(curve: Bezier | DynBezier, output: var seq[float32]) =
-    for t in roots(curve.xs): output.add(t)
-    for t in roots(curve.ys): output.add(t)
+    for t in roots(curve.xs): output.add(abs(t))
+    for t in roots(curve.ys): output.add(abs(t))
 
 template extremaTpl(curve: typed) =
     let deriv = curve.derivative()
@@ -184,10 +184,8 @@ template extremaTpl(curve: typed) =
     if curve.order == 3:
         addExtrema(deriv.derivative(), output)
 
-    sort output
-
-    for t in output.deduplicate(isSorted = true):
-        yield abs(t)
+    sort(output)
+    yieldAll(forDistinct(output))
 
 iterator extrema*[N](curve: Bezier[N]): float32 =
     ## Calculates all the extrema on a curve, extressed as a `t`. You can feed these values into

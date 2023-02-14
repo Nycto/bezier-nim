@@ -102,7 +102,7 @@ iterator roots*[N: static[int]](entries: array[N, float32]): float32 =
         if root >= 0 and root <= 1:
             yield root
 
-template yieldAll(iter: untyped) =
+template yieldAll*(iter: untyped) =
     for value in iter: yield value
 
 proc toArray[T](input: seq[T], N: static int): array[N, T] =
@@ -126,3 +126,12 @@ proc linesIntersect*(p1, p2, p3, p4: Vec2): Option[Vec2] =
         let nx = (p1.x * p2.y - p1.y * p2.x) * (p3.x - p4.x) - (p1.x - p2.x) * (p3.x * p4.y - p3.y * p4.x)
         let ny = (p1.x * p2.y - p1.y * p2.x) * (p3.y - p4.y) - (p1.y - p2.y) * (p3.x * p4.y - p3.y * p4.x)
         return some(vec2(nx / d, ny / d))
+
+iterator forDistinct*[T](input: seq[T]): T =
+    ## Loops over the unique values in an input, assuming it has been pre-sorted
+    var prev: Option[float32]
+    for value in input:
+        assert(isNone(prev) or isSome(prev) and unsafeGet(prev) <= value, "Input must be sorted")
+        if isNone(prev) or isSome(prev) and unsafeGet(prev) != value:
+            yield value
+        prev = some(value)
