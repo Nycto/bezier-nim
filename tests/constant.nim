@@ -75,14 +75,12 @@ template standardTests(create: untyped) =
         fails:
             discard b.normal(1.0)
 
+    test "Can produce line intersections":
+        check(b.intersects(vec2(110, 150), vec2(130, 170)).toSeq == @[vec2(120, 160)])
+        check(b.intersects(vec2(210, 250), vec2(230, 270)).toSeq.len == 0)
+
 suite "Dynamic Constant bezier":
     standardTests(newDynBezier)
 
 suite "Static Constant bezier":
     standardTests(newBezier[0])
-
-    const b = newBezier[0](vec2(120, 160))
-
-    test "Can produce line intersections":
-        check(b.intersects(vec2(110, 150), vec2(130, 170)).toSeq == @[vec2(120, 160)])
-        check(b.intersects(vec2(210, 250), vec2(230, 270)).toSeq.len == 0)

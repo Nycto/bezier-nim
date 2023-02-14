@@ -275,13 +275,14 @@ proc normal*(curve: Bezier | DynBezier, t: float): Vec2 =
     let q = sqrt(d.x * d.x + d.y * d.y)
     return vec2(-d.y / q, d.x / q)
 
-iterator intersects*[N](curve: Bezier[N], p1, p2: Vec2): Vec2 =
+iterator intersects*(curve: Bezier | DynBezier, p1, p2: Vec2): Vec2 =
     ## Yields the points where a curve intersects a line
-    when N == 0:
+    case curve.order
+    of 0:
         if curve.points[0].isOnLine(p1, p2):
             yield curve.points[0]
-    elif N == 1:
-        let intersect = linesIntersect(curve.points[0], curve.points[1], p1, p2)
+    of 1:
+        let intersect = linesIntersect(curve.points[0], curve.points[curve.order], p1, p2)
         if intersect.isSome:
             yield intersect.get
     else:

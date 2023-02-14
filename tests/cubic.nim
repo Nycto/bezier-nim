@@ -92,18 +92,15 @@ template standardTests(create: untyped) =
     test "Can produce normals":
         check(b.normal(0.2) == vec2(0.8362740278244019, 0.5483117699623108))
 
-suite "Dynamic Cubic bezier":
-    standardTests(newDynBezier)
-
-suite "Static Cubic bezier":
-    standardTests(newBezier[3])
-
-    const b = newBezier[3](vec2(0, 15), vec2(3, 0), vec2(15, 2), vec2(10, 14))
-    const b2 = newBezier[3](vec2(120, 160), vec2(35,  200), vec2(220, 260), vec2(220,  40))
-
     test "Can produce line intersections":
         check(b.intersects(vec2(0, 6), vec2(30, 6)).toSeq == @[
             vec2(4.319429874420166, 6.000003337860107),
             vec2(10.56313800811768, 6.000006198883057)
         ])
         check(b.intersects(vec2(0, 106), vec2(30, 106)).toSeq.len == 0)
+
+suite "Dynamic Cubic bezier":
+    standardTests(newDynBezier)
+
+suite "Static Cubic bezier":
+    standardTests(newBezier[3])

@@ -66,13 +66,11 @@ template standardTests(create: untyped) =
     test "Can produce normals":
         check(b.normal(0.2) == vec2(-0.7071067690849304, 0.7071067690849304))
 
+    test "Can produce line intersections":
+        check(b.intersects(vec2(0, 100), vec2(100, 0)).toSeq == @[vec2(50, 50)])
+
 suite "Dynamic Linear bezier":
     standardTests(newDynBezier)
 
 suite "Static Linear bezier":
     standardTests(newBezier[1])
-
-    const b = newBezier[1](vec2(0, 0), vec2(100, 100))
-
-    test "Can produce line intersections":
-        check(b.intersects(vec2(0, 100), vec2(100, 0)).toSeq == @[vec2(50, 50)])
