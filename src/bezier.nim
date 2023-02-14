@@ -126,7 +126,7 @@ proc compute*[N](curve: Bezier[N], t: float): Vec2 =
     elif N == 1: return computeForLinear(curve, t)
     elif N == 2: return computeForQuad(curve, t)
     elif N == 3: return computeForCubic(curve, t)
-    else: {. error("High order beziers are currently unsupported") .}
+    else: return deCasteljau(curve.points, t)
 
 proc compute*(curve: DynBezier, t: float): Vec2 =
     ## Computes the position of a point along the curve
@@ -135,7 +135,7 @@ proc compute*(curve: DynBezier, t: float): Vec2 =
     of 1: return computeForLinear(curve, t)
     of 2: return computeForQuad(curve, t)
     of 3: return computeForCubic(curve, t)
-    else: assert(false, "High order beziers are currently unsupported")
+    else: return deCasteljau(curve.points, t)
 
 template xyTpl(curve: typed, prop: untyped) =
     when compiles(result.setLen(0)): result.setLen(curve.points.len)

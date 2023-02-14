@@ -1,4 +1,4 @@
-import std/math, vmath, options
+import std/math, vmath, options, sequtils
 
 iterator cubicRoots(pa, pb, pc, pd: float32): float32 =
     # Cardano's algorithm for calculating roots
@@ -135,3 +135,12 @@ iterator forDistinct*[T](input: seq[T]): T =
         if isNone(prev) or isSome(prev) and unsafeGet(prev) != value:
             yield value
         prev = some(value)
+
+proc deCasteljau*(points: openarray[Vec2], t: float): Vec2 =
+    ## Uses de Casteljau's algorithm to determine the location of 't' on a curve
+    var dCpts = points.mapIt(it)
+    while dCpts.len > 1:
+        for i in 0..<(dCpts.len - 1):
+            dCpts[i] = dCpts[i] + (dCpts[i + 1] - dCpts[i]) * t
+        dCpts.setLen(dCpts.len - 1)
+    return dCpts[0]

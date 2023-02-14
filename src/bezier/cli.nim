@@ -42,7 +42,7 @@ for kind, key, val in cliParser.getopt():
         else: assert(false, "Unsupported option: " & key)
     of cmdEnd: assert(false) # cannot happen
 
-assert(nums.len in [ 2, 4, 6, 8 ])
+assert(nums.len mod 2 == 0)
 
 proc rawLine(x1, y1, x2, y2: float, color: string): string =
     return &"""<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{color}" />{"\n"}"""
@@ -65,7 +65,7 @@ proc rect(p1, p2: Vec2, color: string): string =
     result.add(line(vec2(p2.x, p2.y), vec2(p2.x, p1.y), color))
     result.add(line(vec2(p2.x, p1.y), vec2(p1.x, p1.y), color))
 
-proc createSvgBody[N](curve: Bezier[N]): string =
+proc createSvgBody(curve: Bezier | DynBezier): string =
     var svg = ""
 
     for (a, b) in curve.segments(100):
@@ -113,9 +113,9 @@ proc createSvgBody[N](curve: Bezier[N]): string =
 
     return svg
 
-proc draw[N](curve: Bezier[N]) =
+proc draw(curve: Bezier | DynBezier) =
     let body = if aligned:
-        createSvgBody(curve.align(curve[0], curve[N]))
+        createSvgBody(curve.align(curve[0], curve[curve.order]))
     else:
         createSvgBody(curve)
     filename.writeFile([
@@ -148,4 +148,4 @@ of 1: draw(newBezier[0](points))
 of 2: draw(newBezier[1](points))
 of 3: draw(newBezier[2](points))
 of 4: draw(newBezier[3](points))
-else: assert(false)
+else: draw(newDynBezier(points))

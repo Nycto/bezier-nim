@@ -1,9 +1,4 @@
-import unittest, bezier, vmath, sequtils, sets
-
-template fails(exec: untyped) =
-    when compiles(exec):
-        expect(AssertionDefect):
-            exec
+import unittest, bezier, vmath, sequtils, sets, tools
 
 template standardTests(create: untyped) =
     const b = create(vec2(120, 160))
