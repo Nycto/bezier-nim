@@ -52,14 +52,6 @@ template standardTests(create: untyped) =
     test "Can produce y values for x":
         check(b.findY(80).toSeq == @[vec2(80f, 80f)])
 
-suite "Dynamic Linear bezier":
-    standardTests(newDynBezier)
-
-suite "Static Linear bezier":
-    standardTests(newBezier[1])
-
-    const b = newBezier[1](vec2(0, 0), vec2(100, 100))
-
     test "Can produce segments":
         check(b.segments(4).toSeq == @[
             (vec2(0.0, 0.0), vec2(25.0, 25.0)),
@@ -67,6 +59,14 @@ suite "Static Linear bezier":
             (vec2(50.0, 50.0), vec2(75.0, 75.0)),
             (vec2(75.0, 75.0), vec2(100.0, 100.0))
         ])
+
+suite "Dynamic Linear bezier":
+    standardTests(newDynBezier)
+
+suite "Static Linear bezier":
+    standardTests(newBezier[1])
+
+    const b = newBezier[1](vec2(0, 0), vec2(100, 100))
 
     test "Can produce tangents":
         check(b.tangent(0.2) == vec2(100.0, 100.0))

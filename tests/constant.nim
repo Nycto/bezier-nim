@@ -51,6 +51,9 @@ template standardTests(create: untyped) =
     test "Can produce y values for x":
         check(b.findY(120).toSeq == @[vec2(120, 160)])
 
+    test "Can produce segments":
+        check(b.segments(4).toSeq.len == 0)
+
 suite "Dynamic Constant bezier":
     standardTests(newDynBezier)
 
@@ -72,9 +75,6 @@ suite "Static Constant bezier":
 
     test "Cant calculate extremas":
         check(compiles(b.extrema()) == false)
-
-    test "Can produce segments":
-        check(b.segments(4).toSeq.len == 0)
 
     test "Can produce tangents":
         check(compiles(b.tangent(1.0)) == false)

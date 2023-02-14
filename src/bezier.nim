@@ -255,9 +255,9 @@ iterator findY*(curve: Bezier | DynBezier, x: float): Vec2 =
         for root in roots(xVals):
             yield curve.compute(root)
 
-iterator segments*[N](curve: Bezier[N], steps: Positive): (Vec2, Vec2) =
+iterator segments*(curve: Bezier | DynBezier, steps: Positive): (Vec2, Vec2) =
     ## Breaks the curve into straight lines. Also known as flattening the curve
-    when N > 0:
+    if curve.order > 0:
         let step = 1 / steps
         var previous = curve.compute(0)
         for i in 1..steps:

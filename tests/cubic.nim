@@ -78,6 +78,14 @@ template standardTests(create: untyped) =
             vec2(115.0000152587891f, 197.7810821533203f)
         ])
 
+    test "Can produce segments":
+        check(b.segments(4).toSeq == @[
+            (vec2(0.0, 15.0), vec2(3.53125, 6.828125)),
+            (vec2(3.53125, 6.828125), vec2(8.0, 4.375)),
+            (vec2(8.0, 4.375), vec2(10.96875, 6.984375)),
+            (vec2(10.96875, 6.984375), vec2(10.0, 14.0))
+        ])
+
 suite "Dynamic Cubic bezier":
     standardTests(newDynBezier)
 
@@ -86,14 +94,6 @@ suite "Static Cubic bezier":
 
     const b = newBezier[3](vec2(0, 15), vec2(3, 0), vec2(15, 2), vec2(10, 14))
     const b2 = newBezier[3](vec2(120, 160), vec2(35,  200), vec2(220, 260), vec2(220,  40))
-
-    test "Can produce segments":
-        check(b.segments(4).toSeq == @[
-            (vec2(0.0, 15.0), vec2(3.53125, 6.828125)),
-            (vec2(3.53125, 6.828125), vec2(8.0, 4.375)),
-            (vec2(8.0, 4.375), vec2(10.96875, 6.984375)),
-            (vec2(10.96875, 6.984375), vec2(10.0, 14.0))
-        ])
 
     test "Can produce tangents":
         check(b.tangent(0.2) == vec2(16.68000030517578, -25.44000053405762))
