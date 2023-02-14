@@ -1,20 +1,33 @@
 Bezier	bezier.html#Bezier	bezier: Bezier	
+DynBezier	bezier.html#DynBezier	bezier: DynBezier	
 newBezier	bezier.html#newBezier,varargs[Vec2]	bezier: newBezier[N](points: varargs[Vec2]): Bezier[N]	
-`$`	bezier.html#$,Bezier[N]	bezier: `$`[N](curve: Bezier[N]): string	
+newDynBezier	bezier.html#newDynBezier,varargs[Vec2]	bezier: newDynBezier(points: varargs[Vec2]): DynBezier	
+order	bezier.html#order,DynBezier	bezier: order(curve: DynBezier): Natural	
+order	bezier.html#order,Bezier[N]	bezier: order[N](curve: Bezier[N]): Natural	
+`$`	bezier.html#$	bezier: `$`(curve: Bezier | DynBezier): string	
 `[]`	bezier.html#[],Bezier[N],range[]	bezier: `[]`[N](curve: Bezier[N]; point: range[0 .. N]): Vec2	
-pairs	bezier.html#pairs.i,Bezier[N]	bezier: pairs[N](curve: Bezier[N]): (int, Vec2)	
-items	bezier.html#items.i,Bezier[N]	bezier: items[N](curve: Bezier[N]): lent Vec2	
+`[]`	bezier.html#[],DynBezier,Natural	bezier: `[]`(curve: DynBezier; point: Natural): Vec2	
+pairs	bezier.html#pairs.i	bezier: pairs(curve: DynBezier | Bezier): (int, Vec2)	
+items	bezier.html#items.i	bezier: items(curve: DynBezier | Bezier): lent Vec2	
 mapIt	bezier.html#mapIt.t,Bezier[N],untyped	bezier: mapIt[N](curve: Bezier[N]; mapper: untyped): Bezier[N]	
+mapIt	bezier.html#mapIt.t,DynBezier,untyped	bezier: mapIt(curve: DynBezier; mapper: untyped): DynBezier	
 compute	bezier.html#compute,Bezier[N],float	bezier: compute[N](curve: Bezier[N]; t: float): Vec2	
-derivative	bezier.html#derivative,Bezier[N]	bezier: derivative[N](curve: Bezier[N]): auto	
+compute	bezier.html#compute,DynBezier,float	bezier: compute(curve: DynBezier; t: float): Vec2	
 xs	bezier.html#xs,Bezier[N]	bezier: xs[N](curve: Bezier[N]): array[N + 1, float32]	
+xs	bezier.html#xs,DynBezier	bezier: xs(curve: DynBezier): seq[float32]	
 ys	bezier.html#ys,Bezier[N]	bezier: ys[N](curve: Bezier[N]): array[N + 1, float32]	
+ys	bezier.html#ys,DynBezier	bezier: ys(curve: DynBezier): seq[float32]	
+derivative	bezier.html#derivative,Bezier[N]	bezier: derivative[N](curve: Bezier[N]): auto	
+derivative	bezier.html#derivative,DynBezier	bezier: derivative(curve: DynBezier): DynBezier	
 extrema	bezier.html#extrema.i,Bezier[N]	bezier: extrema[N](curve: Bezier[N]): float32	
-boundingBox	bezier.html#boundingBox,Bezier[N]	bezier: boundingBox[N](curve: Bezier[N]): tuple[minX, minY, maxX, maxY: float32]	
-align	bezier.html#align,Bezier[N],Vec2,Vec2	bezier: align[N](curve: Bezier[N]; p1, p2: Vec2): Bezier[N]	
-tightBoundingBox	bezier.html#tightBoundingBox,Bezier[N]	bezier: tightBoundingBox[N](curve: Bezier[N]): array[4, Vec2]	
-findY	bezier.html#findY.i,Bezier[N],float	bezier: findY[N](curve: Bezier[N]; x: float): Vec2	
-segments	bezier.html#segments.i,Bezier[N],Positive	bezier: segments[N](curve: Bezier[N]; steps: Positive): (Vec2, Vec2)	
-tangent	bezier.html#tangent,Bezier[N],float	bezier: tangent[N](curve: Bezier[N]; t: float): Vec2	
-normal	bezier.html#normal,Bezier[N],float	bezier: normal[N](curve: Bezier[N]; t: float): Vec2	
-intersects	bezier.html#intersects.i,Bezier[N],Vec2,Vec2	bezier: intersects[N](curve: Bezier[N]; p1, p2: Vec2): Vec2	
+extrema	bezier.html#extrema.i,DynBezier	bezier: extrema(curve: DynBezier): float32	
+boundingBox	bezier.html#boundingBox	bezier: boundingBox(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: float32]	
+align	bezier.html#align,,Vec2,Vec2	bezier: align(curve: Bezier | DynBezier; p1, p2: Vec2): auto	
+tightBoundingBox	bezier.html#tightBoundingBox	bezier: tightBoundingBox(curve: Bezier | DynBezier): array[4, Vec2]	
+findY	bezier.html#findY.i,,float	bezier: findY(curve: Bezier | DynBezier; x: float): Vec2	
+segments	bezier.html#segments.i,,Positive	bezier: segments(curve: Bezier | DynBezier; steps: Positive): (Vec2, Vec2)	
+tangent	bezier.html#tangent,,float	bezier: tangent(curve: Bezier | DynBezier; t: float): Vec2	
+normal	bezier.html#normal,,float	bezier: normal(curve: Bezier | DynBezier; t: float): Vec2	
+intersects	bezier.html#intersects.i,,Vec2,Vec2	bezier: intersects(curve: Bezier | DynBezier; p1, p2: Vec2): Vec2	
+length	bezier.html#length	bezier: length(curve: Bezier | DynBezier): float	
+approxLen	bezier.html#approxLen,,Positive	bezier: approxLen(curve: Bezier | DynBezier; steps: Positive): float	

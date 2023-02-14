@@ -110,6 +110,9 @@ window.addEventListener('DOMContentLoaded', main);
       <li><a class="reference" href="#Bezier"
     title="Bezier[N] = object
   points: array[N + 1, Vec2]">Bezier</a></li>
+  <li><a class="reference" href="#DynBezier"
+    title="DynBezier = object
+  points: seq[Vec2]">DynBezier</a></li>
 
   </ul>
 </li>
@@ -117,33 +120,49 @@ window.addEventListener('DOMContentLoaded', main);
   <a class="reference reference-toplevel" href="#12" id="62">Procs</a>
   <ul class="simple simple-toc-section">
       <ul class="simple nested-toc-section">$
-      <li><a class="reference" href="#%24%2CBezier%5BN%5D"
-    title="`$`[N](curve: Bezier[N]): string">`$`[N](curve: Bezier[N]): string</a></li>
+      <li><a class="reference" href="#%24"
+    title="`$`(curve: Bezier | DynBezier): string">`$`(curve: Bezier | DynBezier): string</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">[]
-      <li><a class="reference" href="#%5B%5D%2CBezier%5BN%5D%2Crange%5B%5D"
+      <li><a class="reference" href="#%5B%5D%2CDynBezier%2CNatural"
+    title="`[]`(curve: DynBezier; point: Natural): Vec2">`[]`(curve: DynBezier; point: Natural): Vec2</a></li>
+  <li><a class="reference" href="#%5B%5D%2CBezier%5BN%5D%2Crange%5B%5D"
     title="`[]`[N](curve: Bezier[N]; point: range[0 .. N]): Vec2">`[]`[N](curve: Bezier[N]; point: range[0 .. N]): Vec2</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">align
-      <li><a class="reference" href="#align%2CBezier%5BN%5D%2CVec2%2CVec2"
-    title="align[N](curve: Bezier[N]; p1, p2: Vec2): Bezier[N]">align[N](curve: Bezier[N]; p1, p2: Vec2): Bezier[N]</a></li>
+      <li><a class="reference" href="#align%2C%2CVec2%2CVec2"
+    title="align(curve: Bezier | DynBezier; p1, p2: Vec2): auto">align(curve: Bezier | DynBezier; p1, p2: Vec2): auto</a></li>
+
+  </ul>
+  <ul class="simple nested-toc-section">approxLen
+      <li><a class="reference" href="#approxLen%2C%2CPositive"
+    title="approxLen(curve: Bezier | DynBezier; steps: Positive): float">approxLen(curve: Bezier | DynBezier; steps: Positive): float</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">boundingBox
-      <li><a class="reference" href="#boundingBox%2CBezier%5BN%5D"
-    title="boundingBox[N](curve: Bezier[N]): tuple[minX, minY, maxX, maxY: float32]">boundingBox[N](curve: Bezier[N]): tuple[minX, minY, maxX, maxY: float32]</a></li>
+      <li><a class="reference" href="#boundingBox"
+    title="boundingBox(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: float32]">boundingBox(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: float32]</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">compute
-      <li><a class="reference" href="#compute%2CBezier%5BN%5D%2Cfloat"
+      <li><a class="reference" href="#compute%2CDynBezier%2Cfloat"
+    title="compute(curve: DynBezier; t: float): Vec2">compute(curve: DynBezier; t: float): Vec2</a></li>
+  <li><a class="reference" href="#compute%2CBezier%5BN%5D%2Cfloat"
     title="compute[N](curve: Bezier[N]; t: float): Vec2">compute[N](curve: Bezier[N]; t: float): Vec2</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">derivative
-      <li><a class="reference" href="#derivative%2CBezier%5BN%5D"
+      <li><a class="reference" href="#derivative%2CDynBezier"
+    title="derivative(curve: DynBezier): DynBezier">derivative(curve: DynBezier): DynBezier</a></li>
+  <li><a class="reference" href="#derivative%2CBezier%5BN%5D"
     title="derivative[N](curve: Bezier[N]): auto">derivative[N](curve: Bezier[N]): auto</a></li>
+
+  </ul>
+  <ul class="simple nested-toc-section">length
+      <li><a class="reference" href="#length"
+    title="length(curve: Bezier | DynBezier): float">length(curve: Bezier | DynBezier): float</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">newBezier
@@ -151,28 +170,44 @@ window.addEventListener('DOMContentLoaded', main);
     title="newBezier[N](points: varargs[Vec2]): Bezier[N]">newBezier[N](points: varargs[Vec2]): Bezier[N]</a></li>
 
   </ul>
+  <ul class="simple nested-toc-section">newDynBezier
+      <li><a class="reference" href="#newDynBezier%2Cvarargs%5BVec2%5D"
+    title="newDynBezier(points: varargs[Vec2]): DynBezier">newDynBezier(points: varargs[Vec2]): DynBezier</a></li>
+
+  </ul>
   <ul class="simple nested-toc-section">normal
-      <li><a class="reference" href="#normal%2CBezier%5BN%5D%2Cfloat"
-    title="normal[N](curve: Bezier[N]; t: float): Vec2">normal[N](curve: Bezier[N]; t: float): Vec2</a></li>
+      <li><a class="reference" href="#normal%2C%2Cfloat"
+    title="normal(curve: Bezier | DynBezier; t: float): Vec2">normal(curve: Bezier | DynBezier; t: float): Vec2</a></li>
+
+  </ul>
+  <ul class="simple nested-toc-section">order
+      <li><a class="reference" href="#order%2CDynBezier"
+    title="order(curve: DynBezier): Natural">order(curve: DynBezier): Natural</a></li>
+  <li><a class="reference" href="#order%2CBezier%5BN%5D"
+    title="order[N](curve: Bezier[N]): Natural">order[N](curve: Bezier[N]): Natural</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">tangent
-      <li><a class="reference" href="#tangent%2CBezier%5BN%5D%2Cfloat"
-    title="tangent[N](curve: Bezier[N]; t: float): Vec2">tangent[N](curve: Bezier[N]; t: float): Vec2</a></li>
+      <li><a class="reference" href="#tangent%2C%2Cfloat"
+    title="tangent(curve: Bezier | DynBezier; t: float): Vec2">tangent(curve: Bezier | DynBezier; t: float): Vec2</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">tightBoundingBox
-      <li><a class="reference" href="#tightBoundingBox%2CBezier%5BN%5D"
-    title="tightBoundingBox[N](curve: Bezier[N]): array[4, Vec2]">tightBoundingBox[N](curve: Bezier[N]): array[4, Vec2]</a></li>
+      <li><a class="reference" href="#tightBoundingBox"
+    title="tightBoundingBox(curve: Bezier | DynBezier): array[4, Vec2]">tightBoundingBox(curve: Bezier | DynBezier): array[4, Vec2]</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">xs
-      <li><a class="reference" href="#xs%2CBezier%5BN%5D"
+      <li><a class="reference" href="#xs%2CDynBezier"
+    title="xs(curve: DynBezier): seq[float32]">xs(curve: DynBezier): seq[float32]</a></li>
+  <li><a class="reference" href="#xs%2CBezier%5BN%5D"
     title="xs[N](curve: Bezier[N]): array[N + 1, float32]">xs[N](curve: Bezier[N]): array[N + 1, float32]</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">ys
-      <li><a class="reference" href="#ys%2CBezier%5BN%5D"
+      <li><a class="reference" href="#ys%2CDynBezier"
+    title="ys(curve: DynBezier): seq[float32]">ys(curve: DynBezier): seq[float32]</a></li>
+  <li><a class="reference" href="#ys%2CBezier%5BN%5D"
     title="ys[N](curve: Bezier[N]): array[N + 1, float32]">ys[N](curve: Bezier[N]): array[N + 1, float32]</a></li>
 
   </ul>
@@ -183,33 +218,35 @@ window.addEventListener('DOMContentLoaded', main);
   <a class="reference reference-toplevel" href="#15" id="65">Iterators</a>
   <ul class="simple simple-toc-section">
       <ul class="simple nested-toc-section">extrema
-      <li><a class="reference" href="#extrema.i%2CBezier%5BN%5D"
+      <li><a class="reference" href="#extrema.i%2CDynBezier"
+    title="extrema(curve: DynBezier): float32">extrema(curve: DynBezier): float32</a></li>
+  <li><a class="reference" href="#extrema.i%2CBezier%5BN%5D"
     title="extrema[N](curve: Bezier[N]): float32">extrema[N](curve: Bezier[N]): float32</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">findY
-      <li><a class="reference" href="#findY.i%2CBezier%5BN%5D%2Cfloat"
-    title="findY[N](curve: Bezier[N]; x: float): Vec2">findY[N](curve: Bezier[N]; x: float): Vec2</a></li>
+      <li><a class="reference" href="#findY.i%2C%2Cfloat"
+    title="findY(curve: Bezier | DynBezier; x: float): Vec2">findY(curve: Bezier | DynBezier; x: float): Vec2</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">intersects
-      <li><a class="reference" href="#intersects.i%2CBezier%5BN%5D%2CVec2%2CVec2"
-    title="intersects[N](curve: Bezier[N]; p1, p2: Vec2): Vec2">intersects[N](curve: Bezier[N]; p1, p2: Vec2): Vec2</a></li>
+      <li><a class="reference" href="#intersects.i%2C%2CVec2%2CVec2"
+    title="intersects(curve: Bezier | DynBezier; p1, p2: Vec2): Vec2">intersects(curve: Bezier | DynBezier; p1, p2: Vec2): Vec2</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">items
-      <li><a class="reference" href="#items.i%2CBezier%5BN%5D"
-    title="items[N](curve: Bezier[N]): lent Vec2">items[N](curve: Bezier[N]): lent Vec2</a></li>
+      <li><a class="reference" href="#items.i"
+    title="items(curve: DynBezier | Bezier): lent Vec2">items(curve: DynBezier | Bezier): lent Vec2</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">pairs
-      <li><a class="reference" href="#pairs.i%2CBezier%5BN%5D"
-    title="pairs[N](curve: Bezier[N]): (int, Vec2)">pairs[N](curve: Bezier[N]): (int, Vec2)</a></li>
+      <li><a class="reference" href="#pairs.i"
+    title="pairs(curve: DynBezier | Bezier): (int, Vec2)">pairs(curve: DynBezier | Bezier): (int, Vec2)</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">segments
-      <li><a class="reference" href="#segments.i%2CBezier%5BN%5D%2CPositive"
-    title="segments[N](curve: Bezier[N]; steps: Positive): (Vec2, Vec2)">segments[N](curve: Bezier[N]; steps: Positive): (Vec2, Vec2)</a></li>
+      <li><a class="reference" href="#segments.i%2C%2CPositive"
+    title="segments(curve: Bezier | DynBezier; steps: Positive): (Vec2, Vec2)">segments(curve: Bezier | DynBezier; steps: Positive): (Vec2, Vec2)</a></li>
 
   </ul>
 
@@ -219,7 +256,9 @@ window.addEventListener('DOMContentLoaded', main);
   <a class="reference reference-toplevel" href="#18" id="68">Templates</a>
   <ul class="simple simple-toc-section">
       <ul class="simple nested-toc-section">mapIt
-      <li><a class="reference" href="#mapIt.t%2CBezier%5BN%5D%2Cuntyped"
+      <li><a class="reference" href="#mapIt.t%2CDynBezier%2Cuntyped"
+    title="mapIt(curve: DynBezier; mapper: untyped): DynBezier">mapIt(curve: DynBezier; mapper: untyped): DynBezier</a></li>
+  <li><a class="reference" href="#mapIt.t%2CBezier%5BN%5D%2Cuntyped"
     title="mapIt[N](curve: Bezier[N]; mapper: untyped): Bezier[N]">mapIt[N](curve: Bezier[N]; mapper: untyped): Bezier[N]</a></li>
 
   </ul>
@@ -260,16 +299,34 @@ A bezier curve of order <tt class="docutils literal"><span class="pre"><span cla
 
 </dd>
 </div>
+<div id="DynBezier">
+<dt><pre><a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a> <span class="Other">=</span> <span class="Keyword">object</span>
+  <span class="Identifier">points</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Vec2</span><span class="Other">]</span>
+</pre></dt>
+<dd>
+
+Bezier curve where the order isn't known at compile time
+
+</dd>
+</div>
 
 </dl></div>
 <div class="section" id="12">
 <h1><a class="toc-backref" href="#12">Procs</a></h1>
 <dl class="item">
-<div id="$,Bezier[N]">
-<dt><pre><span class="Keyword">proc</span> <a href="#%24%2CBezier%5BN%5D"><span class="Identifier">`$`</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span></pre></dt>
+<div id="$">
+<dt><pre><span class="Keyword">proc</span> <a href="#%24"><span class="Identifier">`$`</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span></pre></dt>
 <dd>
 
+Create a string representation of a bezier curve
 
+</dd>
+</div>
+<div id="[],DynBezier,Natural">
+<dt><pre><span class="Keyword">proc</span> <a href="#%5B%5D%2CDynBezier%2CNatural"><span class="Identifier">`[]`</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">point</span><span class="Other">:</span> <span class="Identifier">Natural</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<dd>
+
+Returns a control point within this curve
 
 </dd>
 </div>
@@ -281,19 +338,36 @@ Returns a control point within this curve
 
 </dd>
 </div>
-<div id="align,Bezier[N],Vec2,Vec2">
-<dt><pre><span class="Keyword">proc</span> <a href="#align%2CBezier%5BN%5D%2CVec2%2CVec2"><span class="Identifier">align</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">p1</span><span class="Other">,</span> <span class="Identifier">p2</span><span class="Other">:</span> <span class="Identifier">Vec2</span><span class="Other">)</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
+<div id="align,,Vec2,Vec2">
+<dt><pre><span class="Keyword">proc</span> <a href="#align%2C%2CVec2%2CVec2"><span class="Identifier">align</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">p1</span><span class="Other">,</span> <span class="Identifier">p2</span><span class="Other">:</span> <span class="Identifier">Vec2</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">auto</span></pre></dt>
 <dd>
 
 Rotates this bezier curve so it aligns with the given line
 
 </dd>
 </div>
-<div id="boundingBox,Bezier[N]">
-<dt><pre><span class="Keyword">proc</span> <a href="#boundingBox%2CBezier%5BN%5D"><span class="Identifier">boundingBox</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">minX</span><span class="Other">,</span> <span class="Identifier">minY</span><span class="Other">,</span> <span class="Identifier">maxX</span><span class="Other">,</span> <span class="Identifier">maxY</span><span class="Other">:</span> <span class="Identifier">float32</span><span class="Other">]</span></pre></dt>
+<div id="approxLen,,Positive">
+<dt><pre><span class="Keyword">proc</span> <a href="#approxLen%2C%2CPositive"><span class="Identifier">approxLen</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">steps</span><span class="Other">:</span> <span class="Identifier">Positive</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
+<dd>
+
+Calculates the approximate length of a curve
+
+</dd>
+</div>
+<div id="boundingBox">
+<dt><pre><span class="Keyword">proc</span> <a href="#boundingBox"><span class="Identifier">boundingBox</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span>
+    <span class="Identifier">minX</span><span class="Other">,</span> <span class="Identifier">minY</span><span class="Other">,</span> <span class="Identifier">maxX</span><span class="Other">,</span> <span class="Identifier">maxY</span><span class="Other">:</span> <span class="Identifier">float32</span><span class="Other">]</span></pre></dt>
 <dd>
 
 Returns the bounding box for a curve
+
+</dd>
+</div>
+<div id="compute,DynBezier,float">
+<dt><pre><span class="Keyword">proc</span> <a href="#compute%2CDynBezier%2Cfloat"><span class="Identifier">compute</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<dd>
+
+Computes the position of a point along the curve
 
 </dd>
 </div>
@@ -305,11 +379,27 @@ Computes the position of a point along the curve
 
 </dd>
 </div>
+<div id="derivative,DynBezier">
+<dt><pre><span class="Keyword">proc</span> <a href="#derivative%2CDynBezier"><span class="Identifier">derivative</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<dd>
+
+Computes the derivative of a bezier curve
+
+</dd>
+</div>
 <div id="derivative,Bezier[N]">
 <dt><pre><span class="Keyword">proc</span> <a href="#derivative%2CBezier%5BN%5D"><span class="Identifier">derivative</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">auto</span></pre></dt>
 <dd>
 
 Computes the derivative of a bezier curve
+
+</dd>
+</div>
+<div id="length">
+<dt><pre><span class="Keyword">proc</span> <a href="#length"><span class="Identifier">length</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
+<dd>
+
+Calculates the length of a curve
 
 </dd>
 </div>
@@ -321,27 +411,59 @@ Creates a new instance
 
 </dd>
 </div>
-<div id="normal,Bezier[N],float">
-<dt><pre><span class="Keyword">proc</span> <a href="#normal%2CBezier%5BN%5D%2Cfloat"><span class="Identifier">normal</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
+<div id="newDynBezier,varargs[Vec2]">
+<dt><pre><span class="Keyword">proc</span> <a href="#newDynBezier%2Cvarargs%5BVec2%5D"><span class="Identifier">newDynBezier</span></a><span class="Other">(</span><span class="Identifier">points</span><span class="Other">:</span> <span class="Identifier">varargs</span><span class="Other">[</span><span class="Identifier">Vec2</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<dd>
+
+Creates a new instance
+
+</dd>
+</div>
+<div id="normal,,float">
+<dt><pre><span class="Keyword">proc</span> <a href="#normal%2C%2Cfloat"><span class="Identifier">normal</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
 <dd>
 
 Returns the tangent vector at a given location
 
 </dd>
 </div>
-<div id="tangent,Bezier[N],float">
-<dt><pre><span class="Keyword">proc</span> <a href="#tangent%2CBezier%5BN%5D%2Cfloat"><span class="Identifier">tangent</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
+<div id="order,DynBezier">
+<dt><pre><span class="Keyword">proc</span> <a href="#order%2CDynBezier"><span class="Identifier">order</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Natural</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<dd>
+
+
+
+</dd>
+</div>
+<div id="order,Bezier[N]">
+<dt><pre><span class="Keyword">proc</span> <a href="#order%2CBezier%5BN%5D"><span class="Identifier">order</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Natural</span></pre></dt>
+<dd>
+
+
+
+</dd>
+</div>
+<div id="tangent,,float">
+<dt><pre><span class="Keyword">proc</span> <a href="#tangent%2C%2Cfloat"><span class="Identifier">tangent</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
 <dd>
 
 Returns the tangent vector at a given location
 
 </dd>
 </div>
-<div id="tightBoundingBox,Bezier[N]">
-<dt><pre><span class="Keyword">proc</span> <a href="#tightBoundingBox%2CBezier%5BN%5D"><span class="Identifier">tightBoundingBox</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">array</span><span class="Other">[</span><span class="DecNumber">4</span><span class="Other">,</span> <span class="Identifier">Vec2</span><span class="Other">]</span></pre></dt>
+<div id="tightBoundingBox">
+<dt><pre><span class="Keyword">proc</span> <a href="#tightBoundingBox"><span class="Identifier">tightBoundingBox</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">array</span><span class="Other">[</span><span class="DecNumber">4</span><span class="Other">,</span> <span class="Identifier">Vec2</span><span class="Other">]</span></pre></dt>
 <dd>
 
 Returns the corners of a bounding box that is tightly aligned to a curve
+
+</dd>
+</div>
+<div id="xs,DynBezier">
+<dt><pre><span class="Keyword">proc</span> <a href="#xs%2CDynBezier"><span class="Identifier">xs</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float32</span><span class="Other">]</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<dd>
+
+Returns all x values from the points in this curve
 
 </dd>
 </div>
@@ -350,6 +472,14 @@ Returns the corners of a bounding box that is tightly aligned to a curve
 <dd>
 
 Returns all x values from the points in this curve
+
+</dd>
+</div>
+<div id="ys,DynBezier">
+<dt><pre><span class="Keyword">proc</span> <a href="#ys%2CDynBezier"><span class="Identifier">ys</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float32</span><span class="Other">]</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<dd>
+
+Returns all y values from the points in this curve
 
 </dd>
 </div>
@@ -366,6 +496,14 @@ Returns all y values from the points in this curve
 <div class="section" id="15">
 <h1><a class="toc-backref" href="#15">Iterators</a></h1>
 <dl class="item">
+<div id="extrema.i,DynBezier">
+<dt><pre><span class="Keyword">iterator</span> <a href="#extrema.i%2CDynBezier"><span class="Identifier">extrema</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float32</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<dd>
+
+Calculates all the extrema on a curve, extressed as a <tt class="docutils literal"><span class="pre"><span class="Identifier">t</span></span></tt>. You can feed these values into the <tt class="docutils literal"><span class="pre"><span class="Identifier">compute</span></span></tt> method to get their coordinates
+
+</dd>
+</div>
 <div id="extrema.i,Bezier[N]">
 <dt><pre><span class="Keyword">iterator</span> <a href="#extrema.i%2CBezier%5BN%5D"><span class="Identifier">extrema</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float32</span></pre></dt>
 <dd>
@@ -374,40 +512,40 @@ Calculates all the extrema on a curve, extressed as a <tt class="docutils litera
 
 </dd>
 </div>
-<div id="findY.i,Bezier[N],float">
-<dt><pre><span class="Keyword">iterator</span> <a href="#findY.i%2CBezier%5BN%5D%2Cfloat"><span class="Identifier">findY</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
+<div id="findY.i,,float">
+<dt><pre><span class="Keyword">iterator</span> <a href="#findY.i%2C%2Cfloat"><span class="Identifier">findY</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
 <dd>
 
 Produces the Y values for a given X
 
 </dd>
 </div>
-<div id="intersects.i,Bezier[N],Vec2,Vec2">
-<dt><pre><span class="Keyword">iterator</span> <a href="#intersects.i%2CBezier%5BN%5D%2CVec2%2CVec2"><span class="Identifier">intersects</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">p1</span><span class="Other">,</span> <span class="Identifier">p2</span><span class="Other">:</span> <span class="Identifier">Vec2</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
+<div id="intersects.i,,Vec2,Vec2">
+<dt><pre><span class="Keyword">iterator</span> <a href="#intersects.i%2C%2CVec2%2CVec2"><span class="Identifier">intersects</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">p1</span><span class="Other">,</span> <span class="Identifier">p2</span><span class="Other">:</span> <span class="Identifier">Vec2</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
 <dd>
 
 Yields the points where a curve intersects a line
 
 </dd>
 </div>
-<div id="items.i,Bezier[N]">
-<dt><pre><span class="Keyword">iterator</span> <a href="#items.i%2CBezier%5BN%5D"><span class="Identifier">items</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">lent</span> <span class="Identifier">Vec2</span></pre></dt>
+<div id="items.i">
+<dt><pre><span class="Keyword">iterator</span> <a href="#items.i"><span class="Identifier">items</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a> <span class="Operator">|</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">lent</span> <span class="Identifier">Vec2</span></pre></dt>
 <dd>
 
 Produces all the points in this curve
 
 </dd>
 </div>
-<div id="pairs.i,Bezier[N]">
-<dt><pre><span class="Keyword">iterator</span> <a href="#pairs.i%2CBezier%5BN%5D"><span class="Identifier">pairs</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">int</span><span class="Other">,</span> <span class="Identifier">Vec2</span><span class="Other">)</span></pre></dt>
+<div id="pairs.i">
+<dt><pre><span class="Keyword">iterator</span> <a href="#pairs.i"><span class="Identifier">pairs</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a> <span class="Operator">|</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">int</span><span class="Other">,</span> <span class="Identifier">Vec2</span><span class="Other">)</span></pre></dt>
 <dd>
 
 Produces all the points in this curve as well as their index
 
 </dd>
 </div>
-<div id="segments.i,Bezier[N],Positive">
-<dt><pre><span class="Keyword">iterator</span> <a href="#segments.i%2CBezier%5BN%5D%2CPositive"><span class="Identifier">segments</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">steps</span><span class="Other">:</span> <span class="Identifier">Positive</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">Vec2</span><span class="Other">,</span> <span class="Identifier">Vec2</span><span class="Other">)</span></pre></dt>
+<div id="segments.i,,Positive">
+<dt><pre><span class="Keyword">iterator</span> <a href="#segments.i%2C%2CPositive"><span class="Identifier">segments</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">steps</span><span class="Other">:</span> <span class="Identifier">Positive</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">Vec2</span><span class="Other">,</span> <span class="Identifier">Vec2</span><span class="Other">)</span></pre></dt>
 <dd>
 
 Breaks the curve into straight lines. Also known as flattening the curve
@@ -419,6 +557,14 @@ Breaks the curve into straight lines. Also known as flattening the curve
 <div class="section" id="18">
 <h1><a class="toc-backref" href="#18">Templates</a></h1>
 <dl class="item">
+<div id="mapIt.t,DynBezier,untyped">
+<dt><pre><span class="Keyword">template</span> <a href="#mapIt.t%2CDynBezier%2Cuntyped"><span class="Identifier">mapIt</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">mapper</span><span class="Other">:</span> <span class="Identifier">untyped</span><span class="Other">)</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a></pre></dt>
+<dd>
+
+Applies a mapping function to the points in this curve
+
+</dd>
+</div>
 <div id="mapIt.t,Bezier[N],untyped">
 <dt><pre><span class="Keyword">template</span> <a href="#mapIt.t%2CBezier%5BN%5D%2Cuntyped"><span class="Identifier">mapIt</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">mapper</span><span class="Other">:</span> <span class="Identifier">untyped</span><span class="Other">)</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
 <dd>
@@ -437,7 +583,7 @@ Applies a mapping function to the points in this curve
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-11 17:23:13 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-14 06:07:38 UTC</small>
       </div>
     </div>
   </div>

@@ -73,15 +73,21 @@ window.addEventListener('DOMContentLoaded', main);
     Modules: <a href="bezier.html">bezier</a>, <a href="bezier/util.html">bezier/util</a>.<br/><p /><h2>API symbols</h2>
 <dl><dt><a name="%60%24%60" href="#%60%24%60"><span>`$`:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="bezier: `$`[N](curve: Bezier[N]): string" href="bezier.html#%24%2CBezier%5BN%5D">bezier: `$`[N](curve: Bezier[N]): string</a></li>
+          data-doc-search-tag="bezier: `$`(curve: Bezier | DynBezier): string" href="bezier.html#%24">bezier: `$`(curve: Bezier | DynBezier): string</a></li>
           </ul></dd>
 <dt><a name="%60%5B%5D%60" href="#%60%5B%5D%60"><span>`[]`:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: `[]`[N](curve: Bezier[N]; point: range[0 .. N]): Vec2" href="bezier.html#%5B%5D%2CBezier%5BN%5D%2Crange%5B%5D">bezier: `[]`[N](curve: Bezier[N]; point: range[0 .. N]): Vec2</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="bezier: `[]`(curve: DynBezier; point: Natural): Vec2" href="bezier.html#%5B%5D%2CDynBezier%2CNatural">bezier: `[]`(curve: DynBezier; point: Natural): Vec2</a></li>
           </ul></dd>
 <dt><a name="align" href="#align"><span>align:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="bezier: align[N](curve: Bezier[N]; p1, p2: Vec2): Bezier[N]" href="bezier.html#align%2CBezier%5BN%5D%2CVec2%2CVec2">bezier: align[N](curve: Bezier[N]; p1, p2: Vec2): Bezier[N]</a></li>
+          data-doc-search-tag="bezier: align(curve: Bezier | DynBezier; p1, p2: Vec2): auto" href="bezier.html#align%2C%2CVec2%2CVec2">bezier: align(curve: Bezier | DynBezier; p1, p2: Vec2): auto</a></li>
+          </ul></dd>
+<dt><a name="approxLen" href="#approxLen"><span>approxLen:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="bezier: approxLen(curve: Bezier | DynBezier; steps: Positive): float" href="bezier.html#approxLen%2C%2CPositive">bezier: approxLen(curve: Bezier | DynBezier; steps: Positive): float</a></li>
           </ul></dd>
 <dt><a name="Bezier" href="#Bezier"><span>Bezier:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -89,27 +95,45 @@ window.addEventListener('DOMContentLoaded', main);
           </ul></dd>
 <dt><a name="boundingBox" href="#boundingBox"><span>boundingBox:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="bezier: boundingBox[N](curve: Bezier[N]): tuple[minX, minY, maxX, maxY: float32]" href="bezier.html#boundingBox%2CBezier%5BN%5D">bezier: boundingBox[N](curve: Bezier[N]): tuple[minX, minY, maxX, maxY: float32]</a></li>
+          data-doc-search-tag="bezier: boundingBox(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: float32]" href="bezier.html#boundingBox">bezier: boundingBox(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: float32]</a></li>
           </ul></dd>
 <dt><a name="compute" href="#compute"><span>compute:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: compute[N](curve: Bezier[N]; t: float): Vec2" href="bezier.html#compute%2CBezier%5BN%5D%2Cfloat">bezier: compute[N](curve: Bezier[N]; t: float): Vec2</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="bezier: compute(curve: DynBezier; t: float): Vec2" href="bezier.html#compute%2CDynBezier%2Cfloat">bezier: compute(curve: DynBezier; t: float): Vec2</a></li>
+          </ul></dd>
+<dt><a name="deCasteljau" href="#deCasteljau"><span>deCasteljau:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="util: deCasteljau(points: openArray[Vec2]; t: float): Vec2" href="bezier/util.html#deCasteljau%2CopenArray%5BVec2%5D%2Cfloat">util: deCasteljau(points: openArray[Vec2]; t: float): Vec2</a></li>
           </ul></dd>
 <dt><a name="derivative" href="#derivative"><span>derivative:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: derivative[N](curve: Bezier[N]): auto" href="bezier.html#derivative%2CBezier%5BN%5D">bezier: derivative[N](curve: Bezier[N]): auto</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="bezier: derivative(curve: DynBezier): DynBezier" href="bezier.html#derivative%2CDynBezier">bezier: derivative(curve: DynBezier): DynBezier</a></li>
+          </ul></dd>
+<dt><a name="DynBezier" href="#DynBezier"><span>DynBezier:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="bezier: DynBezier" href="bezier.html#DynBezier">bezier: DynBezier</a></li>
           </ul></dd>
 <dt><a name="extrema" href="#extrema"><span>extrema:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: extrema[N](curve: Bezier[N]): float32" href="bezier.html#extrema.i%2CBezier%5BN%5D">bezier: extrema[N](curve: Bezier[N]): float32</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="bezier: extrema(curve: DynBezier): float32" href="bezier.html#extrema.i%2CDynBezier">bezier: extrema(curve: DynBezier): float32</a></li>
           </ul></dd>
 <dt><a name="findY" href="#findY"><span>findY:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="bezier: findY[N](curve: Bezier[N]; x: float): Vec2" href="bezier.html#findY.i%2CBezier%5BN%5D%2Cfloat">bezier: findY[N](curve: Bezier[N]; x: float): Vec2</a></li>
+          data-doc-search-tag="bezier: findY(curve: Bezier | DynBezier; x: float): Vec2" href="bezier.html#findY.i%2C%2Cfloat">bezier: findY(curve: Bezier | DynBezier; x: float): Vec2</a></li>
+          </ul></dd>
+<dt><a name="forDistinct" href="#forDistinct"><span>forDistinct:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="util: forDistinct[T](input: seq[T]): T" href="bezier/util.html#forDistinct.i%2Cseq%5BT%5D">util: forDistinct[T](input: seq[T]): T</a></li>
           </ul></dd>
 <dt><a name="intersects" href="#intersects"><span>intersects:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="bezier: intersects[N](curve: Bezier[N]; p1, p2: Vec2): Vec2" href="bezier.html#intersects.i%2CBezier%5BN%5D%2CVec2%2CVec2">bezier: intersects[N](curve: Bezier[N]; p1, p2: Vec2): Vec2</a></li>
+          data-doc-search-tag="bezier: intersects(curve: Bezier | DynBezier; p1, p2: Vec2): Vec2" href="bezier.html#intersects.i%2C%2CVec2%2CVec2">bezier: intersects(curve: Bezier | DynBezier; p1, p2: Vec2): Vec2</a></li>
           </ul></dd>
 <dt><a name="isOnLine" href="#isOnLine"><span>isOnLine:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -117,7 +141,11 @@ window.addEventListener('DOMContentLoaded', main);
           </ul></dd>
 <dt><a name="items" href="#items"><span>items:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="bezier: items[N](curve: Bezier[N]): lent Vec2" href="bezier.html#items.i%2CBezier%5BN%5D">bezier: items[N](curve: Bezier[N]): lent Vec2</a></li>
+          data-doc-search-tag="bezier: items(curve: DynBezier | Bezier): lent Vec2" href="bezier.html#items.i">bezier: items(curve: DynBezier | Bezier): lent Vec2</a></li>
+          </ul></dd>
+<dt><a name="length" href="#length"><span>length:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="bezier: length(curve: Bezier | DynBezier): float" href="bezier.html#length">bezier: length(curve: Bezier | DynBezier): float</a></li>
           </ul></dd>
 <dt><a name="linesIntersect" href="#linesIntersect"><span>linesIntersect:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -126,49 +154,71 @@ window.addEventListener('DOMContentLoaded', main);
 <dt><a name="mapIt" href="#mapIt"><span>mapIt:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: mapIt[N](curve: Bezier[N]; mapper: untyped): Bezier[N]" href="bezier.html#mapIt.t%2CBezier%5BN%5D%2Cuntyped">bezier: mapIt[N](curve: Bezier[N]; mapper: untyped): Bezier[N]</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="bezier: mapIt(curve: DynBezier; mapper: untyped): DynBezier" href="bezier.html#mapIt.t%2CDynBezier%2Cuntyped">bezier: mapIt(curve: DynBezier; mapper: untyped): DynBezier</a></li>
           </ul></dd>
 <dt><a name="newBezier" href="#newBezier"><span>newBezier:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: newBezier[N](points: varargs[Vec2]): Bezier[N]" href="bezier.html#newBezier%2Cvarargs%5BVec2%5D">bezier: newBezier[N](points: varargs[Vec2]): Bezier[N]</a></li>
           </ul></dd>
+<dt><a name="newDynBezier" href="#newDynBezier"><span>newDynBezier:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="bezier: newDynBezier(points: varargs[Vec2]): DynBezier" href="bezier.html#newDynBezier%2Cvarargs%5BVec2%5D">bezier: newDynBezier(points: varargs[Vec2]): DynBezier</a></li>
+          </ul></dd>
 <dt><a name="normal" href="#normal"><span>normal:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="bezier: normal[N](curve: Bezier[N]; t: float): Vec2" href="bezier.html#normal%2CBezier%5BN%5D%2Cfloat">bezier: normal[N](curve: Bezier[N]; t: float): Vec2</a></li>
+          data-doc-search-tag="bezier: normal(curve: Bezier | DynBezier; t: float): Vec2" href="bezier.html#normal%2C%2Cfloat">bezier: normal(curve: Bezier | DynBezier; t: float): Vec2</a></li>
+          </ul></dd>
+<dt><a name="order" href="#order"><span>order:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="bezier: order[N](curve: Bezier[N]): Natural" href="bezier.html#order%2CBezier%5BN%5D">bezier: order[N](curve: Bezier[N]): Natural</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="bezier: order(curve: DynBezier): Natural" href="bezier.html#order%2CDynBezier">bezier: order(curve: DynBezier): Natural</a></li>
           </ul></dd>
 <dt><a name="pairs" href="#pairs"><span>pairs:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="bezier: pairs[N](curve: Bezier[N]): (int, Vec2)" href="bezier.html#pairs.i%2CBezier%5BN%5D">bezier: pairs[N](curve: Bezier[N]): (int, Vec2)</a></li>
+          data-doc-search-tag="bezier: pairs(curve: DynBezier | Bezier): (int, Vec2)" href="bezier.html#pairs.i">bezier: pairs(curve: DynBezier | Bezier): (int, Vec2)</a></li>
           </ul></dd>
 <dt><a name="roots" href="#roots"><span>roots:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="util: roots[N: static[int]](entries: array[N, float32]): float32" href="bezier/util.html#roots.i%2Carray%5BN%2Cfloat32%5D">util: roots[N: static[int]](entries: array[N, float32]): float32</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="util: roots(entries: seq[float32]): float32" href="bezier/util.html#roots.i%2Cseq%5Bfloat32%5D">util: roots(entries: seq[float32]): float32</a></li>
           </ul></dd>
 <dt><a name="segments" href="#segments"><span>segments:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="bezier: segments[N](curve: Bezier[N]; steps: Positive): (Vec2, Vec2)" href="bezier.html#segments.i%2CBezier%5BN%5D%2CPositive">bezier: segments[N](curve: Bezier[N]; steps: Positive): (Vec2, Vec2)</a></li>
+          data-doc-search-tag="bezier: segments(curve: Bezier | DynBezier; steps: Positive): (Vec2, Vec2)" href="bezier.html#segments.i%2C%2CPositive">bezier: segments(curve: Bezier | DynBezier; steps: Positive): (Vec2, Vec2)</a></li>
           </ul></dd>
 <dt><a name="tangent" href="#tangent"><span>tangent:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="bezier: tangent[N](curve: Bezier[N]; t: float): Vec2" href="bezier.html#tangent%2CBezier%5BN%5D%2Cfloat">bezier: tangent[N](curve: Bezier[N]; t: float): Vec2</a></li>
+          data-doc-search-tag="bezier: tangent(curve: Bezier | DynBezier; t: float): Vec2" href="bezier.html#tangent%2C%2Cfloat">bezier: tangent(curve: Bezier | DynBezier; t: float): Vec2</a></li>
           </ul></dd>
 <dt><a name="tightBoundingBox" href="#tightBoundingBox"><span>tightBoundingBox:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="bezier: tightBoundingBox[N](curve: Bezier[N]): array[4, Vec2]" href="bezier.html#tightBoundingBox%2CBezier%5BN%5D">bezier: tightBoundingBox[N](curve: Bezier[N]): array[4, Vec2]</a></li>
+          data-doc-search-tag="bezier: tightBoundingBox(curve: Bezier | DynBezier): array[4, Vec2]" href="bezier.html#tightBoundingBox">bezier: tightBoundingBox(curve: Bezier | DynBezier): array[4, Vec2]</a></li>
           </ul></dd>
 <dt><a name="xs" href="#xs"><span>xs:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: xs[N](curve: Bezier[N]): array[N + 1, float32]" href="bezier.html#xs%2CBezier%5BN%5D">bezier: xs[N](curve: Bezier[N]): array[N + 1, float32]</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="bezier: xs(curve: DynBezier): seq[float32]" href="bezier.html#xs%2CDynBezier">bezier: xs(curve: DynBezier): seq[float32]</a></li>
+          </ul></dd>
+<dt><a name="yieldAll" href="#yieldAll"><span>yieldAll:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="util: yieldAll(iter: untyped)" href="bezier/util.html#yieldAll.t%2Cuntyped">util: yieldAll(iter: untyped)</a></li>
           </ul></dd>
 <dt><a name="ys" href="#ys"><span>ys:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: ys[N](curve: Bezier[N]): array[N + 1, float32]" href="bezier.html#ys%2CBezier%5BN%5D">bezier: ys[N](curve: Bezier[N]): array[N + 1, float32]</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="bezier: ys(curve: DynBezier): seq[float32]" href="bezier.html#ys%2CDynBezier">bezier: ys(curve: DynBezier): seq[float32]</a></li>
           </ul></dd>
 </dl>
     <div class="row">
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-11 17:23:13 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-14 06:07:38 UTC</small>
       </div>
     </div>
   </div>
