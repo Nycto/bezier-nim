@@ -99,6 +99,9 @@ template standardTests(create: untyped) =
         ])
         check(b.intersects(vec2(0, 106), vec2(30, 106)).toSeq.len == 0)
 
+    test "Can produce lengths":
+        check(b.length == 25.71692271231104)
+
 suite "Dynamic Cubic bezier":
     standardTests(newDynBezier)
 

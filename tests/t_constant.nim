@@ -74,6 +74,9 @@ template standardTests(create: untyped) =
         check(b.intersects(vec2(110, 150), vec2(130, 170)).toSeq == @[vec2(120, 160)])
         check(b.intersects(vec2(210, 250), vec2(230, 270)).toSeq.len == 0)
 
+    test "Can produce lengths":
+        check(b.length == 0.0)
+
 suite "Dynamic Constant bezier":
     standardTests(newDynBezier)
 

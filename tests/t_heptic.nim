@@ -158,6 +158,9 @@ template standardTests(create: untyped) =
         fails:
             discard b.intersects(vec2(0, 100), vec2(100, 0)).toSeq
 
+    test "Can produce lengths":
+        check(b.length == 380.961106309944)
+
 suite "Dynamic Decic bezier":
     standardTests(newDynBezier)
 

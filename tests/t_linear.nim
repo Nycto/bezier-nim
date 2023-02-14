@@ -69,6 +69,9 @@ template standardTests(create: untyped) =
     test "Can produce line intersections":
         check(b.intersects(vec2(0, 100), vec2(100, 0)).toSeq == @[vec2(50, 50)])
 
+    test "Can produce lengths":
+        check(b.length == 141.4213562011719)
+
 suite "Dynamic Linear bezier":
     standardTests(newDynBezier)
 
