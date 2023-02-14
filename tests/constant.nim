@@ -1,5 +1,10 @@
 import unittest, bezier, vmath, sequtils, sets
 
+template fails(exec: untyped) =
+    when compiles(exec):
+        expect(AssertionDefect):
+            exec
+
 template standardTests(create: untyped) =
     const b = create(vec2(120, 160))
 
@@ -54,33 +59,29 @@ template standardTests(create: untyped) =
     test "Can produce segments":
         check(b.segments(4).toSeq.len == 0)
 
-suite "Dynamic Constant bezier":
-    standardTests(newDynBezier)
-
     test "Cant calculate the derivative":
-        expect(AssertionDefect):
+        fails:
             discard newDynBezier(vec2(120, 160)).derivative()
 
     test "Cant calculate extremas":
-        expect(AssertionDefect):
+        fails:
             discard newDynBezier(vec2(120, 160)).extrema().toSeq
+
+    test "Can produce tangents":
+        fails:
+            discard b.tangent(1.0)
+
+    test "Can produce normals":
+        fails:
+            discard b.normal(1.0)
+
+suite "Dynamic Constant bezier":
+    standardTests(newDynBezier)
 
 suite "Static Constant bezier":
     standardTests(newBezier[0])
 
     const b = newBezier[0](vec2(120, 160))
-
-    test "Cant calculate the derivative":
-        check(compiles(b.derivative()) == false)
-
-    test "Cant calculate extremas":
-        check(compiles(b.extrema()) == false)
-
-    test "Can produce tangents":
-        check(compiles(b.tangent(1.0)) == false)
-
-    test "Can produce normals":
-        check(compiles(b.normal(1.0)) == false)
 
     test "Can produce line intersections":
         check(b.intersects(vec2(110, 150), vec2(130, 170)).toSeq == @[vec2(120, 160)])

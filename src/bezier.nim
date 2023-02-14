@@ -265,11 +265,11 @@ iterator segments*(curve: Bezier | DynBezier, steps: Positive): (Vec2, Vec2) =
             yield (previous, current)
             previous = current
 
-proc tangent*[N](curve: Bezier[N], t: float): Vec2 =
+proc tangent*(curve: Bezier | DynBezier, t: float): Vec2 =
     ## Returns the tangent vector at a given location
     curve.derivative().compute(t)
 
-proc normal*[N](curve: Bezier[N], t: float): Vec2 =
+proc normal*(curve: Bezier | DynBezier, t: float): Vec2 =
     ## Returns the tangent vector at a given location
     let d = curve.tangent(t)
     let q = sqrt(d.x * d.x + d.y * d.y)

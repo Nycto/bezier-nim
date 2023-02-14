@@ -86,6 +86,12 @@ template standardTests(create: untyped) =
             (vec2(10.96875, 6.984375), vec2(10.0, 14.0))
         ])
 
+    test "Can produce tangents":
+        check(b.tangent(0.2) == vec2(16.68000030517578, -25.44000053405762))
+
+    test "Can produce normals":
+        check(b.normal(0.2) == vec2(0.8362740278244019, 0.5483117699623108))
+
 suite "Dynamic Cubic bezier":
     standardTests(newDynBezier)
 
@@ -94,12 +100,6 @@ suite "Static Cubic bezier":
 
     const b = newBezier[3](vec2(0, 15), vec2(3, 0), vec2(15, 2), vec2(10, 14))
     const b2 = newBezier[3](vec2(120, 160), vec2(35,  200), vec2(220, 260), vec2(220,  40))
-
-    test "Can produce tangents":
-        check(b.tangent(0.2) == vec2(16.68000030517578, -25.44000053405762))
-
-    test "Can produce normals":
-        check(b.normal(0.2) == vec2(0.8362740278244019, 0.5483117699623108))
 
     test "Can produce line intersections":
         check(b.intersects(vec2(0, 6), vec2(30, 6)).toSeq == @[

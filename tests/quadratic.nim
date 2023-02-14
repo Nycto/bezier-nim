@@ -72,6 +72,12 @@ template standardTests(create: untyped) =
             (vec2(68.125, 93.125), vec2(100.0, 75.0))
         ])
 
+    test "Can produce tangents":
+        check(b.tangent(0.2) == vec2(-48.0, -86.0))
+
+    test "Can produce normals":
+        check(b.normal(0.2) == vec2(0.8731976747512817, -0.4873661696910858))
+
 suite "Dynamic Quadratic bezier":
     standardTests(newDynBezier)
 
@@ -79,12 +85,6 @@ suite "Static Quadratic bezier":
     standardTests(newBezier[2])
 
     const b = newBezier[2](vec2(70, 155), vec2(20, 110), vec2(100, 75))
-
-    test "Can produce tangents":
-        check(b.tangent(0.2) == vec2(-48.0, -86.0))
-
-    test "Can produce normals":
-        check(b.normal(0.2) == vec2(0.8731976747512817, -0.4873661696910858))
 
     test "Can produce line intersections":
         check(b.intersects(vec2(60, 0), vec2(60, 200)).toSeq == @[
