@@ -88,6 +88,9 @@ template standardTests(create: untyped) =
     test "Can produce lengths":
         check(b.length ~= 110.9647527950121)
 
+    test "Can produce approximate lengths":
+        check(b.approxLen(10) ~= 110.7825956344604)
+
 suite "Dynamic Quadratic bezier":
     standardTests(newDynBezier)
 

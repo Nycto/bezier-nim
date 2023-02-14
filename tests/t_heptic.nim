@@ -161,6 +161,9 @@ template standardTests(create: untyped) =
     test "Can produce lengths":
         check(b.length == 380.961106309944)
 
+    test "Can produce approximate lengths":
+        check(b.approxLen(10) == 370.3347358703613)
+
 suite "Dynamic Decic bezier":
     standardTests(newDynBezier)
 

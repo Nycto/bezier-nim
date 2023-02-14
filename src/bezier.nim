@@ -359,5 +359,10 @@ proc length*(curve: Bezier | DynBezier): float =
                 result += Cvalues[i] * sqrt(l)
             result *= z
 
+proc approxLen*(curve: Bezier | DynBezier, steps: Positive): float =
+    ## Calculates the approximate length of a curve
+    for (a, b) in curve.segments(steps):
+        result += (b - a).length
+
 when isMainModule:
     include bezier/cli
