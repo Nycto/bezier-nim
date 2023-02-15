@@ -140,6 +140,15 @@ template standardTests(create: untyped) =
         fails:
             discard b.findY(0.5)
 
+    test "Can produce points":
+        check(b.points(5).toSeq == @[
+            (0.0, vec2(58.0, 24.0)),
+            (0.25, vec2(105.8918075561523, 83.52153015136719)),
+            (0.5, vec2(101.11328125, 157.630859375)),
+            (0.75, vec2(114.6620559692383, 242.2200927734375)),
+            (1.0, vec2(175.0, 178.0))
+        ])
+
     test "Can produce segments":
         check(b.segments(4).toSeq == @[
             (vec2(58.0, 24.0), vec2(105.8918075561523, 83.52153015136719)),

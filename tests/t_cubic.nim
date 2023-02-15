@@ -78,6 +78,15 @@ template standardTests(create: untyped) =
             vec2(115.0000152587891f, 197.7810821533203f)
         ])
 
+    test "Can produce points":
+        check(b.points(5).toSeq == @[
+            (0.0, vec2(0.0, 15.0)),
+            (0.25, vec2(3.53125, 6.828125)),
+            (0.5, vec2(8.0, 4.375)),
+            (0.75, vec2(10.96875, 6.984375)),
+            (1.0, vec2(10.0, 14.0))
+        ])
+
     test "Can produce segments":
         check(b.segments(4).toSeq == @[
             (vec2(0.0, 15.0), vec2(3.53125, 6.828125)),

@@ -253,14 +253,23 @@ iterator findY*(curve: Bezier | DynBezier, x: float): Vec2 =
         for root in roots(xVals):
             yield curve.compute(root)
 
+iterator points*(curve: Bezier | DynBezier, steps: range[2..high(int)]): (float, Vec2) =
+    ## Produces a set of points along the curve at the given number of steps
+    let step: float = 1 / (steps - 1)
+    var t: float = 0
+    for i in 1..steps:
+        if i == steps:
+            t = 1.0
+        yield (t, curve.compute(t))
+        t += step
+
 iterator segments*(curve: Bezier | DynBezier, steps: Positive): (Vec2, Vec2) =
     ## Breaks the curve into straight lines. Also known as flattening the curve
     if curve.order > 0:
-        let step = 1 / steps
-        var previous = curve.compute(0)
-        for i in 1..steps:
-            let current = curve.compute(step * i.float)
-            yield (previous, current)
+        var previous: Vec2
+        for (t, current) in points(curve, steps + 1):
+            if t != 0.0:
+                yield (previous, current)
             previous = current
 
 proc tangent*(curve: Bezier | DynBezier, t: float): Vec2 =

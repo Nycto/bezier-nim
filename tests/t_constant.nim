@@ -51,6 +51,15 @@ template standardTests(create: untyped) =
     test "Can produce y values for x":
         check(b.findY(120).toSeq == @[vec2(120, 160)])
 
+    test "Can produce points":
+        check(b.points(5).toSeq == @[
+            (0.0, vec2(120.0, 160.0)),
+            (0.25, vec2(120.0, 160.0)),
+            (0.5, vec2(120.0, 160.0)),
+            (0.75, vec2(120.0, 160.0)),
+            (1.0, vec2(120.0, 160.0))
+        ])
+
     test "Can produce segments":
         check(b.segments(4).toSeq.len == 0)
 
