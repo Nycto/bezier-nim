@@ -173,6 +173,11 @@ template standardTests(create: untyped) =
     test "Can produce approximate lengths":
         check(b.approxLen(10) == 370.3347358703613)
 
+    test "Can project a point":
+        check(b.lut(100).project(vec2(10, 150)) == 0.544)
+        check(b.lut(100).project(vec2(80, 0)) == 0.0)
+        check(b.lut(100).project(vec2(200, 150)) == 1.0)
+
 suite "Dynamic Decic bezier":
     standardTests(newDynBezier)
 

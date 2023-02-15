@@ -89,6 +89,9 @@ template standardTests(create: untyped) =
     test "Can produce approximate lengths":
         check(b.approxLen(10) == 0.0)
 
+    test "Can project a point":
+        check(b.lut(100).project(vec2(100, 100)) == 0.0)
+
 suite "Dynamic Constant bezier":
     standardTests(newDynBezier)
 

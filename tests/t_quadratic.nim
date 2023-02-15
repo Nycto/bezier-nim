@@ -100,6 +100,11 @@ template standardTests(create: untyped) =
     test "Can produce approximate lengths":
         check(b.approxLen(10) ~= 110.7825956344604)
 
+    test "Can project a point":
+        check(b.lut(100).project(vec2(5, 5)) == 0.768)
+        check(b.lut(100).project(vec2(50, 200)) == 0.0)
+        check(b.lut(100).project(vec2(200, 50)) == 1.0)
+
 suite "Dynamic Quadratic bezier":
     standardTests(newDynBezier)
 

@@ -17,6 +17,7 @@ var x = ""
 var showTangent: string = ""
 var showNormal: string = ""
 var showIntersects: string = ""
+var showProject: string = ""
 
 var nums = newSeq[float32]()
 
@@ -39,6 +40,7 @@ for kind, key, val in cliParser.getopt():
         of "tan", "tangent": showTangent = val
         of "n", "normal": showNormal = val
         of "i", "intersects": showIntersects = val
+        of "p", "project": showProject = val
         else: assert(false, "Unsupported option: " & key)
     of cmdEnd: assert(false) # cannot happen
 
@@ -111,6 +113,13 @@ proc createSvgBody(curve: Bezier | DynBezier): string =
         for point in curve.intersects(point1, point2):
             svg.add(dot(point, "red"))
 
+    if showProject != "":
+        let point = showProject.split(",").mapIt(parseFloat(it))
+        assert(point.len == 2)
+        let projecting = vec2(point[0], point[1])
+        let closest = curve.compute(curve.lut(100).project(projecting))
+        svg.add(line(projecting, closest, "green"))
+
     return svg
 
 proc draw(curve: Bezier | DynBezier) =
@@ -141,11 +150,11 @@ proc draw(curve: Bezier | DynBezier) =
         """</html>"""
     ].join("\n"))
 
-let points = countup(0, nums.len - 1, 2).toSeq.mapIt(vec2(nums[it], nums[it + 1]))
+let inputPoints = countup(0, nums.len - 1, 2).toSeq.mapIt(vec2(nums[it], nums[it + 1]))
 
-case points.len
-of 1: draw(newBezier[0](points))
-of 2: draw(newBezier[1](points))
-of 3: draw(newBezier[2](points))
-of 4: draw(newBezier[3](points))
-else: draw(newDynBezier(points))
+case inputPoints.len
+of 1: draw(newBezier[0](inputPoints))
+of 2: draw(newBezier[1](inputPoints))
+of 3: draw(newBezier[2](inputPoints))
+of 4: draw(newBezier[3](inputPoints))
+else: draw(newDynBezier(inputPoints))

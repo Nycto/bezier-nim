@@ -19,6 +19,11 @@ type
         ## Bezier curve where the order isn't known at compile time
         points: seq[Vec2]
 
+    LUT*[T: Bezier | DynBezier] {.byref.} = object
+        ## A lookup table of precalculated points within a curve
+        table: seq[tuple[t: float, point: Vec2]]
+        curve: T
+
 template assign(points: typed) =
     for i in 0..<points.len:
         result.points[i] = points[i]
@@ -372,6 +377,48 @@ proc approxLen*(curve: Bezier | DynBezier, steps: Positive): float =
     ## Calculates the approximate length of a curve
     for (a, b) in curve.segments(steps):
         result += (b - a).length
+
+proc lut*[T: Bezier | DynBezier](curve: T, steps: range[2..high(int)]): LUT[T] =
+    ## Creates a lookup table of indexes into this curve
+    var i = 0
+    result.table = newSeq[(float, Vec2)](steps)
+    for point in points(curve, steps):
+        result.table[i] = point
+        i += 1
+    result.curve = curve
+
+proc closest[T](lut: LUT[T], point: Vec2): int =
+    ## Returns index of the point on a LUT closest
+    var distance = high(float)
+    for i, (_, current) in lut.table:
+        let currentDist = distSq(point, current)
+        if currentDist < distance:
+            distance = currentDist
+            result = i
+
+proc project*[T](lut: LUT[T], point: Vec2): float =
+    ## Finds the location on a curve closest to the given point
+
+    let closestIdx = lut.closest(point)
+
+    let tableLen = lut.table.len.float
+    let t1 = (closestIdx - 1).float / tableLen
+    let t2 = (closestIdx + 1).float / tableLen
+    let step = 0.1 / tableLen
+
+
+    # fine check
+    var closestDist = distSq(lut.table[closestIdx].point, point) + 1
+    var currentT = t1
+    var closestT = currentT
+    while currentT < t2 + step:
+        let thisDistance = distSq(lut.curve.compute(currentT), point)
+        if thisDistance < closestDist:
+            closestT = currentT
+            closestDist = thisDistance
+        currentT += step
+
+    return clamp(closestT, 0.0, 1.0)
 
 when isMainModule:
     include bezier/cli
