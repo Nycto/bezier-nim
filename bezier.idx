@@ -1,5 +1,6 @@
 Bezier	bezier.html#Bezier	bezier: Bezier	
 DynBezier	bezier.html#DynBezier	bezier: DynBezier	
+LUT	bezier.html#LUT	bezier: LUT	
 newBezier	bezier.html#newBezier,varargs[Vec2]	bezier: newBezier[N](points: varargs[Vec2]): Bezier[N]	
 newDynBezier	bezier.html#newDynBezier,varargs[Vec2]	bezier: newDynBezier(points: varargs[Vec2]): DynBezier	
 order	bezier.html#order,DynBezier	bezier: order(curve: DynBezier): Natural	
@@ -25,9 +26,12 @@ boundingBox	bezier.html#boundingBox	bezier: boundingBox(curve: Bezier | DynBezie
 align	bezier.html#align,,Vec2,Vec2	bezier: align(curve: Bezier | DynBezier; p1, p2: Vec2): auto	
 tightBoundingBox	bezier.html#tightBoundingBox	bezier: tightBoundingBox(curve: Bezier | DynBezier): array[4, Vec2]	
 findY	bezier.html#findY.i,,float	bezier: findY(curve: Bezier | DynBezier; x: float): Vec2	
+points	bezier.html#points.i,,range[]	bezier: points(curve: Bezier | DynBezier; steps: range[2 .. high(int)]): (float, Vec2)	
 segments	bezier.html#segments.i,,Positive	bezier: segments(curve: Bezier | DynBezier; steps: Positive): (Vec2, Vec2)	
 tangent	bezier.html#tangent,,float	bezier: tangent(curve: Bezier | DynBezier; t: float): Vec2	
 normal	bezier.html#normal,,float	bezier: normal(curve: Bezier | DynBezier; t: float): Vec2	
 intersects	bezier.html#intersects.i,,Vec2,Vec2	bezier: intersects(curve: Bezier | DynBezier; p1, p2: Vec2): Vec2	
 length	bezier.html#length	bezier: length(curve: Bezier | DynBezier): float	
 approxLen	bezier.html#approxLen,,Positive	bezier: approxLen(curve: Bezier | DynBezier; steps: Positive): float	
+lut	bezier.html#lut,T,range[]	bezier: lut[T: Bezier | DynBezier](curve: T; steps: range[2 .. high(int)]): LUT[T]	
+project	bezier.html#project,LUT[T],Vec2	bezier: project[T](lut: LUT[T]; point: Vec2): float	
