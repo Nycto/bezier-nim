@@ -113,6 +113,14 @@ template standardTests(create: untyped) =
     test "Can produce approximate lengths using a LUT":
         check(b.lut(100).approxLen() ~= 110.9628931283951)
 
+    test "Can produce interval points":
+        check(b.lut(100).intervals(3).toSeq == @[
+            vec2(70.0, 155.0),
+            vec2(50.82644653320312, 123.5950393676758),
+            vec2(68.85215759277344, 92.55738830566406),
+            vec2(100.0, 75.0)
+        ])
+
 suite "Dynamic Quadratic bezier":
     standardTests(newDynBezier)
 

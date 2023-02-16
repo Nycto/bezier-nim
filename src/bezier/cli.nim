@@ -19,6 +19,8 @@ var showNormal: string = ""
 var showIntersects: string = ""
 var showProject: string = ""
 var showSplit: string = ""
+var showPoints: string = ""
+var showIntervals: string = ""
 
 var nums = newSeq[float32]()
 
@@ -43,6 +45,8 @@ for kind, key, val in cliParser.getopt():
         of "i", "intersects": showIntersects = val
         of "p", "project": showProject = val
         of "s", "split": showSplit = val
+        of "intervals": showIntervals = val
+        of "points": showPoints = val
         else: assert(false, "Unsupported option: " & key)
     of cmdEnd: assert(false) # cannot happen
 
@@ -121,6 +125,15 @@ proc createSvgBody(curve: Bezier | DynBezier): string =
         let projecting = vec2(point[0], point[1])
         let closest = curve.compute(curve.lut(100).project(projecting))
         svg.add(line(projecting, closest, "green"))
+
+    if showPoints != "":
+        for (_, point) in points(curve, parseInt(showPoints)):
+            svg.add(dot(point, "red"))
+
+    if showIntervals != "":
+        let intervalSteps = parseInt(showIntervals)
+        for point in curve.lut(intervalSteps * 10).intervals(intervalSteps):
+            svg.add(dot(point, "orange"))
 
     return svg
 

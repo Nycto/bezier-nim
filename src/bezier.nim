@@ -445,5 +445,18 @@ proc project*[T](lut: LUT[T], point: Vec2): float =
 proc approxLen*[T](lut: Lut[T]): float = lut.table[lut.table.len - 1].distanceFrom0
     ## Uses a LUT to determine the approximate length of a curve
 
+iterator intervals*[T](lut: LUT[T], steps: Positive): Vec2 =
+    ## Produces points along the curve that are more geometrically evenly spaced
+    let curveLen = lut.approxLen
+
+    var pos = 0
+    for i in 0..<steps:
+        let targetDistance = i / steps * curveLen
+        while lut.table[pos].distanceFrom0 < targetDistance: pos += 1
+        yield lut.table[pos].point
+
+    yield lut.table[lut.table.len - 1].point
+
+
 when isMainModule:
     include bezier/cli
