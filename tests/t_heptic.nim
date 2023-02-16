@@ -205,6 +205,9 @@ template standardTests(create: untyped) =
             vec2(175.0, 178.0)
         ))
 
+    test "Can produce approximate lengths using a LUT":
+        check(b.lut(100).approxLen() ~= 380.8526604175568)
+
 suite "Dynamic Decic bezier":
     standardTests(newDynBezier)
 

@@ -96,6 +96,9 @@ template standardTests(create: untyped) =
         fails:
             discard b.split(0.5)
 
+    test "Can produce approximate lengths using a LUT":
+        check(b.lut(100).approxLen() == 0.0)
+
 suite "Dynamic Constant bezier":
     standardTests(newDynBezier)
 

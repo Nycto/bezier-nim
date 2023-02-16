@@ -94,6 +94,9 @@ template standardTests(create: untyped) =
         check(left == create(vec2(0, 0), vec2(50, 50)))
         check(right == create(vec2(50, 50), vec2(100, 100)))
 
+    test "Can produce approximate lengths using a LUT":
+        check(b.lut(100).approxLen() ~= 141.4213562011719)
+
 suite "Dynamic Linear bezier":
     standardTests(newDynBezier)
 

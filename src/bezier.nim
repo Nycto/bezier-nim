@@ -21,7 +21,7 @@ type
 
     LUT*[T: Bezier | DynBezier] {.byref.} = object
         ## A lookup table of precalculated points within a curve
-        table: seq[tuple[t: float, point: Vec2]]
+        table: seq[tuple[t: float, point: Vec2, distanceFrom0: float]]
         curve: T
 
 template assign(points: typed) =
@@ -258,7 +258,7 @@ iterator findY*(curve: Bezier | DynBezier, x: float): Vec2 =
         for root in roots(xVals):
             yield curve.compute(root)
 
-iterator points*(curve: Bezier | DynBezier, steps: range[2..high(int)]): (float, Vec2) =
+iterator points*(curve: Bezier | DynBezier, steps: range[2..high(int)]): tuple[t: float, point: Vec2] =
     ## Produces a set of points along the curve at the given number of steps
     let step: float = 1 / (steps - 1)
     var t: float = 0
@@ -399,17 +399,20 @@ proc approxLen*(curve: Bezier | DynBezier, steps: Positive): float =
 
 proc lut*[T: Bezier | DynBezier](curve: T, steps: range[2..high(int)]): LUT[T] =
     ## Creates a lookup table of indexes into this curve
-    var i = 0
-    result.table = newSeq[(float, Vec2)](steps)
-    for point in points(curve, steps):
-        result.table[i] = point
-        i += 1
+    var distanceFrom0: float = 0.0
+    result.table = newSeq[(float, Vec2, float)](steps)
+    var previous: Vec2
+    forIndexed(i, point, points(curve, steps)):
+        if i > 0:
+            distanceFrom0 += dist(previous, point.point)
+        result.table[i] = (point.t, point.point, distanceFrom0)
+        previous = point.point
     result.curve = curve
 
 proc closest[T](lut: LUT[T], point: Vec2): int =
     ## Returns index of the point on a LUT closest
     var distance = high(float)
-    for i, (_, current) in lut.table:
+    for i, (_, current, _) in lut.table:
         let currentDist = distSq(point, current)
         if currentDist < distance:
             distance = currentDist
@@ -438,6 +441,9 @@ proc project*[T](lut: LUT[T], point: Vec2): float =
         currentT += step
 
     return clamp(closestT, 0.0, 1.0)
+
+proc approxLen*[T](lut: Lut[T]): float = lut.table[lut.table.len - 1].distanceFrom0
+    ## Uses a LUT to determine the approximate length of a curve
 
 when isMainModule:
     include bezier/cli
