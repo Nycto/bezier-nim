@@ -1,4 +1,4 @@
-import std/math, vmath, options, sequtils
+import std/math, vmath, options
 
 iterator cubicRoots(pa, pb, pc, pd: float32): float32 =
     # Cardano's algorithm for calculating roots
@@ -105,6 +105,13 @@ iterator roots*[N: static[int]](entries: array[N, float32]): float32 =
 template yieldAll*(iter: untyped) =
     for value in iter: yield value
 
+template forIndexed*(i, value, iter, exec: untyped) =
+    block:
+        var i = 0
+        for value in iter:
+            exec
+            i += 1
+
 proc toArray[T](input: seq[T], N: static int): array[N, T] =
     for i in 0..<N: result[i] = input[i]
 
@@ -136,11 +143,43 @@ iterator forDistinct*[T](input: seq[T]): T =
             yield value
         prev = some(value)
 
-proc deCasteljau*(points: openarray[Vec2], t: float): Vec2 =
+type DeCasteljau* {.byref.} = object
+    ## The results of a de Casteljau execution against a set of points
+    points: seq[Vec2]
+    originalLen: Positive
+
+proc deCasteljau*(points: openarray[Vec2], t: float): DeCasteljau =
     ## Uses de Casteljau's algorithm to determine the location of 't' on a curve
-    var dCpts = points.mapIt(it)
-    while dCpts.len > 1:
-        for i in 0..<(dCpts.len - 1):
-            dCpts[i] = dCpts[i] + (dCpts[i + 1] - dCpts[i]) * t
-        dCpts.setLen(dCpts.len - 1)
-    return dCpts[0]
+    var buffer = newSeq[Vec2](points.len * (points.len + 1) div 2)
+
+    # Start by filling the buffer with the input points
+    for i, value in points: buffer[i] = value
+
+    var inputs = (start: 0, len: points.len)
+
+    while inputs.len > 1:
+        let newBlockStart = inputs.start + inputs.len
+        for i in 0..<(inputs.len - 1):
+            let pointIdx = inputs.start + i
+            buffer[newBlockStart + i] = buffer[pointIdx] + (buffer[pointIdx + 1] - buffer[pointIdx]) * t
+        inputs.len -= 1
+        inputs.start = newBlockStart
+
+    return DeCasteljau(points: buffer, originalLen: points.len)
+
+proc finalPoint*(calculated: DeCasteljau): Vec2 = calculated.points[calculated.points.len - 1]
+    ## Returns the caluclated result of running de Casteljau's algorithm
+
+iterator left*(calculated: DeCasteljau): Vec2 =
+    ## Yields the left-hand set of points for splitting a curve
+    var index = 0
+    for step in countDown(calculated.originalLen.int, 1):
+        yield calculated.points[index]
+        index += step
+
+iterator right*(calculated: DeCasteljau): Vec2 =
+    ## Yields the right-hand set of points for splitting a curve
+    var index = calculated.points.len - 1
+    for step in 1..calculated.originalLen:
+        yield calculated.points[index]
+        index -= step

@@ -131,7 +131,7 @@ proc compute*[N](curve: Bezier[N], t: float): Vec2 =
     elif N == 1: return computeForLinear(curve, t)
     elif N == 2: return computeForQuad(curve, t)
     elif N == 3: return computeForCubic(curve, t)
-    else: return deCasteljau(curve.points, t)
+    else: return deCasteljau(curve.points, t).finalPoint
 
 proc compute*(curve: DynBezier, t: float): Vec2 =
     ## Computes the position of a point along the curve
@@ -140,7 +140,7 @@ proc compute*(curve: DynBezier, t: float): Vec2 =
     of 1: return computeForLinear(curve, t)
     of 2: return computeForQuad(curve, t)
     of 3: return computeForCubic(curve, t)
-    else: return deCasteljau(curve.points, t)
+    else: return deCasteljau(curve.points, t).finalPoint
 
 template xyTpl(curve: typed, prop: untyped) =
     when compiles(result.setLen(0)): result.setLen(curve.points.len)
@@ -301,6 +301,25 @@ iterator intersects*(curve: Bezier | DynBezier, p1, p2: Vec2): Vec2 =
         let aligned = curve.align(p1, p2)
         for t in roots(aligned.ys):
             yield curve.compute(t)
+
+template splitTpl(curve, t: typed) =
+    let calculated = deCasteljau(curve.points, t)
+    forIndexed(i, point, left(calculated)):
+        result[0].points[i] = point
+    forIndexed(i, point, right(calculated)):
+        result[1].points[i] = point
+
+proc split*[N](curve: Bezier[N], t: float): (Bezier[N], Bezier[N]) =
+    ## Splits the curve at the given location
+    when N == 0: {.error("Cannot split a 0 order curve").}
+    else: splitTpl(curve, t)
+
+proc split*(curve: DynBezier, t: float): (DynBezier, DynBezier) =
+    ## Splits the curve at the given location
+    assert(curve.order > 0)
+    result[0].points.setLen(curve.points.len)
+    result[1].points.setLen(curve.points.len)
+    splitTpl(curve, t)
 
 # Legendre-Gauss abscissae with n=24 (x_i values, defined at i=n
 # as the roots of the nth order Legendre polynomial Pn(x))

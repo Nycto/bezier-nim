@@ -1,4 +1,4 @@
-import unittest, bezier/util, sequtils
+import unittest, bezier/util, sequtils, vmath
 
 suite "Root calculation":
 
@@ -24,3 +24,15 @@ suite "Root calculation":
         check(roots[4]([ 7.5f, 10, 10, 0 ]).toSeq == @[ 1.0f ])
 
         check(roots[4]([ -33.2183f, -20, -10, 0 ]).toSeq == @[ 1.0f ])
+
+suite "de Casteljau's algorithm":
+    const calc = deCasteljau([vec2(0, 15), vec2(3, 0), vec2(15, 2), vec2(10, 14)], 0.5)
+
+    test "can produce the value for 't'":
+        check(calc.finalPoint == vec2(8, 4.375))
+
+    test "can produce the left hand values for a split":
+        check(calc.left.toSeq == @[ vec2(0.0, 15.0), vec2(1.5, 7.5), vec2(5.25, 4.25), vec2(8.0, 4.375) ])
+
+    test "can produce the right hand values for a split":
+        check(calc.right.toSeq == @[ vec2(8.0, 4.375), vec2(10.75, 4.5), vec2(12.5, 8.0), vec2(10.0, 14.0) ])

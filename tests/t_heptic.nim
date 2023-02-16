@@ -178,6 +178,33 @@ template standardTests(create: untyped) =
         check(b.lut(100).project(vec2(80, 0)) == 0.0)
         check(b.lut(100).project(vec2(200, 150)) == 1.0)
 
+    test "Can split a curve":
+        let (left, right) = b.split(0.5)
+        check(left == create(
+            vec2(58.0, 24.0),
+            vec2(50.5, 41.5),
+            vec2(57.0, 64.75),
+            vec2(80.5, 73.125),
+            vec2(106.25, 77.3125),
+            vec2(122.6875, 84.15625),
+            vec2(126.421875, 96.234375),
+            vec2(120.34375, 113.6484375),
+            vec2(110.1171875, 134.921875),
+            vec2(101.11328125, 157.630859375)
+        ))
+        check(right == create(
+            vec2(101.11328125, 157.630859375),
+            vec2(92.109375, 180.33984375),
+            vec2(84.328125, 204.484375),
+            vec2(83.140625, 227.640625),
+            vec2(93.625, 246.4375),
+            vec2(117.5, 257.1875),
+            vec2(150.5, 256.25),
+            vec2(182.25, 240.75),
+            vec2(197.5, 214.0),
+            vec2(175.0, 178.0)
+        ))
+
 suite "Dynamic Decic bezier":
     standardTests(newDynBezier)
 

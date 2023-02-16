@@ -89,6 +89,11 @@ template standardTests(create: untyped) =
         check(b.lut(100).project(vec2(-10, -10)) == 0.0)
         check(b.lut(100).project(vec2(200, 120)) == 1.0)
 
+    test "Can split a curve":
+        let (left, right) = b.split(0.5)
+        check(left == create(vec2(0, 0), vec2(50, 50)))
+        check(right == create(vec2(50, 50), vec2(100, 100)))
+
 suite "Dynamic Linear bezier":
     standardTests(newDynBezier)
 

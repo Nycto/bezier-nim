@@ -18,6 +18,7 @@ var showTangent: string = ""
 var showNormal: string = ""
 var showIntersects: string = ""
 var showProject: string = ""
+var showSplit: string = ""
 
 var nums = newSeq[float32]()
 
@@ -41,6 +42,7 @@ for kind, key, val in cliParser.getopt():
         of "n", "normal": showNormal = val
         of "i", "intersects": showIntersects = val
         of "p", "project": showProject = val
+        of "s", "split": showSplit = val
         else: assert(false, "Unsupported option: " & key)
     of cmdEnd: assert(false) # cannot happen
 
@@ -125,6 +127,13 @@ proc createSvgBody(curve: Bezier | DynBezier): string =
 proc draw(curve: Bezier | DynBezier) =
     let body = if aligned:
         createSvgBody(curve.align(curve[0], curve[curve.order]))
+    elif showSplit != "":
+        when compiles(curve.split(0.0)):
+            let (left, right) = curve.split(parseFloat(showSplit))
+            createSvgBody(left) & createSvgBody(right)
+        else:
+            assert(curve.order > 0)
+            ""
     else:
         createSvgBody(curve)
     filename.writeFile([

@@ -92,6 +92,10 @@ template standardTests(create: untyped) =
     test "Can project a point":
         check(b.lut(100).project(vec2(100, 100)) == 0.0)
 
+    test "Cant split a curve":
+        fails:
+            discard b.split(0.5)
+
 suite "Dynamic Constant bezier":
     standardTests(newDynBezier)
 
