@@ -88,6 +88,8 @@ window.addEventListener('DOMContentLoaded', main);
 <dt><a name="approxLen" href="#approxLen"><span>approxLen:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: approxLen(curve: Bezier | DynBezier; steps: Positive): float" href="bezier.html#approxLen%2C%2CPositive">bezier: approxLen(curve: Bezier | DynBezier; steps: Positive): float</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="bezier: approxLen[T](lut: LUT[T]): float" href="bezier.html#approxLen%2CLUT%5BT%5D">bezier: approxLen[T](lut: LUT[T]): float</a></li>
           </ul></dd>
 <dt><a name="Bezier" href="#Bezier"><span>Bezier:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -103,9 +105,13 @@ window.addEventListener('DOMContentLoaded', main);
           <li><a class="reference external"
           data-doc-search-tag="bezier: compute(curve: DynBezier; t: float): Vec2" href="bezier.html#compute%2CDynBezier%2Cfloat">bezier: compute(curve: DynBezier; t: float): Vec2</a></li>
           </ul></dd>
+<dt><a name="DeCasteljau" href="#DeCasteljau"><span>DeCasteljau:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="util: DeCasteljau" href="bezier/util.html#DeCasteljau">util: DeCasteljau</a></li>
+          </ul></dd>
 <dt><a name="deCasteljau" href="#deCasteljau"><span>deCasteljau:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="util: deCasteljau(points: openArray[Vec2]; t: float): Vec2" href="bezier/util.html#deCasteljau%2CopenArray%5BVec2%5D%2Cfloat">util: deCasteljau(points: openArray[Vec2]; t: float): Vec2</a></li>
+          data-doc-search-tag="util: deCasteljau(points: openArray[Vec2]; t: float): DeCasteljau" href="bezier/util.html#deCasteljau%2CopenArray%5BVec2%5D%2Cfloat">util: deCasteljau(points: openArray[Vec2]; t: float): DeCasteljau</a></li>
           </ul></dd>
 <dt><a name="derivative" href="#derivative"><span>derivative:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -123,6 +129,10 @@ window.addEventListener('DOMContentLoaded', main);
           <li><a class="reference external"
           data-doc-search-tag="bezier: extrema(curve: DynBezier): float32" href="bezier.html#extrema.i%2CDynBezier">bezier: extrema(curve: DynBezier): float32</a></li>
           </ul></dd>
+<dt><a name="finalPoint" href="#finalPoint"><span>finalPoint:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="util: finalPoint(calculated: DeCasteljau): Vec2" href="bezier/util.html#finalPoint%2CDeCasteljau">util: finalPoint(calculated: DeCasteljau): Vec2</a></li>
+          </ul></dd>
 <dt><a name="findY" href="#findY"><span>findY:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: findY(curve: Bezier | DynBezier; x: float): Vec2" href="bezier.html#findY.i%2C%2Cfloat">bezier: findY(curve: Bezier | DynBezier; x: float): Vec2</a></li>
@@ -131,9 +141,17 @@ window.addEventListener('DOMContentLoaded', main);
 <li><a class="reference external"
           data-doc-search-tag="util: forDistinct[T](input: seq[T]): T" href="bezier/util.html#forDistinct.i%2Cseq%5BT%5D">util: forDistinct[T](input: seq[T]): T</a></li>
           </ul></dd>
+<dt><a name="forIndexed" href="#forIndexed"><span>forIndexed:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="util: forIndexed(i, value, iter, exec: untyped)" href="bezier/util.html#forIndexed.t%2Cuntyped%2Cuntyped%2Cuntyped%2Cuntyped">util: forIndexed(i, value, iter, exec: untyped)</a></li>
+          </ul></dd>
 <dt><a name="intersects" href="#intersects"><span>intersects:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: intersects(curve: Bezier | DynBezier; p1, p2: Vec2): Vec2" href="bezier.html#intersects.i%2C%2CVec2%2CVec2">bezier: intersects(curve: Bezier | DynBezier; p1, p2: Vec2): Vec2</a></li>
+          </ul></dd>
+<dt><a name="intervals" href="#intervals"><span>intervals:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="bezier: intervals[T](lut: LUT[T]; steps: Positive): Vec2" href="bezier.html#intervals.i%2CLUT%5BT%5D%2CPositive">bezier: intervals[T](lut: LUT[T]; steps: Positive): Vec2</a></li>
           </ul></dd>
 <dt><a name="isOnLine" href="#isOnLine"><span>isOnLine:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -142,6 +160,10 @@ window.addEventListener('DOMContentLoaded', main);
 <dt><a name="items" href="#items"><span>items:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: items(curve: DynBezier | Bezier): lent Vec2" href="bezier.html#items.i">bezier: items(curve: DynBezier | Bezier): lent Vec2</a></li>
+          </ul></dd>
+<dt><a name="left" href="#left"><span>left:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="util: left(calculated: DeCasteljau): Vec2" href="bezier/util.html#left.i%2CDeCasteljau">util: left(calculated: DeCasteljau): Vec2</a></li>
           </ul></dd>
 <dt><a name="length" href="#length"><span>length:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -189,11 +211,17 @@ window.addEventListener('DOMContentLoaded', main);
           </ul></dd>
 <dt><a name="points" href="#points"><span>points:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="bezier: points(curve: Bezier | DynBezier; steps: range[2 .. high(int)]): (float, Vec2)" href="bezier.html#points.i%2C%2Crange%5B%5D">bezier: points(curve: Bezier | DynBezier; steps: range[2 .. high(int)]): (float, Vec2)</a></li>
+          data-doc-search-tag="bezier: points(curve: Bezier | DynBezier; steps: range[2 .. high(int)]): tuple[t: float,
+    point: Vec2]" href="bezier.html#points.i%2C%2Crange%5B%5D">bezier: points(curve: Bezier | DynBezier; steps: range[2 .. high(int)]): tuple[t: float,
+    point: Vec2]</a></li>
           </ul></dd>
 <dt><a name="project" href="#project"><span>project:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: project[T](lut: LUT[T]; point: Vec2): float" href="bezier.html#project%2CLUT%5BT%5D%2CVec2">bezier: project[T](lut: LUT[T]; point: Vec2): float</a></li>
+          </ul></dd>
+<dt><a name="right" href="#right"><span>right:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="util: right(calculated: DeCasteljau): Vec2" href="bezier/util.html#right.i%2CDeCasteljau">util: right(calculated: DeCasteljau): Vec2</a></li>
           </ul></dd>
 <dt><a name="roots" href="#roots"><span>roots:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -204,6 +232,12 @@ window.addEventListener('DOMContentLoaded', main);
 <dt><a name="segments" href="#segments"><span>segments:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="bezier: segments(curve: Bezier | DynBezier; steps: Positive): (Vec2, Vec2)" href="bezier.html#segments.i%2C%2CPositive">bezier: segments(curve: Bezier | DynBezier; steps: Positive): (Vec2, Vec2)</a></li>
+          </ul></dd>
+<dt><a name="split" href="#split"><span>split:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="bezier: split[N](curve: Bezier[N]; t: float): (Bezier[N], Bezier[N])" href="bezier.html#split%2CBezier%5BN%5D%2Cfloat">bezier: split[N](curve: Bezier[N]; t: float): (Bezier[N], Bezier[N])</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="bezier: split(curve: DynBezier; t: float): (DynBezier, DynBezier)" href="bezier.html#split%2CDynBezier%2Cfloat">bezier: split(curve: DynBezier; t: float): (DynBezier, DynBezier)</a></li>
           </ul></dd>
 <dt><a name="tangent" href="#tangent"><span>tangent:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -234,7 +268,7 @@ window.addEventListener('DOMContentLoaded', main);
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-15 03:11:17 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-16 05:13:50 UTC</small>
       </div>
     </div>
   </div>

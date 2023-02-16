@@ -115,7 +115,7 @@ window.addEventListener('DOMContentLoaded', main);
   points: seq[Vec2]">DynBezier</a></li>
   <li><a class="reference" href="#LUT"
     title="LUT[T] {.byref.} = object
-  table: seq[tuple[t: float, point: Vec2]]
+  table: seq[tuple[t: float, point: Vec2, distanceFrom0: float]]
   curve: T">LUT</a></li>
 
   </ul>
@@ -143,6 +143,8 @@ window.addEventListener('DOMContentLoaded', main);
   <ul class="simple nested-toc-section">approxLen
       <li><a class="reference" href="#approxLen%2C%2CPositive"
     title="approxLen(curve: Bezier | DynBezier; steps: Positive): float">approxLen(curve: Bezier | DynBezier; steps: Positive): float</a></li>
+  <li><a class="reference" href="#approxLen%2CLUT%5BT%5D"
+    title="approxLen[T](lut: LUT[T]): float">approxLen[T](lut: LUT[T]): float</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">boundingBox
@@ -201,6 +203,13 @@ window.addEventListener('DOMContentLoaded', main);
     title="project[T](lut: LUT[T]; point: Vec2): float">project[T](lut: LUT[T]; point: Vec2): float</a></li>
 
   </ul>
+  <ul class="simple nested-toc-section">split
+      <li><a class="reference" href="#split%2CDynBezier%2Cfloat"
+    title="split(curve: DynBezier; t: float): (DynBezier, DynBezier)">split(curve: DynBezier; t: float): (DynBezier, DynBezier)</a></li>
+  <li><a class="reference" href="#split%2CBezier%5BN%5D%2Cfloat"
+    title="split[N](curve: Bezier[N]; t: float): (Bezier[N], Bezier[N])">split[N](curve: Bezier[N]; t: float): (Bezier[N], Bezier[N])</a></li>
+
+  </ul>
   <ul class="simple nested-toc-section">tangent
       <li><a class="reference" href="#tangent%2C%2Cfloat"
     title="tangent(curve: Bezier | DynBezier; t: float): Vec2">tangent(curve: Bezier | DynBezier; t: float): Vec2</a></li>
@@ -248,6 +257,11 @@ window.addEventListener('DOMContentLoaded', main);
     title="intersects(curve: Bezier | DynBezier; p1, p2: Vec2): Vec2">intersects(curve: Bezier | DynBezier; p1, p2: Vec2): Vec2</a></li>
 
   </ul>
+  <ul class="simple nested-toc-section">intervals
+      <li><a class="reference" href="#intervals.i%2CLUT%5BT%5D%2CPositive"
+    title="intervals[T](lut: LUT[T]; steps: Positive): Vec2">intervals[T](lut: LUT[T]; steps: Positive): Vec2</a></li>
+
+  </ul>
   <ul class="simple nested-toc-section">items
       <li><a class="reference" href="#items.i"
     title="items(curve: DynBezier | Bezier): lent Vec2">items(curve: DynBezier | Bezier): lent Vec2</a></li>
@@ -260,7 +274,9 @@ window.addEventListener('DOMContentLoaded', main);
   </ul>
   <ul class="simple nested-toc-section">points
       <li><a class="reference" href="#points.i%2C%2Crange%5B%5D"
-    title="points(curve: Bezier | DynBezier; steps: range[2 .. high(int)]): (float, Vec2)">points(curve: Bezier | DynBezier; steps: range[2 .. high(int)]): (float, Vec2)</a></li>
+    title="points(curve: Bezier | DynBezier; steps: range[2 .. high(int)]): tuple[t: float,
+    point: Vec2]">points(curve: Bezier | DynBezier; steps: range[2 .. high(int)]): tuple[t: float,
+    point: Vec2]</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">segments
@@ -330,7 +346,7 @@ Bezier curve where the order isn't known at compile time
 </div>
 <div id="LUT">
 <dt><pre><a href="bezier.html#LUT"><span class="Identifier">LUT</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span> {.<span class="Identifier">byref</span>.} <span class="Other">=</span> <span class="Keyword">object</span>
-  <span class="Identifier">table</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">,</span> <span class="Identifier">point</span><span class="Other">:</span> <span class="Identifier">Vec2</span><span class="Other">]</span><span class="Other">]</span>
+  <span class="Identifier">table</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">,</span> <span class="Identifier">point</span><span class="Other">:</span> <span class="Identifier">Vec2</span><span class="Other">,</span> <span class="Identifier">distanceFrom0</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">]</span><span class="Other">]</span>
   <span class="Identifier">curve</span><span class="Other">:</span> <span class="Identifier">T</span>
 </pre></dt>
 <dd>
@@ -381,6 +397,14 @@ Rotates this bezier curve so it aligns with the given line
 <dd>
 
 Calculates the approximate length of a curve
+
+</dd>
+</div>
+<div id="approxLen,LUT[T]">
+<dt><pre><span class="Keyword">proc</span> <a href="#approxLen%2CLUT%5BT%5D"><span class="Identifier">approxLen</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">lut</span><span class="Other">:</span> <a href="bezier.html#LUT"><span class="Identifier">LUT</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
+<dd>
+
+Uses a LUT to determine the approximate length of a curve
 
 </dd>
 </div>
@@ -489,6 +513,23 @@ Finds the location on a curve closest to the given point
 
 </dd>
 </div>
+<div id="split,DynBezier,float">
+<dt><pre><span class="Keyword">proc</span> <a href="#split%2CDynBezier%2Cfloat"><span class="Identifier">split</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">,</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<dd>
+
+Splits the curve at the given location
+
+</dd>
+</div>
+<div id="split,Bezier[N],float">
+<dt><pre><span class="Keyword">proc</span> <a href="#split%2CBezier%5BN%5D%2Cfloat"><span class="Identifier">split</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">,</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span></pre></dt>
+<dd>
+
+Splits the curve at the given location
+
+</dd>
+</div>
 <div id="tangent,,float">
 <dt><pre><span class="Keyword">proc</span> <a href="#tangent%2C%2Cfloat"><span class="Identifier">tangent</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
 <dd>
@@ -574,6 +615,14 @@ Yields the points where a curve intersects a line
 
 </dd>
 </div>
+<div id="intervals.i,LUT[T],Positive">
+<dt><pre><span class="Keyword">iterator</span> <a href="#intervals.i%2CLUT%5BT%5D%2CPositive"><span class="Identifier">intervals</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">lut</span><span class="Other">:</span> <a href="bezier.html#LUT"><span class="Identifier">LUT</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">steps</span><span class="Other">:</span> <span class="Identifier">Positive</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
+<dd>
+
+Produces points along the curve that are more geometrically evenly spaced
+
+</dd>
+</div>
 <div id="items.i">
 <dt><pre><span class="Keyword">iterator</span> <a href="#items.i"><span class="Identifier">items</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a> <span class="Operator">|</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">lent</span> <span class="Identifier">Vec2</span></pre></dt>
 <dd>
@@ -591,8 +640,8 @@ Produces all the points in this curve as well as their index
 </dd>
 </div>
 <div id="points.i,,range[]">
-<dt><pre><span class="Keyword">iterator</span> <a href="#points.i%2C%2Crange%5B%5D"><span class="Identifier">points</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">steps</span><span class="Other">:</span> <span class="Identifier">range</span><span class="Other">[</span><span class="DecNumber">2</span> <span class="Operator">..</span> <span class="Identifier">high</span><span class="Other">(</span><span class="Identifier">int</span><span class="Other">)</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span>
-    <span class="Identifier">float</span><span class="Other">,</span> <span class="Identifier">Vec2</span><span class="Other">)</span></pre></dt>
+<dt><pre><span class="Keyword">iterator</span> <a href="#points.i%2C%2Crange%5B%5D"><span class="Identifier">points</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">steps</span><span class="Other">:</span> <span class="Identifier">range</span><span class="Other">[</span><span class="DecNumber">2</span> <span class="Operator">..</span> <span class="Identifier">high</span><span class="Other">(</span><span class="Identifier">int</span><span class="Other">)</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span>
+    <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">,</span> <span class="Identifier">point</span><span class="Other">:</span> <span class="Identifier">Vec2</span><span class="Other">]</span></pre></dt>
 <dd>
 
 Produces a set of points along the curve at the given number of steps
@@ -638,7 +687,7 @@ Applies a mapping function to the points in this curve
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-15 03:11:17 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-16 05:13:50 UTC</small>
       </div>
     </div>
   </div>
