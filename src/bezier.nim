@@ -29,18 +29,23 @@ template assign(points: typed) =
         result.points[i] = points[i]
 
 proc newBezier*[N](points: varargs[Vec2]): Bezier[N] =
-    ## Creates a new instance
+    ## Creates a new Bezier curve where the curve order is known at build time. For example,
+    ## passing in `N = 3` is a cubic curve.
     assert(points.len == N + 1)
     assign(points)
 
 proc newDynBezier*(points: varargs[Vec2]): DynBezier =
-    ## Creates a new instance
+    ## Creates a new Bezier curve where the curve order is only known at runtime
     result.points.setLen(points.len)
     assign(points)
 
 proc order*(curve: DynBezier): Natural = curve.points.len - 1
+    ## The order of the curve is the number of points used to define the curve, starting at 0.
+    ## `N = 1` is linear (2 points), `N = 2` is quadratic (3 points), `N = 3` is cubic (4 points)
 
 proc order*[N](curve: Bezier[N]): Natural = N
+    ## The order of the curve is the number of points used to define the curve, starting at 0.
+    ## `N = 1` is linear (2 points), `N = 2` is quadratic (3 points), `N = 3` is cubic (4 points)
 
 proc `$`*(curve: Bezier | DynBezier): string =
     ## Create a string representation of a bezier curve
@@ -85,11 +90,13 @@ template mapItTpl[OutputType](order, curve: typed, mapper: untyped): OutputType 
         output
 
 template mapIt*[N](curve: Bezier[N], mapper: untyped): Bezier[N] =
-    ## Applies a mapping function to the points in this curve
+    ## Applies a mapping function to the points in this curve. Within the mapping block, a
+    ## variable named `it` will be injected with the current point
     mapItTpl[Bezier[N]](N, curve, mapper)
 
 template mapIt*(curve: DynBezier, mapper: untyped): DynBezier =
-    ## Applies a mapping function to the points in this curve
+    ## Applies a mapping function to the points in this curve. Within the mapping block, a
+    ## variable named `it` will be injected with the current point
     mapItTpl[DynBezier](curve.order, curve, mapper)
 
 proc computeForQuadOrCubic(p0, p1, p2, p3: Vec2; a, b, c, d: float): Vec2 {.inline.} =
@@ -126,7 +133,7 @@ proc computeForCubic(curve: Bezier | DynBezier, t: float): Vec2 {.inline.} =
     )
 
 proc compute*[N](curve: Bezier[N], t: float): Vec2 =
-    ## Computes the position of a point along the curve
+    ## Computes the position of a point along the curve, where `t` is a value between 0.0 and 1.0.
     when N == 0: return curve.points[0]
     elif N == 1: return computeForLinear(curve, t)
     elif N == 2: return computeForQuad(curve, t)
@@ -134,7 +141,7 @@ proc compute*[N](curve: Bezier[N], t: float): Vec2 =
     else: return deCasteljau(curve.points, t).finalPoint
 
 proc compute*(curve: DynBezier, t: float): Vec2 =
-    ## Computes the position of a point along the curve
+    ## Computes the position of a point along the curve, where `t` is a value between 0.0 and 1.0.
     case curve.order
     of 0: return curve.points[0]
     of 1: return computeForLinear(curve, t)
@@ -164,13 +171,13 @@ template derivativeTpl(curve: typed) =
     return output
 
 proc derivative*[N](curve: Bezier[N]): auto =
-    ## Computes the derivative of a bezier curve
+    ## Computes the derivative of a bezier curve. The result of this is a new bezier curve with an order of N - 1
     when N <= 0: {.error( "Can not take the derivative of a constant curve").}
     var output: Bezier[N - 1]
     derivativeTpl(curve)
 
 proc derivative*(curve: DynBezier): DynBezier =
-    ## Computes the derivative of a bezier curve
+    ## Computes the derivative of a bezier curve. The result of this is a new bezier curve with an order of N - 1
     assert(curve.order > 0, "Can not take the derivative of a constant curve")
     var output: DynBezier
     output.points.setLen(curve.points.len - 1)
@@ -193,13 +200,13 @@ template extremaTpl(curve: typed) =
     yieldAll(forDistinct(output))
 
 iterator extrema*[N](curve: Bezier[N]): float32 =
-    ## Calculates all the extrema on a curve, extressed as a `t`. You can feed these values into
-    ## the `compute` method to get their coordinates
+    ## Calculates all the extrema on a curve, expressed as a location between 0.0 and 1.0. You can feed these values
+    ## into the `compute` method to get their coordinates
     when N > 1: extremaTpl(curve)
 
 iterator extrema*(curve: DynBezier): float32 = extremaTpl(curve)
-    ## Calculates all the extrema on a curve, extressed as a `t`. You can feed these values into
-    ## the `compute` method to get their coordinates
+    ## Calculates all the extrema on a curve, expressed as a location between 0.0 and 1.0. You can feed these values
+    ## into the `compute` method to get their coordinates
 
 proc boundingBox*(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: float32] =
     ## Returns the bounding box for a curve
@@ -247,7 +254,8 @@ proc tightBoundingBox*(curve: Bezier | DynBezier): array[4, Vec2] =
             result[3] = corner(minX, maxY)
 
 iterator findY*(curve: Bezier | DynBezier, x: float): Vec2 =
-    ## Produces the Y values for a given X
+    ## Produces the Y values for a given X. This can produce multiple values because a bezier curve may
+    ## have multiple intersections with the same `x` value
     if curve.order == 0:
         if x == curve.points[0].x:
             yield curve.points[0]
@@ -269,7 +277,8 @@ iterator points*(curve: Bezier | DynBezier, steps: range[2..high(int)]): tuple[t
         t += step
 
 iterator segments*(curve: Bezier | DynBezier, steps: Positive): (Vec2, Vec2) =
-    ## Breaks the curve into straight lines. Also known as flattening the curve
+    ## Breaks the curve into straight lines. Also known as flattening the curve. These lines are not guaranteed
+    ## to be geometrically even.
     if curve.order > 0:
         var previous: Vec2
         for (t, current) in points(curve, steps + 1):
@@ -278,11 +287,11 @@ iterator segments*(curve: Bezier | DynBezier, steps: Positive): (Vec2, Vec2) =
             previous = current
 
 proc tangent*(curve: Bezier | DynBezier, t: float): Vec2 =
-    ## Returns the tangent vector at a given location
+    ## Returns the tangent vector at a given location, where `t` is a value between 0.0 and 1.0
     curve.derivative().compute(t)
 
 proc normal*(curve: Bezier | DynBezier, t: float): Vec2 =
-    ## Returns the tangent vector at a given location
+    ## Returns the tangent vector at a given location, where `t` is avalue between 0.0 and 1.0
     let d = curve.tangent(t)
     let q = sqrt(d.x * d.x + d.y * d.y)
     return vec2(-d.y / q, d.x / q)
@@ -310,12 +319,12 @@ template splitTpl(curve, t: typed) =
         result[1].points[i] = point
 
 proc split*[N](curve: Bezier[N], t: float): (Bezier[N], Bezier[N]) =
-    ## Splits the curve at the given location
+    ## Splits the curve at the given location, where `t` is avalue between 0.0 and 1.0
     when N == 0: {.error("Cannot split a 0 order curve").}
     else: splitTpl(curve, t)
 
 proc split*(curve: DynBezier, t: float): (DynBezier, DynBezier) =
-    ## Splits the curve at the given location
+    ## Splits the curve at the given location, where `t` is avalue between 0.0 and 1.0
     assert(curve.order > 0)
     result[0].points.setLen(curve.points.len)
     result[1].points.setLen(curve.points.len)
@@ -379,7 +388,8 @@ const Cvalues = [
 ]
 
 proc length*(curve: Bezier | DynBezier): float =
-    ## Calculates the length of a curve
+    ## Calculates the length of a curve. This can be expensive, so if you need a faster version consider
+    ## using `approxLen` instead.
     result = 0
     when compiles(curve.derivative()):
         if curve.order > 0:
@@ -393,12 +403,13 @@ proc length*(curve: Bezier | DynBezier): float =
             result *= z
 
 proc approxLen*(curve: Bezier | DynBezier, steps: Positive): float =
-    ## Calculates the approximate length of a curve
+    ## Calculates the approximate length of a curve. This is a faster algorithm than calling `length` directly
     for (a, b) in curve.segments(steps):
         result += (b - a).length
 
 proc lut*[T: Bezier | DynBezier](curve: T, steps: range[2..high(int)]): LUT[T] =
-    ## Creates a lookup table of indexes into this curve
+    ## Creates a lookup table of indexes into this curve, where `steps` is the number of points to sample
+    ## along the curve.
     var distanceFrom0: float = 0.0
     result.table = newSeq[(float, Vec2, float)](steps)
     var previous: Vec2
@@ -419,7 +430,8 @@ proc closest[T](lut: LUT[T], point: Vec2): int =
             result = i
 
 proc project*[T](lut: LUT[T], point: Vec2): float =
-    ## Finds the location on a curve closest to the given point
+    ## Finds the location on a curve closest to the given point. Returns a value between 0.0 and 1.0 that
+    ## can be fed into the `compute` function
 
     let closestIdx = lut.closest(point)
 
@@ -443,10 +455,14 @@ proc project*[T](lut: LUT[T], point: Vec2): float =
     return clamp(closestT, 0.0, 1.0)
 
 proc approxLen*[T](lut: Lut[T]): float = lut.table[lut.table.len - 1].distanceFrom0
-    ## Uses a LUT to determine the approximate length of a curve
+    ## Uses a LUT to determine the approximate length of a curve. This is a bit innacurate, but faster
+    ## than calling `length`
 
 iterator intervals*[T](lut: LUT[T], steps: Positive): Vec2 =
-    ## Produces points along the curve that are more geometrically evenly spaced
+    ## Produces points along the curve that are more geometrically evenly spaced. They aren't guaranteed to
+    ## be exactly evenly spaced, but they will be better than using `segment`. If you need more accuracy, you
+    ## can increase the sample size of the `LUT`. The argument `steps` is the number of intervals to produce. So
+    ## this iterator will yield `steps + 1` number of points.
     let curveLen = lut.approxLen
 
     var pos = 0
