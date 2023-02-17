@@ -1,6 +1,6 @@
 import std/math, vmath, options
 
-iterator cubicRoots(pa, pb, pc, pd: float32): float32 =
+iterator cubicRoots(pa, pb, pc, pd: float): float =
     # Cardano's algorithm for calculating roots
     block earlyReturn:
         let a = 3 * pa - 6 * pb + 3 * pc
@@ -43,17 +43,15 @@ iterator cubicRoots(pa, pb, pc, pd: float32): float32 =
 
         # three possible real roots:
         if discriminant < 0:
-            let mp3  = -p/3
-            let mp33 = mp3*mp3*mp3
-            let r = sqrt( mp33 )
-            let t = -q / (2*r)
+            let mp3 = -p / 3
+            let r = sqrt(mp3 * mp3 * mp3)
+            let t = -q / (2 * r)
             let cosphi = t.clamp(-1, 1)
-            let phi  = arccos(cosphi)
-            let crtr = cbrt(r)
-            let t1   = 2*crtr
-            yield t1 * cos(phi/3) - ad/3
-            yield t1 * cos((phi + 2 * PI) / 3) - ad / 3
-            yield t1 * cos((phi + 4 * PI) / 3) - ad / 3
+            let phi = arccos(cosphi)
+            let t1 = 2 * cbrt(r)
+            yield t1 * cos(phi / 3) - ad / 3
+            yield t1 * cos((phi + TAU) / 3) - ad / 3
+            yield t1 * cos((phi + 2 * TAU) / 3) - ad / 3
 
         # three real roots, but two of them are equal:
         elif discriminant == 0:
@@ -68,7 +66,7 @@ iterator cubicRoots(pa, pb, pc, pd: float32): float32 =
             let v1 = cbrt(sd + q2)
             yield u1 - v1 - ad/3
 
-iterator computeRoots[N: static[int]](entries: array[N, float32]): float32 =
+iterator computeRoots[N: static[int]](entries: array[N, float]): float =
     ## Calculate the roots of the given points
     when N > 4:
         {. error("Cannot calculate roots for N over 4") .}
@@ -96,10 +94,14 @@ iterator computeRoots[N: static[int]](entries: array[N, float32]): float32 =
         if a != b:
             yield a / (a - b)
 
-iterator roots*[N: static[int]](entries: array[N, float32]): float32 =
+iterator roots*[N: static[int]](entries: array[N, float]): float =
     ## Calculate the roots of the given points
     for root in computeRoots(entries):
-        if root >= 0 and root <= 1:
+        if root ~= 0:
+            yield 0
+        elif root ~= 1.0:
+            yield 1.0
+        elif root >= 0 and root <= 1:
             yield root
 
 template yieldAll*(iter: untyped) =
@@ -115,7 +117,7 @@ template forIndexed*(i, value, iter, exec: untyped) =
 proc toArray[T](input: seq[T], N: static int): array[N, T] =
     for i in 0..<N: result[i] = input[i]
 
-iterator roots*(entries: seq[float32]): float32 =
+iterator roots*(entries: seq[float]): float =
     ## Calculate the roots of the given points
     assert(entries.len <= 4, "Can't yet calculate roots for N = " & $entries.len)
     if entries.len == 2: yieldAll(roots(entries.toArray(2)))
@@ -136,7 +138,7 @@ proc linesIntersect*(p1, p2, p3, p4: Vec2): Option[Vec2] =
 
 iterator forDistinct*[T](input: seq[T]): T =
     ## Loops over the unique values in an input, assuming it has been pre-sorted
-    var prev: Option[float32]
+    var prev: Option[float]
     for value in input:
         assert(isNone(prev) or isSome(prev) and unsafeGet(prev) <= value, "Input must be sorted")
         if isNone(prev) or isSome(prev) and unsafeGet(prev) != value:

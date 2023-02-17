@@ -35,8 +35,8 @@ template standardTests(create: untyped) =
         check(b.compute(1.0) == vec2(10, 14))
 
     test "Can return Xs and Ys":
-        check(b.xs == [0f, 3, 15, 10])
-        check(b.ys == [15f, 0, 2, 14])
+        check(b.xs == [0.0, 3, 15, 10])
+        check(b.ys == [15.0, 0, 2, 14])
 
     test "Can calculate the derivative":
         let deriv = b2.derivative()
@@ -46,15 +46,15 @@ template standardTests(create: untyped) =
 
     test "Can calculate extremas":
         check(b2.extrema().toSeq == @[
-            0.06666666666666667f,
-            0.18681318681318682f,
-            0.4378509575220014f,
-            0.5934065934065934f,
-            1f
+            0.06666666666666667,
+            0.18681318681318682,
+            0.4378509575220014,
+            0.5934065934065934,
+            1
         ])
 
     test "Can calculate bounding boxes":
-        check(b2.boundingBox() == (97.66453326892888f, 40f, 220f, 198.86234582181876f))
+        check(b2.boundingBox() == (minX: 97.66453552246094, minY: 40.0, maxX: 220.0, maxY: 198.8623504638672))
 
     test "Can align a line":
         check(b.align(vec2(0, 0), vec2(1, 1)) == create(
@@ -66,21 +66,21 @@ template standardTests(create: untyped) =
 
     test "Can produce a tight bounding box":
         check(b.tightBoundingBox() == [
-            vec2(-0.9763734936714172, 5.236265182495117),
-            vec2(10.76858520507812, 4.061769485473633),
+            vec2(-0.9763734936714172, 5.236264705657959),
+            vec2(10.76858520507812, 4.061769008636475),
             vec2(11.74495887756348, 13.82550430297852),
             vec2(0.0, 15.0)
         ])
 
     test "Can produce y values for x":
         check(b2.findY(115).toSeq == @[
-            vec2(115.0000076293945f, 162.5425720214844f),
-            vec2(115.0000152587891f, 197.7810821533203f)
+            vec2(115.0, 162.5425720214844),
+            vec2(115.0, 197.7810821533203)
         ])
 
     test "Can find max and min y":
-        check(b2.findMinY(115).get == vec2(115.0000076293945f, 162.5425720214844f))
-        check(b2.findMaxY(115).get == vec2(115.0000152587891f, 197.7810821533203f))
+        check(b2.findMinY(115).get == vec2(115.0, 162.5425720214844f))
+        check(b2.findMaxY(115).get == vec2(115.0, 197.7810821533203))
 
     test "Can produce points":
         check(b.points(5).toSeq == @[
@@ -107,8 +107,7 @@ template standardTests(create: untyped) =
 
     test "Can produce line intersections":
         check(b.intersects(vec2(0, 6), vec2(30, 6)).toSeq == @[
-            vec2(4.319429874420166, 6.000003337860107),
-            vec2(10.56313800811768, 6.000006198883057)
+            vec2(4.319433212280273, 6.0), vec2(10.56313419342041, 6.0)
         ])
         check(b.intersects(vec2(0, 106), vec2(30, 106)).toSeq.len == 0)
 

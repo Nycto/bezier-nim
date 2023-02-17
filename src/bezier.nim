@@ -153,16 +153,16 @@ template xyTpl(curve: typed, prop: untyped) =
     when compiles(result.setLen(0)): result.setLen(curve.points.len)
     for i, point in curve: result[i] = point.`prop`
 
-proc xs*[N](curve: Bezier[N]): array[N + 1, float32] = xyTpl(curve, x)
+proc xs*[N](curve: Bezier[N]): array[N + 1, float] = xyTpl(curve, x)
     ## Returns all x values from the points in this curve
 
-proc xs*(curve: DynBezier): seq[float32] = xyTpl(curve, x)
+proc xs*(curve: DynBezier): seq[float] = xyTpl(curve, x)
     ## Returns all x values from the points in this curve
 
-proc ys*[N](curve: Bezier[N]): array[N + 1, float32] = xyTpl(curve, y)
+proc ys*[N](curve: Bezier[N]): array[N + 1, float] = xyTpl(curve, y)
     ## Returns all y values from the points in this curve
 
-proc ys*(curve: DynBezier): seq[float32] = xyTpl(curve, y)
+proc ys*(curve: DynBezier): seq[float] = xyTpl(curve, y)
     ## Returns all y values from the points in this curve
 
 template derivativeTpl(curve: typed) =
@@ -183,14 +183,14 @@ proc derivative*(curve: DynBezier): DynBezier =
     output.points.setLen(curve.points.len - 1)
     derivativeTpl(curve)
 
-proc addExtrema(curve: Bezier | DynBezier, output: var seq[float32]) =
+proc addExtrema(curve: Bezier | DynBezier, output: var seq[float]) =
     for t in roots(curve.xs): output.add(abs(t))
     for t in roots(curve.ys): output.add(abs(t))
 
 template extremaTpl(curve: typed) =
     let deriv = curve.derivative()
 
-    var output = newSeq[float32]()
+    var output = newSeq[float]()
     addExtrema(deriv, output)
 
     if curve.order == 3:
@@ -199,22 +199,22 @@ template extremaTpl(curve: typed) =
     sort(output)
     yieldAll(forDistinct(output))
 
-iterator extrema*[N](curve: Bezier[N]): float32 =
+iterator extrema*[N](curve: Bezier[N]): float =
     ## Calculates all the extrema on a curve, expressed as a location between 0.0 and 1.0. You can feed these values
     ## into the `compute` method to get their coordinates
     when N > 1: extremaTpl(curve)
 
-iterator extrema*(curve: DynBezier): float32 = extremaTpl(curve)
+iterator extrema*(curve: DynBezier): float = extremaTpl(curve)
     ## Calculates all the extrema on a curve, expressed as a location between 0.0 and 1.0. You can feed these values
     ## into the `compute` method to get their coordinates
 
-proc boundingBox*(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: float32] =
+proc boundingBox*(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: float] =
     ## Returns the bounding box for a curve
 
-    result = (curve.points[0].x, curve.points[0].y, curve.points[0].x, curve.points[0].y)
+    result = (curve.points[0].x.float, curve.points[0].y.float, curve.points[0].x.float, curve.points[0].y.float)
 
     if curve.order > 0:
-        proc handlePoint(point: Vec2, output: var tuple[minX, minY, maxX, maxY: float32]) =
+        proc handlePoint(point: Vec2, output: var tuple[minX, minY, maxX, maxY: float]) =
             output.minX = min(point.x, output.minX)
             output.minY = min(point.y, output.minY)
             output.maxX = max(point.x, output.maxX)

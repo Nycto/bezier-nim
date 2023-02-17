@@ -94,8 +94,8 @@ template standardTests(create: untyped) =
         check(b.compute(1.0) == vec2(175, 178))
 
     test "Can return Xs and Ys":
-        check(b.xs == [58.0f, 43.0, 84.0, 205.0, 146.0, 33.0, 27.0, 114.0, 220.0, 175.0])
-        check(b.ys == [24.0f, 59.0, 117.0, 33.0, 143.0, 159.0, 267.0, 285.0, 250.0, 178.0])
+        check(b.xs == [58.0, 43.0, 84.0, 205.0, 146.0, 33.0, 27.0, 114.0, 220.0, 175.0])
+        check(b.ys == [24.0, 59.0, 117.0, 33.0, 143.0, 159.0, 267.0, 285.0, 250.0, 178.0])
 
     test "Can calculate the derivative":
         check(b.derivative().items.toSeq == @[

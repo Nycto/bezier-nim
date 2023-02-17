@@ -31,11 +31,11 @@ template standardTests(create: untyped) =
         check(b.compute(500.0) == vec2(120.0, 160.0))
 
     test "Can return Xs and Ys":
-        check(b.xs == [120f])
-        check(b.ys == [160f])
+        check(b.xs == [120.0])
+        check(b.ys == [160.0])
 
     test "Can calculate bounding boxes":
-        check(b.boundingBox() == (120f, 160f, 120f, 160f))
+        check(b.boundingBox() == (120.0, 160.0, 120.0, 160.0))
 
     test "Can align a line":
         check(b.align(vec2(0, 0), vec2(1, 1)) == create(vec2(197.9898986816406, 28.28427124023438)))

@@ -30,8 +30,8 @@ template standardTests(create: untyped) =
         check(b.compute(0.5) == vec2(50.0, 50.0))
 
     test "Can return Xs and Ys":
-        check(b.xs == [0f, 100])
-        check(b.ys == [0f, 100])
+        check(b.xs == [0.0, 100])
+        check(b.ys == [0.0, 100])
 
     test "Can calculate the derivative":
         let b0 = b.derivative()
@@ -41,7 +41,7 @@ template standardTests(create: untyped) =
         check(b.extrema().toSeq.len == 0)
 
     test "Can calculate bounding boxes":
-        check(b.boundingBox() == (0f, 0f, 100f, 100f))
+        check(b.boundingBox() == (0.0, 0.0, 100.0, 100.0))
 
     test "Can align a line":
         check(b.align(vec2(0, 0), vec2(1, 1)) == create(vec2(0, 0), vec2(141.4213562373095, 0.0)))
