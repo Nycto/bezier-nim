@@ -266,6 +266,18 @@ iterator findY*(curve: Bezier | DynBezier, x: float): Vec2 =
         for root in roots(xVals):
             yield curve.compute(root)
 
+proc findMaxY*(curve: Bezier | DynBezier, x: float): Option[Vec2] =
+    ## Finds the maximum `y` on a curve for a given `x`.
+    for point in findY(curve, x):
+        if result.isNone or point.y > result.unsafeGet.y:
+            result = some(point)
+
+proc findMinY*(curve: Bezier | DynBezier, x: float): Option[Vec2] =
+    ## Finds the maximum `y` on a curve for a given `x`.
+    for point in findY(curve, x):
+        if result.isNone or point.y < result.unsafeGet.y:
+            result = some(point)
+
 iterator points*(curve: Bezier | DynBezier, steps: range[2..high(int)]): tuple[t: float, point: Vec2] =
     ## Produces a set of points along the curve at the given number of steps
     let step: float = 1 / (steps - 1)

@@ -1,4 +1,4 @@
-import unittest, bezier, vmath, sequtils, sets
+import unittest, bezier, vmath, sequtils, sets, options
 
 template standardTests(create: untyped) =
     const b = create(vec2(0, 15), vec2(3, 0), vec2(15, 2), vec2(10, 14))
@@ -77,6 +77,10 @@ template standardTests(create: untyped) =
             vec2(115.0000076293945f, 162.5425720214844f),
             vec2(115.0000152587891f, 197.7810821533203f)
         ])
+
+    test "Can find max and min y":
+        check(b2.findMinY(115).get == vec2(115.0000076293945f, 162.5425720214844f))
+        check(b2.findMaxY(115).get == vec2(115.0000152587891f, 197.7810821533203f))
 
     test "Can produce points":
         check(b.points(5).toSeq == @[
