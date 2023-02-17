@@ -1,7 +1,7 @@
-roots	bezier/util.html#roots.i,array[N,float32]	util: roots[N: static[int]](entries: array[N, float32]): float32	
+roots	bezier/util.html#roots.i,array[N,float]	util: roots[N: static[int]](entries: array[N, float]): float	
 yieldAll	bezier/util.html#yieldAll.t,untyped	util: yieldAll(iter: untyped)	
 forIndexed	bezier/util.html#forIndexed.t,untyped,untyped,untyped,untyped	util: forIndexed(i, value, iter, exec: untyped)	
-roots	bezier/util.html#roots.i,seq[float32]	util: roots(entries: seq[float32]): float32	
+roots	bezier/util.html#roots.i,seq[float]	util: roots(entries: seq[float]): float	
 isOnLine	bezier/util.html#isOnLine,Vec2,Vec2,Vec2	util: isOnLine(point, p1, p2: Vec2): bool	
 linesIntersect	bezier/util.html#linesIntersect,Vec2,Vec2,Vec2,Vec2	util: linesIntersect(p1, p2, p3, p4: Vec2): Option[Vec2]	
 forDistinct	bezier/util.html#forDistinct.i,seq[T]	util: forDistinct[T](input: seq[T]): T	

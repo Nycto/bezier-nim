@@ -14,18 +14,20 @@ mapIt	bezier.html#mapIt.t,Bezier[N],untyped	bezier: mapIt[N](curve: Bezier[N]; m
 mapIt	bezier.html#mapIt.t,DynBezier,untyped	bezier: mapIt(curve: DynBezier; mapper: untyped): DynBezier	
 compute	bezier.html#compute,Bezier[N],float	bezier: compute[N](curve: Bezier[N]; t: float): Vec2	
 compute	bezier.html#compute,DynBezier,float	bezier: compute(curve: DynBezier; t: float): Vec2	
-xs	bezier.html#xs,Bezier[N]	bezier: xs[N](curve: Bezier[N]): array[N + 1, float32]	
-xs	bezier.html#xs,DynBezier	bezier: xs(curve: DynBezier): seq[float32]	
-ys	bezier.html#ys,Bezier[N]	bezier: ys[N](curve: Bezier[N]): array[N + 1, float32]	
-ys	bezier.html#ys,DynBezier	bezier: ys(curve: DynBezier): seq[float32]	
+xs	bezier.html#xs,Bezier[N]	bezier: xs[N](curve: Bezier[N]): array[N + 1, float]	
+xs	bezier.html#xs,DynBezier	bezier: xs(curve: DynBezier): seq[float]	
+ys	bezier.html#ys,Bezier[N]	bezier: ys[N](curve: Bezier[N]): array[N + 1, float]	
+ys	bezier.html#ys,DynBezier	bezier: ys(curve: DynBezier): seq[float]	
 derivative	bezier.html#derivative,Bezier[N]	bezier: derivative[N](curve: Bezier[N]): auto	
 derivative	bezier.html#derivative,DynBezier	bezier: derivative(curve: DynBezier): DynBezier	
-extrema	bezier.html#extrema.i,Bezier[N]	bezier: extrema[N](curve: Bezier[N]): float32	
-extrema	bezier.html#extrema.i,DynBezier	bezier: extrema(curve: DynBezier): float32	
-boundingBox	bezier.html#boundingBox	bezier: boundingBox(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: float32]	
+extrema	bezier.html#extrema.i,Bezier[N]	bezier: extrema[N](curve: Bezier[N]): float	
+extrema	bezier.html#extrema.i,DynBezier	bezier: extrema(curve: DynBezier): float	
+boundingBox	bezier.html#boundingBox	bezier: boundingBox(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: float]	
 align	bezier.html#align,,Vec2,Vec2	bezier: align(curve: Bezier | DynBezier; p1, p2: Vec2): auto	
 tightBoundingBox	bezier.html#tightBoundingBox	bezier: tightBoundingBox(curve: Bezier | DynBezier): array[4, Vec2]	
 findY	bezier.html#findY.i,,float	bezier: findY(curve: Bezier | DynBezier; x: float): Vec2	
+findMaxY	bezier.html#findMaxY,,float	bezier: findMaxY(curve: Bezier | DynBezier; x: float): Option[Vec2]	
+findMinY	bezier.html#findMinY,,float	bezier: findMinY(curve: Bezier | DynBezier; x: float): Option[Vec2]	
 points	bezier.html#points.i,,range[]	bezier: points(curve: Bezier | DynBezier; steps: range[2 .. high(int)]): tuple[t: float,\n    point: Vec2]	
 segments	bezier.html#segments.i,,Positive	bezier: segments(curve: Bezier | DynBezier; steps: Positive): (Vec2, Vec2)	
 tangent	bezier.html#tangent,,float	bezier: tangent(curve: Bezier | DynBezier; t: float): Vec2	

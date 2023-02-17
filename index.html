@@ -149,7 +149,7 @@ window.addEventListener('DOMContentLoaded', main);
   </ul>
   <ul class="simple nested-toc-section">boundingBox
       <li><a class="reference" href="#boundingBox"
-    title="boundingBox(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: float32]">boundingBox(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: float32]</a></li>
+    title="boundingBox(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: float]">boundingBox(curve: Bezier | DynBezier): tuple[minX, minY, maxX, maxY: float]</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">compute
@@ -164,6 +164,16 @@ window.addEventListener('DOMContentLoaded', main);
     title="derivative(curve: DynBezier): DynBezier">derivative(curve: DynBezier): DynBezier</a></li>
   <li><a class="reference" href="#derivative%2CBezier%5BN%5D"
     title="derivative[N](curve: Bezier[N]): auto">derivative[N](curve: Bezier[N]): auto</a></li>
+
+  </ul>
+  <ul class="simple nested-toc-section">findMaxY
+      <li><a class="reference" href="#findMaxY%2C%2Cfloat"
+    title="findMaxY(curve: Bezier | DynBezier; x: float): Option[Vec2]">findMaxY(curve: Bezier | DynBezier; x: float): Option[Vec2]</a></li>
+
+  </ul>
+  <ul class="simple nested-toc-section">findMinY
+      <li><a class="reference" href="#findMinY%2C%2Cfloat"
+    title="findMinY(curve: Bezier | DynBezier; x: float): Option[Vec2]">findMinY(curve: Bezier | DynBezier; x: float): Option[Vec2]</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">length
@@ -222,16 +232,16 @@ window.addEventListener('DOMContentLoaded', main);
   </ul>
   <ul class="simple nested-toc-section">xs
       <li><a class="reference" href="#xs%2CDynBezier"
-    title="xs(curve: DynBezier): seq[float32]">xs(curve: DynBezier): seq[float32]</a></li>
+    title="xs(curve: DynBezier): seq[float]">xs(curve: DynBezier): seq[float]</a></li>
   <li><a class="reference" href="#xs%2CBezier%5BN%5D"
-    title="xs[N](curve: Bezier[N]): array[N + 1, float32]">xs[N](curve: Bezier[N]): array[N + 1, float32]</a></li>
+    title="xs[N](curve: Bezier[N]): array[N + 1, float]">xs[N](curve: Bezier[N]): array[N + 1, float]</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">ys
       <li><a class="reference" href="#ys%2CDynBezier"
-    title="ys(curve: DynBezier): seq[float32]">ys(curve: DynBezier): seq[float32]</a></li>
+    title="ys(curve: DynBezier): seq[float]">ys(curve: DynBezier): seq[float]</a></li>
   <li><a class="reference" href="#ys%2CBezier%5BN%5D"
-    title="ys[N](curve: Bezier[N]): array[N + 1, float32]">ys[N](curve: Bezier[N]): array[N + 1, float32]</a></li>
+    title="ys[N](curve: Bezier[N]): array[N + 1, float]">ys[N](curve: Bezier[N]): array[N + 1, float]</a></li>
 
   </ul>
 
@@ -242,9 +252,9 @@ window.addEventListener('DOMContentLoaded', main);
   <ul class="simple simple-toc-section">
       <ul class="simple nested-toc-section">extrema
       <li><a class="reference" href="#extrema.i%2CDynBezier"
-    title="extrema(curve: DynBezier): float32">extrema(curve: DynBezier): float32</a></li>
+    title="extrema(curve: DynBezier): float">extrema(curve: DynBezier): float</a></li>
   <li><a class="reference" href="#extrema.i%2CBezier%5BN%5D"
-    title="extrema[N](curve: Bezier[N]): float32">extrema[N](curve: Bezier[N]): float32</a></li>
+    title="extrema[N](curve: Bezier[N]): float">extrema[N](curve: Bezier[N]): float</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">findY
@@ -396,7 +406,7 @@ Rotates this bezier curve so it aligns with the given line
 <dt><pre><span class="Keyword">proc</span> <a href="#approxLen%2C%2CPositive"><span class="Identifier">approxLen</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">steps</span><span class="Other">:</span> <span class="Identifier">Positive</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
 <dd>
 
-Calculates the approximate length of a curve
+Calculates the approximate length of a curve. This is a faster algorithm than calling <tt class="docutils literal"><span class="pre"><span class="Identifier">length</span></span></tt> directly
 
 </dd>
 </div>
@@ -404,13 +414,12 @@ Calculates the approximate length of a curve
 <dt><pre><span class="Keyword">proc</span> <a href="#approxLen%2CLUT%5BT%5D"><span class="Identifier">approxLen</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">lut</span><span class="Other">:</span> <a href="bezier.html#LUT"><span class="Identifier">LUT</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
 <dd>
 
-Uses a LUT to determine the approximate length of a curve
+Uses a LUT to determine the approximate length of a curve. This is a bit innacurate, but faster than calling <tt class="docutils literal"><span class="pre"><span class="Identifier">length</span></span></tt>
 
 </dd>
 </div>
 <div id="boundingBox">
-<dt><pre><span class="Keyword">proc</span> <a href="#boundingBox"><span class="Identifier">boundingBox</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span>
-    <span class="Identifier">minX</span><span class="Other">,</span> <span class="Identifier">minY</span><span class="Other">,</span> <span class="Identifier">maxX</span><span class="Other">,</span> <span class="Identifier">maxY</span><span class="Other">:</span> <span class="Identifier">float32</span><span class="Other">]</span></pre></dt>
+<dt><pre><span class="Keyword">proc</span> <a href="#boundingBox"><span class="Identifier">boundingBox</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">minX</span><span class="Other">,</span> <span class="Identifier">minY</span><span class="Other">,</span> <span class="Identifier">maxX</span><span class="Other">,</span> <span class="Identifier">maxY</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">]</span></pre></dt>
 <dd>
 
 Returns the bounding box for a curve
@@ -421,7 +430,7 @@ Returns the bounding box for a curve
 <dt><pre><span class="Keyword">proc</span> <a href="#compute%2CDynBezier%2Cfloat"><span class="Identifier">compute</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
-Computes the position of a point along the curve
+Computes the position of a point along the curve, where <tt class="docutils literal"><span class="pre"><span class="Identifier">t</span></span></tt> is a value between 0.0 and 1.0.
 
 </dd>
 </div>
@@ -429,7 +438,7 @@ Computes the position of a point along the curve
 <dt><pre><span class="Keyword">proc</span> <a href="#compute%2CBezier%5BN%5D%2Cfloat"><span class="Identifier">compute</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
 <dd>
 
-Computes the position of a point along the curve
+Computes the position of a point along the curve, where <tt class="docutils literal"><span class="pre"><span class="Identifier">t</span></span></tt> is a value between 0.0 and 1.0.
 
 </dd>
 </div>
@@ -437,7 +446,7 @@ Computes the position of a point along the curve
 <dt><pre><span class="Keyword">proc</span> <a href="#derivative%2CDynBezier"><span class="Identifier">derivative</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
-Computes the derivative of a bezier curve
+Computes the derivative of a bezier curve. The result of this is a new bezier curve with an order of N - 1
 
 </dd>
 </div>
@@ -445,7 +454,23 @@ Computes the derivative of a bezier curve
 <dt><pre><span class="Keyword">proc</span> <a href="#derivative%2CBezier%5BN%5D"><span class="Identifier">derivative</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">auto</span></pre></dt>
 <dd>
 
-Computes the derivative of a bezier curve
+Computes the derivative of a bezier curve. The result of this is a new bezier curve with an order of N - 1
+
+</dd>
+</div>
+<div id="findMaxY,,float">
+<dt><pre><span class="Keyword">proc</span> <a href="#findMaxY%2C%2Cfloat"><span class="Identifier">findMaxY</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Option</span><span class="Other">[</span><span class="Identifier">Vec2</span><span class="Other">]</span></pre></dt>
+<dd>
+
+Finds the maximum <tt class="docutils literal"><span class="pre"><span class="Identifier">y</span></span></tt> on a curve for a given <tt class="docutils literal"><span class="pre"><span class="Identifier">x</span></span></tt>.
+
+</dd>
+</div>
+<div id="findMinY,,float">
+<dt><pre><span class="Keyword">proc</span> <a href="#findMinY%2C%2Cfloat"><span class="Identifier">findMinY</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Option</span><span class="Other">[</span><span class="Identifier">Vec2</span><span class="Other">]</span></pre></dt>
+<dd>
+
+Finds the maximum <tt class="docutils literal"><span class="pre"><span class="Identifier">y</span></span></tt> on a curve for a given <tt class="docutils literal"><span class="pre"><span class="Identifier">x</span></span></tt>.
 
 </dd>
 </div>
@@ -453,7 +478,7 @@ Computes the derivative of a bezier curve
 <dt><pre><span class="Keyword">proc</span> <a href="#length"><span class="Identifier">length</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
 <dd>
 
-Calculates the length of a curve
+Calculates the length of a curve. This can be expensive, so if you need a faster version consider using <tt class="docutils literal"><span class="pre"><span class="Identifier">approxLen</span></span></tt> instead.
 
 </dd>
 </div>
@@ -461,7 +486,7 @@ Calculates the length of a curve
 <dt><pre><span class="Keyword">proc</span> <a href="#lut%2CT%2Crange%5B%5D"><span class="Identifier">lut</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <span class="Identifier">T</span><span class="Other">;</span> <span class="Identifier">steps</span><span class="Other">:</span> <span class="Identifier">range</span><span class="Other">[</span><span class="DecNumber">2</span> <span class="Operator">..</span> <span class="Identifier">high</span><span class="Other">(</span><span class="Identifier">int</span><span class="Other">)</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <a href="bezier.html#LUT"><span class="Identifier">LUT</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span></pre></dt>
 <dd>
 
-Creates a lookup table of indexes into this curve
+Creates a lookup table of indexes into this curve, where <tt class="docutils literal"><span class="pre"><span class="Identifier">steps</span></span></tt> is the number of points to sample along the curve.
 
 </dd>
 </div>
@@ -469,7 +494,7 @@ Creates a lookup table of indexes into this curve
 <dt><pre><span class="Keyword">proc</span> <a href="#newBezier%2Cvarargs%5BVec2%5D"><span class="Identifier">newBezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">points</span><span class="Other">:</span> <span class="Identifier">varargs</span><span class="Other">[</span><span class="Identifier">Vec2</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
 <dd>
 
-Creates a new instance
+Creates a new Bezier curve where the curve order is known at build time. For example, passing in <tt class="docutils literal"><span class="pre"><span class="Identifier">N</span> <span class="Operator">=</span> <span class="DecNumber">3</span></span></tt> is a cubic curve.
 
 </dd>
 </div>
@@ -477,7 +502,7 @@ Creates a new instance
 <dt><pre><span class="Keyword">proc</span> <a href="#newDynBezier%2Cvarargs%5BVec2%5D"><span class="Identifier">newDynBezier</span></a><span class="Other">(</span><span class="Identifier">points</span><span class="Other">:</span> <span class="Identifier">varargs</span><span class="Other">[</span><span class="Identifier">Vec2</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
-Creates a new instance
+Creates a new Bezier curve where the curve order is only known at runtime
 
 </dd>
 </div>
@@ -485,7 +510,7 @@ Creates a new instance
 <dt><pre><span class="Keyword">proc</span> <a href="#normal%2C%2Cfloat"><span class="Identifier">normal</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
 <dd>
 
-Returns the tangent vector at a given location
+Returns the tangent vector at a given location, where <tt class="docutils literal"><span class="pre"><span class="Identifier">t</span></span></tt> is avalue between 0.0 and 1.0
 
 </dd>
 </div>
@@ -493,7 +518,7 @@ Returns the tangent vector at a given location
 <dt><pre><span class="Keyword">proc</span> <a href="#order%2CDynBezier"><span class="Identifier">order</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Natural</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
-
+The order of the curve is the number of points used to define the curve, starting at 0. <tt class="docutils literal"><span class="pre"><span class="Identifier">N</span> <span class="Operator">=</span> <span class="DecNumber">1</span></span></tt> is linear (2 points), <tt class="docutils literal"><span class="pre"><span class="Identifier">N</span> <span class="Operator">=</span> <span class="DecNumber">2</span></span></tt> is quadratic (3 points), <tt class="docutils literal"><span class="pre"><span class="Identifier">N</span> <span class="Operator">=</span> <span class="DecNumber">3</span></span></tt> is cubic (4 points)
 
 </dd>
 </div>
@@ -501,7 +526,7 @@ Returns the tangent vector at a given location
 <dt><pre><span class="Keyword">proc</span> <a href="#order%2CBezier%5BN%5D"><span class="Identifier">order</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Natural</span></pre></dt>
 <dd>
 
-
+The order of the curve is the number of points used to define the curve, starting at 0. <tt class="docutils literal"><span class="pre"><span class="Identifier">N</span> <span class="Operator">=</span> <span class="DecNumber">1</span></span></tt> is linear (2 points), <tt class="docutils literal"><span class="pre"><span class="Identifier">N</span> <span class="Operator">=</span> <span class="DecNumber">2</span></span></tt> is quadratic (3 points), <tt class="docutils literal"><span class="pre"><span class="Identifier">N</span> <span class="Operator">=</span> <span class="DecNumber">3</span></span></tt> is cubic (4 points)
 
 </dd>
 </div>
@@ -509,7 +534,7 @@ Returns the tangent vector at a given location
 <dt><pre><span class="Keyword">proc</span> <a href="#project%2CLUT%5BT%5D%2CVec2"><span class="Identifier">project</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">lut</span><span class="Other">:</span> <a href="bezier.html#LUT"><span class="Identifier">LUT</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">point</span><span class="Other">:</span> <span class="Identifier">Vec2</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
 <dd>
 
-Finds the location on a curve closest to the given point
+Finds the location on a curve closest to the given point. Returns a value between 0.0 and 1.0 that can be fed into the <tt class="docutils literal"><span class="pre"><span class="Identifier">compute</span></span></tt> function
 
 </dd>
 </div>
@@ -518,7 +543,7 @@ Finds the location on a curve closest to the given point
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
-Splits the curve at the given location
+Splits the curve at the given location, where <tt class="docutils literal"><span class="pre"><span class="Identifier">t</span></span></tt> is avalue between 0.0 and 1.0
 
 </dd>
 </div>
@@ -526,7 +551,7 @@ Splits the curve at the given location
 <dt><pre><span class="Keyword">proc</span> <a href="#split%2CBezier%5BN%5D%2Cfloat"><span class="Identifier">split</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">,</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span></pre></dt>
 <dd>
 
-Splits the curve at the given location
+Splits the curve at the given location, where <tt class="docutils literal"><span class="pre"><span class="Identifier">t</span></span></tt> is avalue between 0.0 and 1.0
 
 </dd>
 </div>
@@ -534,7 +559,7 @@ Splits the curve at the given location
 <dt><pre><span class="Keyword">proc</span> <a href="#tangent%2C%2Cfloat"><span class="Identifier">tangent</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">t</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
 <dd>
 
-Returns the tangent vector at a given location
+Returns the tangent vector at a given location, where <tt class="docutils literal"><span class="pre"><span class="Identifier">t</span></span></tt> is a value between 0.0 and 1.0
 
 </dd>
 </div>
@@ -547,7 +572,7 @@ Returns the corners of a bounding box that is tightly aligned to a curve
 </dd>
 </div>
 <div id="xs,DynBezier">
-<dt><pre><span class="Keyword">proc</span> <a href="#xs%2CDynBezier"><span class="Identifier">xs</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float32</span><span class="Other">]</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<dt><pre><span class="Keyword">proc</span> <a href="#xs%2CDynBezier"><span class="Identifier">xs</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float</span><span class="Other">]</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
 Returns all x values from the points in this curve
@@ -555,7 +580,7 @@ Returns all x values from the points in this curve
 </dd>
 </div>
 <div id="xs,Bezier[N]">
-<dt><pre><span class="Keyword">proc</span> <a href="#xs%2CBezier%5BN%5D"><span class="Identifier">xs</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">array</span><span class="Other">[</span><span class="Identifier">N</span> <span class="Operator">+</span> <span class="DecNumber">1</span><span class="Other">,</span> <span class="Identifier">float32</span><span class="Other">]</span></pre></dt>
+<dt><pre><span class="Keyword">proc</span> <a href="#xs%2CBezier%5BN%5D"><span class="Identifier">xs</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">array</span><span class="Other">[</span><span class="Identifier">N</span> <span class="Operator">+</span> <span class="DecNumber">1</span><span class="Other">,</span> <span class="Identifier">float</span><span class="Other">]</span></pre></dt>
 <dd>
 
 Returns all x values from the points in this curve
@@ -563,7 +588,7 @@ Returns all x values from the points in this curve
 </dd>
 </div>
 <div id="ys,DynBezier">
-<dt><pre><span class="Keyword">proc</span> <a href="#ys%2CDynBezier"><span class="Identifier">ys</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float32</span><span class="Other">]</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<dt><pre><span class="Keyword">proc</span> <a href="#ys%2CDynBezier"><span class="Identifier">ys</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float</span><span class="Other">]</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
 Returns all y values from the points in this curve
@@ -571,7 +596,7 @@ Returns all y values from the points in this curve
 </dd>
 </div>
 <div id="ys,Bezier[N]">
-<dt><pre><span class="Keyword">proc</span> <a href="#ys%2CBezier%5BN%5D"><span class="Identifier">ys</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">array</span><span class="Other">[</span><span class="Identifier">N</span> <span class="Operator">+</span> <span class="DecNumber">1</span><span class="Other">,</span> <span class="Identifier">float32</span><span class="Other">]</span></pre></dt>
+<dt><pre><span class="Keyword">proc</span> <a href="#ys%2CBezier%5BN%5D"><span class="Identifier">ys</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">array</span><span class="Other">[</span><span class="Identifier">N</span> <span class="Operator">+</span> <span class="DecNumber">1</span><span class="Other">,</span> <span class="Identifier">float</span><span class="Other">]</span></pre></dt>
 <dd>
 
 Returns all y values from the points in this curve
@@ -584,18 +609,18 @@ Returns all y values from the points in this curve
 <h1><a class="toc-backref" href="#15">Iterators</a></h1>
 <dl class="item">
 <div id="extrema.i,DynBezier">
-<dt><pre><span class="Keyword">iterator</span> <a href="#extrema.i%2CDynBezier"><span class="Identifier">extrema</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float32</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<dt><pre><span class="Keyword">iterator</span> <a href="#extrema.i%2CDynBezier"><span class="Identifier">extrema</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
-Calculates all the extrema on a curve, extressed as a <tt class="docutils literal"><span class="pre"><span class="Identifier">t</span></span></tt>. You can feed these values into the <tt class="docutils literal"><span class="pre"><span class="Identifier">compute</span></span></tt> method to get their coordinates
+Calculates all the extrema on a curve, expressed as a location between 0.0 and 1.0. You can feed these values into the <tt class="docutils literal"><span class="pre"><span class="Identifier">compute</span></span></tt> method to get their coordinates
 
 </dd>
 </div>
 <div id="extrema.i,Bezier[N]">
-<dt><pre><span class="Keyword">iterator</span> <a href="#extrema.i%2CBezier%5BN%5D"><span class="Identifier">extrema</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float32</span></pre></dt>
+<dt><pre><span class="Keyword">iterator</span> <a href="#extrema.i%2CBezier%5BN%5D"><span class="Identifier">extrema</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span></pre></dt>
 <dd>
 
-Calculates all the extrema on a curve, extressed as a <tt class="docutils literal"><span class="pre"><span class="Identifier">t</span></span></tt>. You can feed these values into the <tt class="docutils literal"><span class="pre"><span class="Identifier">compute</span></span></tt> method to get their coordinates
+Calculates all the extrema on a curve, expressed as a location between 0.0 and 1.0. You can feed these values into the <tt class="docutils literal"><span class="pre"><span class="Identifier">compute</span></span></tt> method to get their coordinates
 
 </dd>
 </div>
@@ -603,7 +628,7 @@ Calculates all the extrema on a curve, extressed as a <tt class="docutils litera
 <dt><pre><span class="Keyword">iterator</span> <a href="#findY.i%2C%2Cfloat"><span class="Identifier">findY</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">x</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
 <dd>
 
-Produces the Y values for a given X
+Produces the Y values for a given X. This can produce multiple values because a bezier curve may have multiple intersections with the same <tt class="docutils literal"><span class="pre"><span class="Identifier">x</span></span></tt> value
 
 </dd>
 </div>
@@ -619,7 +644,7 @@ Yields the points where a curve intersects a line
 <dt><pre><span class="Keyword">iterator</span> <a href="#intervals.i%2CLUT%5BT%5D%2CPositive"><span class="Identifier">intervals</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">lut</span><span class="Other">:</span> <a href="bezier.html#LUT"><span class="Identifier">LUT</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">steps</span><span class="Other">:</span> <span class="Identifier">Positive</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Vec2</span></pre></dt>
 <dd>
 
-Produces points along the curve that are more geometrically evenly spaced
+Produces points along the curve that are more geometrically evenly spaced. They aren't guaranteed to be exactly evenly spaced, but they will be better than using <tt class="docutils literal"><span class="pre"><span class="Identifier">segment</span></span></tt>. If you need more accuracy, you can increase the sample size of the <tt class="docutils literal"><span class="pre"><span class="Identifier">LUT</span></span></tt>. The argument <tt class="docutils literal"><span class="pre"><span class="Identifier">steps</span></span></tt> is the number of intervals to produce. So this iterator will yield <tt class="docutils literal"><span class="pre"><span class="Identifier">steps</span> <span class="Operator">+</span> <span class="DecNumber">1</span></span></tt> number of points.
 
 </dd>
 </div>
@@ -652,7 +677,7 @@ Produces a set of points along the curve at the given number of steps
 <dt><pre><span class="Keyword">iterator</span> <a href="#segments.i%2C%2CPositive"><span class="Identifier">segments</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a> <span class="Operator">|</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">steps</span><span class="Other">:</span> <span class="Identifier">Positive</span><span class="Other">)</span><span class="Other">:</span> <span class="Other">(</span><span class="Identifier">Vec2</span><span class="Other">,</span> <span class="Identifier">Vec2</span><span class="Other">)</span></pre></dt>
 <dd>
 
-Breaks the curve into straight lines. Also known as flattening the curve
+Breaks the curve into straight lines. Also known as flattening the curve. These lines are not guaranteed to be geometrically even.
 
 </dd>
 </div>
@@ -665,7 +690,7 @@ Breaks the curve into straight lines. Also known as flattening the curve
 <dt><pre><span class="Keyword">template</span> <a href="#mapIt.t%2CDynBezier%2Cuntyped"><span class="Identifier">mapIt</span></a><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a><span class="Other">;</span> <span class="Identifier">mapper</span><span class="Other">:</span> <span class="Identifier">untyped</span><span class="Other">)</span><span class="Other">:</span> <a href="bezier.html#DynBezier"><span class="Identifier">DynBezier</span></a></pre></dt>
 <dd>
 
-Applies a mapping function to the points in this curve
+Applies a mapping function to the points in this curve. Within the mapping block, a variable named <tt class="docutils literal"><span class="pre"><span class="Identifier">it</span></span></tt> will be injected with the current point
 
 </dd>
 </div>
@@ -673,7 +698,7 @@ Applies a mapping function to the points in this curve
 <dt><pre><span class="Keyword">template</span> <a href="#mapIt.t%2CBezier%5BN%5D%2Cuntyped"><span class="Identifier">mapIt</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">curve</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span><span class="Other">;</span> <span class="Identifier">mapper</span><span class="Other">:</span> <span class="Identifier">untyped</span><span class="Other">)</span><span class="Other">:</span> <a href="bezier.html#Bezier"><span class="Identifier">Bezier</span></a><span class="Other">[</span><span class="Identifier">N</span><span class="Other">]</span></pre></dt>
 <dd>
 
-Applies a mapping function to the points in this curve
+Applies a mapping function to the points in this curve. Within the mapping block, a variable named <tt class="docutils literal"><span class="pre"><span class="Identifier">it</span></span></tt> will be injected with the current point
 
 </dd>
 </div>
@@ -687,7 +712,7 @@ Applies a mapping function to the points in this curve
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-16 05:13:50 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-02-17 05:03:50 UTC</small>
       </div>
     </div>
   </div>
